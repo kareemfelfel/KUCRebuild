@@ -5,5 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-echo '<h1> This is the controller </h1>';
 
+
+include '../View/includes/head.php';
+include '../View/includes/navbar.php';
+include '../View/plotTest.php';
