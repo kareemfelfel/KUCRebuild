@@ -1,17 +1,16 @@
 
 <style>
     .map {        
-            width: 50%;
-            margin: auto;
+            width: 400px;
             border-radius: 20px;
-            height: 366px;
+            height: 200px;
+            float: left;
+            margin: 10px;
         }
 </style>
 <br><br>
 <div id="map" class="map"></div>
-<br> <br>
 <div id="map2" class="map"></div>
-<br> <br>
 <div id="googleMap" class="map"></div>
 <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script
