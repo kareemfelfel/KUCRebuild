@@ -5,7 +5,7 @@
         <title>Redirecting</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="REFRESH" content="0; url=./Controller/controller.php" />
+        <meta http-equiv="REFRESH" content="0; url=./controller/controller.php" />
     </head>
     <body>
         
