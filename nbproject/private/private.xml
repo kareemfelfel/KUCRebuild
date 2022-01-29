@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/View/includes/navbar.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/index.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/View/includes/head.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/Controller/controller.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/View/plotTest.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/plotTest.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/README.md</file>
         </group>
     </open-files>
 </project-private>
