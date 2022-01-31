@@ -146,6 +146,8 @@ appear.
 
 
 ## DB:
+- Please refer to the db folder for the most updated version of the database.
+
 - Admins:
     1. username --> String
     2. Password --> sha1 hash
@@ -158,14 +160,23 @@ appear.
     5. plot number --> Int
     6. longitude --> Decimal
     7. Latitude --> Decimal
-    8. Owner_Id --> Int (required if not open) --> Association
-    9. Dead Individual Id --> Int --> association
+    8. Deed --> location in server
+    9. Main Image --> location in server
+    10. Owner_Id --> Int (required if not open) --> Association
+    11. Dead Individual Id --> Int (if not open) --> association
+- tomb Images:
+    1. Tomb Id
+    2. Image
 - Columbarium: 
     1. Open --> Boolean (required)
-    3. section letter --> String (required)
-    4. lot number --> Int (required)
-    8. Owner_Id --> Int (required if not open) --> Association
-    9. Dead Individual Id --> Int --> association
+    2. section letter --> String (required)
+    3. section number --> Int (required)
+    4. Main Image
+    5. Owner_Id --> Int (required if not open) --> Association
+    6. Dead Individual Id --> Int (if not open) --> association
+- Columbarium Images:
+    1. Columbarium Id
+    2. image
 - Owners:
     1. first name --> String (required)
     2. Last Name --> String (required)
@@ -174,7 +185,6 @@ appear.
     5. Address --> long text
     6. Phone number --> Int
     7. Email --> String
-    8. Deed --> file location
 Buried Individuals:
     1. first name --> String (required)
     2. Last name --> String (required)
