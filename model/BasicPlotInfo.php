@@ -8,5 +8,5 @@ class BasicPlotInfo{
     public $mainImage;
     public $images;
     public $deed;
-    public $owner;
+    public Owner $owner;
 }
