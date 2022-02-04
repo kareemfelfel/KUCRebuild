@@ -196,6 +196,8 @@
             // disable purchase date and clear it
             document.getElementById("purchaseDate").setAttribute("disabled", true);
             $('#purchaseDate').datepicker('update', '');
+            
+            //TODO collapse all buried individual information and set their values to null
         }
         else{
             document.getElementById("owner").removeAttribute("disabled")
