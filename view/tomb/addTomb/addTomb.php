@@ -16,7 +16,9 @@
  * Refer to the components inside edit Tomb. This should be fairly similar
  */
 ?>
-<br><br>
+<br>
+<h3 class="text-center">Add Tomb</h3>
+<hr>
 <div class="container-fluid">
     <div class="panel-group">
       <div class="panel panel-default" id="accordion1">
