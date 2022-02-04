@@ -66,7 +66,7 @@
                         <div class="form-group">
                             <label for="">Purchase Date</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="datepicker" placeholder="Select a Date">
+                                <input type="text" class="form-control" id="purchaseDate" placeholder="Select a Date">
                                 <div class="input-group-append">
                                     <span class=" input-group-text fa fa-calendar"></span>
                                 </div>
@@ -76,8 +76,16 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Owner</label> <br>
-                            <select class="selectpicker" data-live-search="true">
-                              <option>Adam Smith</option>
+                            <select 
+                                class="selectpicker"
+                                id="owner"
+                                data-live-search="true"
+                                multiple
+                                data-max-options="1"
+                                >
+                              <option>Peter Griffin</option>
+                              <option>Stewie Griffin</option>
+                              <option>Lewis</option>
                               <option>John Black</option>
                               <option>Jody Strausser</option>
                             </select>
@@ -89,7 +97,7 @@
                         <div class="form-group">
                             <label for="customSwitch1">Open</label>
                             <div class="custom-control custom-switch inactive-link">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                <input type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="customSwitch1">
                                 <label class="custom-control-label" for="customSwitch1"></label>
                             </div>
                         </div>
@@ -163,7 +171,7 @@
     });
     // setting up date picker
     $(document).ready(function () {
-        $('#datepicker').datepicker({
+        $('#purchaseDate').datepicker({
             format: 'mm-dd-yyyy',
             todayHighlight: true
         });
@@ -177,6 +185,21 @@
         else if(x.classList.contains("fa-caret-right")){
             x.classList.add("fa-caret-down");
             x.classList.remove("fa-caret-right");
+        }
+    }
+    
+    function disableForOpen(x){
+        if(x.checked){
+            //Clear the owner selected data and disable it
+            document.getElementById("owner").setAttribute("disabled", true)
+            $('#owner').selectpicker('val', '');
+            // disable purchase date and clear it
+            document.getElementById("purchaseDate").setAttribute("disabled", true);
+            $('#purchaseDate').datepicker('update', '');
+        }
+        else{
+            document.getElementById("owner").removeAttribute("disabled")
+            document.getElementById("purchaseDate").removeAttribute("disabled")
         }
     }
 </script>
