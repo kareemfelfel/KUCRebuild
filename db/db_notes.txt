@@ -1,0 +1,13 @@
+- Owners can have multiple columbariums/tombs.
+- in the buried_individuals table:
+	- a single row can have either (tomb_id = null && columbarium_id = null) or (tomb_id = <num> && columbarium_id = null) or (tomb_id = null & columbarium_id = <num>)
+	- a single row can not have a tomb_id and columbarium_id at the same time.
+	- a buried individual that is not linked to any columbarium or tomb should have both columns (tomb_id and columbarium_id) set to null.
+- If a columbarium or tomb is set open, they MUST have an owner ID set.
+- A columbarium or tomb can not have an owner_id, or be associated with any buried individual.
+	- i.e if a columbarium or tomb is changed to be open (for some odd reason), they should have owner changed to null
+	and their references should be removed from the dead individual table.
+- In tomb table:
+	- a tomb's section_letter_id and lot number combination must be unique.
+- In columbarium table:
+	- A columbarium_type_id, section_letter_id, and section number combination must be unique.

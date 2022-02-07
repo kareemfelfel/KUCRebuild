@@ -5,15 +5,14 @@
  * 
  * This page should have an open map where the admin can add:
  *  1. Plot Info
-    2. Dead Individual Info:
-    3. Owner Info: (will be on a separate page)
+    2. Associations
     4. Plot (map):
     5. Attachments
  * 
  * - NOTE: We can combine attached images and deed into one table of attachments
  * keep main image separate
  * 
- * Refer to the components inside edit Tomb. This should be fairly similar
+ * 
  */
 ?>
 <br>
@@ -40,8 +39,23 @@
                 <div class ="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Section Letter</label>
-                            <input type="text" class="form-control" id="" placeholder="">
+                            <label for="">Section Letter</label><br>
+                            <select 
+                                class="selectpicker"
+                                id="section-letter"
+                                data-live-search="true"
+                                >
+                              <option>A</option>
+                              <option>B</option>
+                              <option>C</option>
+                              <option>D</option>
+                              <option>YC</option>
+                              <option>YB</option>
+                              <option>XC</option>
+                              <option>XB</option>
+                              <option>XD</option>
+                              <option>XA</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -53,7 +67,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Plot Number</label>
-                            <input type="number" class="form-control" id="" placeholder="">
+                            <input type="number" class="form-control" id="plot-number" placeholder="">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -75,40 +89,30 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">Owner</label> <br>
-                            <select 
-                                class="selectpicker"
-                                id="owner"
-                                data-live-search="true"
-                                multiple
-                                data-max-options="1"
-                                >
-                              <option>Peter Griffin</option>
-                              <option>Stewie Griffin</option>
-                              <option>Lewis</option>
-                              <option>John Black</option>
-                              <option>Jody Strausser</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!-- TODO add upload image -->
                     
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="customSwitch1">Open</label>
+                            <label for="">Main Image</label>
+                            <div class="input-group">
+                                <input class="form-control" type="file" id="mainImage" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="open-switch">Open</label>
                             <div class="custom-control custom-switch inactive-link">
-                                <input type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="customSwitch1">
-                                <label class="custom-control-label" for="customSwitch1"></label>
+                                <input type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="open-switch">
+                                <label class="custom-control-label" for="open-switch"></label>
                             </div>
                         </div>
                     </div>
                 </div>
-              </form>
           </div>
         </div>
       </div>
+      <br>
       <!-- Second panel -->
       <div class="panel panel-default" id="accordion2">
         <div class="panel-heading">
@@ -120,53 +124,193 @@
                 class="fa fa-caret-down inactive-link"
                 onclick="changeIcon(this)"
                 >
-            </a> Buried Individual Information
+            </a> Associations
           </h4>
         </div>
         <div id="collapse2" class="panel-collapse collapse in show">
           <div class="panel-body">
-              <form>
-                <div class ="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">First Name</label>
-                            <input type="text" class="form-control" id="" placeholder="">
-                        </div>
+            <div class ="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Owner</label> <br>
+                        <select 
+                            class="selectpicker"
+                            id="owner"
+                            data-live-search="true"
+                            multiple
+                            data-max-options="1"
+                            >
+                          <option>Peter Griffin</option>
+                          <option>Stewie Griffin</option>
+                          <option>Lewis</option>
+                          <option>John Black</option>
+                          <option>Jody Strausser</option>
+                        </select>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">Middle Name</label>
-                            <input type="text" class="form-control" id="" placeholder="">
-                        </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Buried Individual(s)</label> <br>
+                        <select 
+                            class="selectpicker"
+                            id="buried-individuals"
+                            data-live-search="true"
+                            multiple
+                            >
+                          <option>Kareem Felfel</option>
+                          <option>Assembly Language</option>
+                          <option>Am I dead?</option>
+                          <option>What is this place!</option>
+                          <option>Hello World</option>
+                          <option>Peter Griffin</option>
+                          <option>Stewie Griffin</option>
+                          <option>Lewis</option>
+                          <option>John Black</option>
+                          <option>Jody Strausser</option>
+                        </select>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">Last Name</label>
-                            <input type="text" class="form-control" id="" placeholder="">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">Maiden Name</label>
-                            <input type="text" class="form-control" id="" placeholder="">
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <!-- Third panel -->
+      <div class="panel panel-default" id="accordion3">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a 
+                data-toggle="collapse" 
+                data-parent="#accordion3" 
+                href="#collapse3" 
+                class="fa fa-caret-down inactive-link"
+                onclick="changeIcon(this)"
+                >
+            </a> Attachments
+          </h4>
+        </div>
+        <div id="collapse3" class="panel-collapse collapse in show">
+          <div class="panel-body">
+            <div class ="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">All Attached Documents - Including Deed</label>
+                        <div class="input-group">
+                            <input class="form-control" type="file" id="attached-documents" multiple/>
                         </div>
                     </div>
                 </div>
-              </form>
+            </div>
           </div>
         </div>
-      </div>         
+      </div>
+      <br>
+      <!-- Fourth panel -->
+      <div class="panel panel-default" id="accordion4">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a 
+                data-toggle="collapse" 
+                data-parent="#accordion4" 
+                href="#collapse4" 
+                class="fa fa-caret-down inactive-link"
+                onclick="changeIcon(this)"
+                >
+            </a> Map
+          </h4>
+        </div>
+        <div id="collapse4" class="panel-collapse collapse in show">
+          <div class="panel-body">
+            <div class ="row">
+                <div id="googleMap" class="map">
+                    <!-- GMAP API -->
+                </div>
+            </div>
+            <br>
+            <div class="text-center">
+                <button type="button" class="btn btn-danger" onclick="deleteMarker()">Delete Marker</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
+  <br>
+  <button type="button" class="btn btn-success" style="margin-right: 10px;">Submit</button>
+  <button type="button" class="btn btn-default">Cancel</button>
+  <br><br>
 </div>
 <style>
 .inactive-link {
    cursor: default;
 }
+.map {
+    margin: auto;
+    width: 70%;
+    border-radius: 20px;
+    height: 400px;
+}
 </style>
 <!-- Used for select picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
+<!-- GMAP Async script executes immediately and must be after any DOM elements used in callback. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXbb-v0RvEbY5PYpp1HsPgRxDjVH8oAsM&callback=myMap&v=weekly" async></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script>
+    var marker;
+    var map;
+    var infowindow;
+    var openMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+    // marker.getPosition().lat();
+    // marker.getPosition().lng();
+    function myMap() {
+        const cemetery = { lat: 41.239094, lng: -79.542186 };
+        var mapProp= {
+          center:new google.maps.LatLng(cemetery.lat, cemetery.lng),
+          zoom:18,
+          mapTypeId: 'satellite'
+        };
+        map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+        map.addListener('click', function(e) {
+            placeMarker(e.latLng, map);
+        });
+    }
+    function openInfo(){
+        var plotLabel = document.getElementById("section-letter").value + " " + document.getElementById("plot-number").value;
+        if(infowindow){
+            infowindow.setContent(plotLabel !== " " ? plotLabel :null)
+        }
+        else{
+            infowindow = new google.maps.InfoWindow({
+                content: plotLabel !== " " ? plotLabel :null
+            });
+        }
+        infowindow.open(map, marker);
+    }
+    function placeMarker(location) {
+        if ( marker ) {
+          marker.setPosition(location);
+        } else {
+          marker = new google.maps.Marker({
+            position: location,
+            draggable:true,
+            map: map
+          });
+        }
+        marker.addListener('click', function() {
+            openInfo();
+        });
+        
+        if(document.getElementById("open-switch").checked){
+            changeToBlueMarkerColor(true);
+        }
+    }
+    function deleteMarker(){
+        marker.setMap(null);
+        marker = null;
+    }
+    
     $('.selectpicker').selectpicker({
       style: 'btn-default',
       size: 4
@@ -195,15 +339,33 @@
             //Clear the owner selected data and disable it
             document.getElementById("owner").setAttribute("disabled", true)
             $('#owner').selectpicker('val', '');
+            document.getElementById("buried-individuals").setAttribute("disabled", true)
+            $('#buried-individuals').selectpicker('val', '');
             // disable purchase date and clear it
             document.getElementById("purchaseDate").setAttribute("disabled", true);
             $('#purchaseDate').datepicker('update', '');
             
-            //TODO collapse all buried individual information and set their values to null
+            //if marker exists, change the icon to an open icon
+            changeToBlueMarkerColor(true);
+            
+            
         }
         else{
             document.getElementById("owner").removeAttribute("disabled")
+            document.getElementById("buried-individuals").removeAttribute("disabled")
             document.getElementById("purchaseDate").removeAttribute("disabled")
+            changeToBlueMarkerColor(false);
+        }
+    }
+    function changeToBlueMarkerColor(val){
+        if(marker){
+            console.log(marker.getIcon())
+            if(val){
+                marker.setIcon(openMarkerIcon);
+            }
+            else{
+                marker.setIcon(null); //default icon
+            }
         }
     }
 </script>
