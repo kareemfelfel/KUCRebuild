@@ -6,7 +6,7 @@
 - If a columbarium or tomb is set open, they MUST have an owner ID set.
 - A columbarium or tomb can not have an owner_id, or be associated with any buried individual.
 	- i.e if a columbarium or tomb is changed to be open (for some odd reason), they should have owner changed to null
-	and their references should be removed from the dead individual table.
+	and their references should be removed from the dead individual table and purchase date should be changed to null.
 - In tomb table:
 	- a tomb's section_letter_id and lot number combination must be unique.
 - In columbarium table:
