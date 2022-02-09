@@ -56,7 +56,7 @@
     <br>
     <h4>Our History</h4>
     <hr>
-    <p style="font-size: 20px;">
+    <p style="font-size: 17px;">
         The Knox Union Cemetery, formerly known as Edenburg Cemetery,
             was established in 1885 by the G.A.R. (Grand Army of the Republic) citizens of Edenburg.
             Peter Spargo, the post master of Eden, was also anxious to secure a site for the
