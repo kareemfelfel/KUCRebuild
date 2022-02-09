@@ -9,4 +9,5 @@
 
 include '../View/includes/head.php';
 include '../View/includes/navbar.php';
-include '../View/tomb/addTomb/addTomb.php';
+//include '../View/tomb/addTomb/addTomb.php';
+include '../view/administration/administration.php';

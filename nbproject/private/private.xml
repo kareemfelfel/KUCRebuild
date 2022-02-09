@@ -4,28 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/index.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/BasicPlotInfo.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editPlotInfo/editPlotInfo.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editImages/editImages.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/navbar.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Owner.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/BuriedIndividual.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Tomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editDeed/editDeed.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/README.md</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Columbarium.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/filterModal/filterModal.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/controller/controller.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/editLists/editLists.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editBuriedIndividual/editBuriedIndividual.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/head.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/plotTest.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editPlotOwner/editPlotOwner.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/viewTomb/viewTomb.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/addTomb/addTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editPlot/editPlot.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/lists.php</file>
         </group>
     </open-files>
 </project-private>
