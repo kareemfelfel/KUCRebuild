@@ -6,3 +6,7 @@
  * and open the template in the editor.
  */
 
+?>
+<br>
+<h3 class="text-center">Buried Individuals</h3>
+<hr>

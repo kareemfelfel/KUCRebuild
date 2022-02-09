@@ -9,4 +9,4 @@
 
 include '../View/includes/head.php';
 include '../View/includes/navbar.php';
-include '../View/tomb/addTomb/addTomb.php';
+include '../View/administration/buriedIndividuals/buriedIndividuals.php';
