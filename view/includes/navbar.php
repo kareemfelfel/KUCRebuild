@@ -13,8 +13,22 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav mx-auto">
             <a class="nav-item nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Search</a>
             <a class="nav-item nav-link" href="#">Contact Us</a>
+            <!-- Administration Page ACCESSIBLE BY ADMIN ONLY -->
+            <a class="nav-item nav-link" href="#">Administration</a>
+            <!-- drop down Search menu ACCESSIBLE BY ADMIN ONLY -->
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Search</a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item">
+                        <a href="#"><span class="fa-solid fa-warehouse"></span> Columbarium</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="#"><span class="fa-solid fa-cross"></span> Tomb</a>
+                    </li>
+                </ul>
+
+            </div>
         </div>
     </div>
     
