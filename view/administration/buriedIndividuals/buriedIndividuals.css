@@ -1,0 +1,26 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 9, 2022, 7:21:54 PM
+    Author     : Slade
+*/
+  /* The margin between the buttons */
+.bottom-form-button {
+      margin-left: 15px;
+  }
+  
+  /* Red Asterik for First name text box. */
+  .required:after {
+    content:" *";
+    color: red;
+    margin-right: 5px;
+  }
+  
+  
+.inactive-link {
+   cursor: default;
+}
+
+
