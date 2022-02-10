@@ -25,6 +25,7 @@ else
     exit();
 }
 
+<<<<<<< HEAD
 switch ($action)
 {
     case"directToHomePage":
@@ -67,3 +68,8 @@ function addHeaderAndNavbar(){
     include '../View/includes/head.php';
     include '../View/includes/navbar.php';
 }
+=======
+include '../View/includes/head.php';
+include '../View/includes/navbar.php';
+include '../View/administration/buriedIndividuals/buriedIndividuals.php';
+>>>>>>> a6f3d639e1be258504fab68e233c1eb72c1b3365
