@@ -4,13 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/administration.css</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/controller/controller.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/administration.css</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/head.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/home/home.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/plotTest.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/navbar.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/administration.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/addTomb/addTomb.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.php</file>
         </group>
     </open-files>
 </project-private>
