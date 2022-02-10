@@ -22,14 +22,11 @@
     
     
    
-    <!-- For the date picker -->
+    <!-- more Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-
-    
+        
     
 
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
@@ -37,14 +34,7 @@
     <!-- Add icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/3665ac59e5.js" crossorigin="anonymous"></script>
-    <!-- MAP library -->
-    <script src='https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js'></script>
-    <link href='https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css' rel='stylesheet' />
-    <!------------>
-    <!-- MAPBOX LIBRARY -->
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
-    <!------------>
+    
    
     <style>   
     html{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
@@ -54,7 +44,7 @@
 
     <!-- Add title with a picture -->
     <title>KUC</title>
-    <link rel="shortcut icon" href="../Assets/Images/Knox_Front_Sign_Logo.png" />
+    <link rel="shortcut icon" href="../Assets/Images/favicon.png" />
 
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="72" class="position-relative">

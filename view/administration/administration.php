@@ -40,7 +40,7 @@
         
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="controller.php?action=directToBuriedIndividualsPage">
                     <div class="wrimagecard-topimage_header" style="background-color:  rgba(51, 105, 232, 0.1)">
                       <center><i class=" fa fa-solid fa-user-tie" style="color:#3369e8"></i></center>
                     </div>

@@ -44,6 +44,7 @@
                                 class="selectpicker"
                                 id="section-letter"
                                 data-live-search="true"
+                                data-width="100%"
                                 >
                               <option>A</option>
                               <option>B</option>
@@ -76,17 +77,12 @@
                             <input type="number" class="form-control" id="" placeholder="">
                         </div>
                     </div>
-                </div>
+                </div><br>
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Purchase Date</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="purchaseDate" placeholder="Select a Date">
-                                <div class="input-group-append">
-                                    <span class=" input-group-text fa fa-calendar"></span>
-                                </div>
-                            </div>
+                            <input type="date" class="form-control" id="purchaseDate" placeholder="Select a Date">
                         </div>
                     </div>
                     
@@ -138,6 +134,7 @@
                             id="owner"
                             data-live-search="true"
                             multiple
+                            data-width="100%"
                             data-max-options="1"
                             >
                           <option>Peter Griffin</option>
@@ -155,6 +152,7 @@
                             class="selectpicker"
                             id="buried-individuals"
                             data-live-search="true"
+                            data-width="100%"
                             multiple
                             >
                           <option>Kareem Felfel</option>
@@ -250,6 +248,9 @@
     border-radius: 20px;
     height: 400px;
 }
+.bootstrap-select > .dropdown-toggle{
+    border: 1px solid #ced4da;
+} 
 </style>
 <!-- Used for select picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
@@ -312,15 +313,7 @@
     }
     
     $('.selectpicker').selectpicker({
-      style: 'btn-default',
       size: 4
-    });
-    // setting up date picker
-    $(document).ready(function () {
-        $('#purchaseDate').datepicker({
-            format: 'mm-dd-yyyy',
-            todayHighlight: true
-        });
     });
     
     function changeIcon(x){
@@ -343,7 +336,7 @@
             $('#buried-individuals').selectpicker('val', '');
             // disable purchase date and clear it
             document.getElementById("purchaseDate").setAttribute("disabled", true);
-            $('#purchaseDate').datepicker('update', '');
+            document.getElementById("purchaseDate").value = '';
             
             //if marker exists, change the icon to an open icon
             changeToBlueMarkerColor(true);

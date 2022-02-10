@@ -22,5 +22,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .inactive-link {
    cursor: default;
 }
+.bootstrap-select > .dropdown-toggle{
+    border-radius: 5px 0px 0px 5px;
+    border: 1px solid #ced4da;
+} 
 
 
