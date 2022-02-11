@@ -17,8 +17,9 @@
                       <center><i class="fa fa-solid fa-warehouse" style="color:#16A085"></i></center>
                     </div>
                     <div class="wrimagecard-topimage_title">
-                      <h4 class="text-center">Add Columbarium
+                      <h4 class="text-center">Columbarium
                       </h4>
+                        <p class="text-center" style="font-weight: 100; font-size: 15px;">Add</p>
                     </div>
                 </a>
             </div>
@@ -31,8 +32,9 @@
                       <center><i class=" fa fa-solid fa-cross" style="color:#d50f25"></i></center>
                     </div>
                     <div class="wrimagecard-topimage_title">
-                      <h4 class="text-center">Add Tomb
+                      <h4 class="text-center">Tomb
                       </h4>
+                        <p class="text-center" style="font-weight: 100; font-size: 15px;">Add</p>
                     </div>
                 </a>
             </div>
@@ -47,6 +49,7 @@
                     <div class="wrimagecard-topimage_title">
                       <h4 class="text-center">Buried Individuals
                       </h4>
+                        <p class="text-center" style="font-weight: 100; font-size: 15px;">Add & Edit</p>
                     </div>
                 </a>
             </div>
@@ -65,6 +68,7 @@
                     <div class="wrimagecard-topimage_title">
                       <h4 class="text-center">Owners
                       </h4>
+                        <p class="text-center" style="font-weight: 100; font-size: 15px;">Add & Edit</p>
                     </div>
                 </a>
             </div>
@@ -77,8 +81,9 @@
                       <center><i class=" fa fa-solid fa-list-ul" style="color:#BB7824"></i></center>
                     </div>
                     <div class="wrimagecard-topimage_title">
-                      <h4 class="text-center">List Controls
+                      <h4 class="text-center">Registry Options
                       </h4>
+                        <p class="text-center" style="font-weight: 100; font-size: 15px;">Add</p>
                     </div>
                 </a>
             </div>
@@ -91,8 +96,9 @@
                       <center><i class=" fa fa-solid fa-user-gear" style="color:#FFB300"></i></center>
                     </div>
                     <div class="wrimagecard-topimage_title">
-                      <h4 class="text-center">Add New Admin
+                      <h4 class="text-center">New Admins
                       </h4>
+                        <p class="text-center" style="font-weight: 100; font-size: 15px;">Add</p>
                     </div>
                 </a>
             </div>

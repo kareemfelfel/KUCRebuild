@@ -62,30 +62,25 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Lot Number</label>
-                            <input type="number" class="form-control" id="" placeholder="">
+                            <input type="number" class="form-control" id="lot-number" placeholder="">
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">Plot Number</label>
-                            <input type="number" class="form-control" id="plot-number" placeholder="">
-                        </div>
-                    </div>
+                   
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Price</label>
                             <input type="number" class="form-control" id="" placeholder="">
                         </div>
                     </div>
-                </div><br>
-                <div class="row">
+                    
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Purchase Date</label>
                             <input type="date" class="form-control" id="purchaseDate" placeholder="Select a Date">
                         </div>
                     </div>
-                    
+                </div><br>
+                <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Main Image</label>
@@ -97,13 +92,24 @@
                     
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="open-switch">Open</label>
+                            <label for="for-sale-switch">For Sale</label>
                             <div class="custom-control custom-switch inactive-link">
-                                <input type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="open-switch">
-                                <label class="custom-control-label" for="open-switch"></label>
+                                <input type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="for-sale-switch">
+                                <label class="custom-control-label" for="for-sale-switch"></label>
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="open-plots-switch">Has Open Plots</label>
+                            <div class="custom-control custom-switch inactive-link">
+                                <input type="checkbox" class="custom-control-input" id="open-plots-switch">
+                                <label class="custom-control-label" for="open-plots-switch"></label>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
           </div>
         </div>
@@ -278,7 +284,7 @@
         });
     }
     function openInfo(){
-        var plotLabel = document.getElementById("section-letter").value + " " + document.getElementById("plot-number").value;
+        var plotLabel = document.getElementById("section-letter").value + " " + document.getElementById("lot-number").value;
         if(infowindow){
             infowindow.setContent(plotLabel !== " " ? plotLabel :null)
         }
@@ -303,7 +309,7 @@
             openInfo();
         });
         
-        if(document.getElementById("open-switch").checked){
+        if(document.getElementById("for-sale-switch").checked){
             changeToBlueMarkerColor(true);
         }
     }
@@ -352,7 +358,6 @@
     }
     function changeToBlueMarkerColor(val){
         if(marker){
-            console.log(marker.getIcon())
             if(val){
                 marker.setIcon(openMarkerIcon);
             }
