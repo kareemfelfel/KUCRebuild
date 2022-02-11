@@ -1,13 +1,20 @@
 - Owners can have multiple columbariums/tombs.
+
 - in the buried_individuals table:
 	- a single row can have either (tomb_id = null && columbarium_id = null) or (tomb_id = <num> && columbarium_id = null) or (tomb_id = null & columbarium_id = <num>)
 	- a single row can not have a tomb_id and columbarium_id at the same time.
 	- a buried individual that is not linked to any columbarium or tomb should have both columns (tomb_id and columbarium_id) set to null.
-- If a columbarium or tomb is set open, they MUST have an owner ID set.
-- A columbarium or tomb can not have an owner_id, or be associated with any buried individual.
-	- i.e if a columbarium or tomb is changed to be open (for some odd reason), they should have owner changed to null
-	and their references should be removed from the dead individual table and purchase date should be changed to null.
+
+- If a columbarium or tomb has column value for_sale set to 1, they should not have an owner or purchase date. If a columbarium
+  or tomb are not for sale, they MUST have an owner associated, but not necessarily a purchase date.
+  They should also not be linked to any buried individual. However, this will be handled as a part of the business logic as this could change in the future (no data logic required).
+	- i.e check (for_sale == 1 and owner_id == null and purchase_date == null) OR (for_sale == 0 AND owner_id != null)
+
+- If a columbarium or tomb was initially set ORIGINALLY to be for_sale, they can change this later from the edit page. However, they can
+  not change this back to for_sale after for_sale was set to false. this will be handled as a part of the business logic as this could change in the future (no data logic required).
+
 - In tomb table:
 	- a tomb's section_letter_id and lot number combination must be unique.
+
 - In columbarium table:
-	- A columbarium_type_id, section_letter_id, and section number combination must be unique.
+	- A columbarium_type_id, section_letter_id, niche_type_id, and section_number combination must be unique.
