@@ -31,7 +31,7 @@ CREATE TABLE `admins` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `FIRST_NAME` varchar(20) NOT NULL,
   `LAST_NAME` varchar(20) NOT NULL,
-  `USERNAME` varchar(16) NOT NULL,
+  `USERNAME` varchar(16) NOT NULL UNIQUE,
   `PASSWORD` varchar(16) NOT NULL,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -96,7 +96,7 @@ CREATE TABLE `columbarium_attachments` (
 
 CREATE TABLE `columbarium_section_letters` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `SECTION_LETTER` varchar(10) NOT NULL,
+  `SECTION_LETTER` varchar(10) NOT NULL UNIQUE,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -108,7 +108,7 @@ CREATE TABLE `columbarium_section_letters` (
 
 CREATE TABLE `columbarium_types` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `TYPE` varchar(10) NOT NULL,
+  `TYPE` varchar(10) NOT NULL UNIQUE,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -120,7 +120,7 @@ CREATE TABLE `columbarium_types` (
 
 CREATE TABLE `niche_types` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `TYPE` varchar(10) NOT NULL,
+  `TYPE` varchar(10) NOT NULL UNIQUE,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -181,7 +181,7 @@ CREATE TABLE `tomb_attachments` (
 
 CREATE TABLE `tomb_section_letters` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `SECTION_LETTER` varchar(5) NOT NULL,
+  `SECTION_LETTER` varchar(5) NOT NULL UNIQUE,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
