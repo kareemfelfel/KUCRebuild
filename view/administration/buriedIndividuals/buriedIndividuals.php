@@ -8,7 +8,6 @@
 
 ?>
 
-<link type="text/css" rel="stylesheet" href="../view/administration/buriedIndividuals/buriedIndividuals.css">
 <script type="text/javascript" src="../view/administration/buriedIndividuals/buriedIndividuals.js"></script>
 <br>
 <h3 class="text-center">Buried Individuals</h3>
@@ -166,6 +165,7 @@
 <!-- Used for select picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
+<link type="text/css" rel="stylesheet" href="../view/administration/buriedIndividuals/buriedIndividuals.css">
 <script>
     $('.selectpicker').selectpicker({
       size: 4

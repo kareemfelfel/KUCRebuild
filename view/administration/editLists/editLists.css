@@ -1,0 +1,16 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 12, 2022, 6:10:43 PM
+    Author     : Slade
+*/
+
+.inactive-link {
+   cursor: default;
+}
+.bootstrap-select > .dropdown-toggle{
+    border: 1px solid #ced4da;
+}
+

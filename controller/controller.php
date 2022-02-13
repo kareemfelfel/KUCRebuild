@@ -54,6 +54,9 @@ switch ($action)
     case"driectToAddColumbariumPage":
         break;
     case"directToOwnersPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/administration/owners/owners.php';
         break;
     case"directToBuriedIndividualsPage":
         include '../View/includes/head.php';
@@ -61,6 +64,9 @@ switch ($action)
         include '../View/administration/buriedIndividuals/buriedIndividuals.php';
         break;
     case"directToListControlsPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/administration/editLists/editLists.php';
         break;
     case"directToAddNewUserPage":
         break;

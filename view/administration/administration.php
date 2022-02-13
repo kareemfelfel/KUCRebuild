@@ -61,7 +61,7 @@
         
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="controller.php?action=directToOwnersPage">
                     <div class="wrimagecard-topimage_header" style="background-color:rgba(128, 0, 128, 0.1) ">
                       <center><i class="fa fa-solid fa-id-card" style="color:#800080"></i></center>
                     </div>
@@ -76,7 +76,7 @@
         
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="controller.php?action=directToListControlsPage">
                     <div class="wrimagecard-topimage_header" style="background-color:rgba(187, 120, 36, 0.1) ">
                       <center><i class=" fa fa-solid fa-list-ul" style="color:#BB7824"></i></center>
                     </div>
