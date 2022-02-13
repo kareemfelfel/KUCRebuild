@@ -87,7 +87,7 @@
               </div> 
             <!-- end of panel -->
             </div>
-          </div>
+          </div><br>
           <!-- Second panel -->
           <div class="panel panel-default" id="accordion2">
             <div class="panel-heading">
