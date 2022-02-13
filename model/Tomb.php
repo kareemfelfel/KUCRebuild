@@ -8,4 +8,3 @@ class Tomb extends BasicPlotInfo{
     public $latitude;
     public BuriedIndividual $buriedIndividual;
 }
-
