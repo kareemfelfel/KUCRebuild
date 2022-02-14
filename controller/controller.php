@@ -45,6 +45,7 @@ switch ($action)
         $contactUsActive = true;
         include '../View/includes/head.php';
         include '../View/includes/navbar.php';
+        include '../view/contactUs/contactUs.php';
         break;
     case"directToAddTombPage":
         include '../View/includes/head.php';
