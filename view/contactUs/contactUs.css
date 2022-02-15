@@ -1,0 +1,70 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 15, 2022, 1:09:39 AM
+    Author     : karee
+*/
+.btn-link{
+    word-wrap: break-word;
+    color: black;
+    padding-bottom: 20px;
+}
+
+/* CONTACTS */
+.contact-box {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    position: relative;
+    background: #fff;
+    box-shadow: 12px 15px 20px 0px rgba(46,61,73,0.15);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+.contact-box:hover{
+    box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
+}
+.my-wrapper {
+    color: inherit;
+}
+.contact-box.center-version {
+    border: 1px solid #e7eaec;
+    padding: 0;
+}
+.contact-box.center-version > .my-wrapper {
+    display: block;
+    background-color: #ffffff;
+    padding: 15px;
+    text-align: center;
+}
+.contact-img{
+    width: 90px;
+    height: 90px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.contact-box.center-version address {
+    margin-bottom: 0;
+}
+.contact-box .contact-box-footer {
+    text-align: center;
+    background-color: #ffffff;
+    border-top: 1px solid #e7eaec;
+    padding: 15px 15px;
+} 
+.contact-btns{
+    justify-content: center;                
+}
+
+a{
+    text-decoration:none !important;    
+}
+.link-center{
+    text-align: center;
+}
+.my-anchor{
+    padding-bottom: 10px;
+    display: block;
+}

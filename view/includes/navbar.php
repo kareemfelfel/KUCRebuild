@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav mx-auto">
             <a class="nav-item nav-link <?php if(isset($homeActive) && $homeActive){echo 'active';} ?>" href="controller.php?action=directToHomePage">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link <?php if(isset($contactUsActive) && $contactUsActive){echo 'active';} ?>" href="#">Contact Us</a>
+            <a class="nav-item nav-link <?php if(isset($contactUsActive) && $contactUsActive){echo 'active';} ?>" href="controller.php?action=directToContactUsPage">Contact Us</a>
             <!-- Administration Page ACCESSIBLE BY ADMIN ONLY -->
             <a class="nav-item nav-link <?php if(isset($administrationActive) && $administrationActive){echo 'active';} ?>" href="controller.php?action=directToAdministrationPage">Administration</a>
             <!-- drop down Search menu ACCESSIBLE BY ADMIN ONLY -->
