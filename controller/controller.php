@@ -69,7 +69,10 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/administration/editLists/editLists.php';
         break;
-    case"directToAddNewUserPage":
+    case"directToAddNewAdminPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/administration/addNewAdmin/addNewAdmin.php';
         break;
 }
             

@@ -91,7 +91,7 @@
         
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="controller.php?action=directToAddNewAdminPage">
                     <div class="wrimagecard-topimage_header" style="background-color:rgba(255, 179, 0, 0.1) ">
                       <center><i class=" fa fa-solid fa-user-gear" style="color:#FFB300"></i></center>
                     </div>
