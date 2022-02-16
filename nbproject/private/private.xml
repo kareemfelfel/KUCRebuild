@@ -11,6 +11,7 @@
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/db/kuc_db.sql</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/controller/controller.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/administration.css</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/model/connection.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/head.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/home/home.php</file>
@@ -18,6 +19,7 @@
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/addTomb/addTomb.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.css</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/owners/owners.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/contactUs/contactUs.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/model/lists.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/editLists/editLists.php</file>
         </group>
