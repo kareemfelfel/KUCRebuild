@@ -10,5 +10,9 @@ class BuriedIndividual{
     public $dod;
     public $veteran;
     public $obituary;
+    
+    function __construct($row){
+        $this -> id = $row['ID'];
+    }
 }
 
