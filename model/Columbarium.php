@@ -1,11 +1,10 @@
 <?php
 
 class Columbarium extends BasicPlotInfo{
-    public $sectionLetter;
+    public ColumbariumSectionLetter $sectionLetter;
     public $sectionNumber;
     public NicheType $nicheType;
     public ColumbariumType $columbariumType;
-    public BuriedIndividual $firstBuriedIndividual;
-    public BuriedIndividual $secondBuriedIndividual;
+    public $buriedIndividuals; // Array of BurriedIndividual type
 }
 

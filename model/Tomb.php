@@ -1,10 +1,10 @@
 <?php
 
 class Tomb extends BasicPlotInfo{
-    public $sectionLetter;
+    public TombSectionLetter $sectionLetter;
     public $lotNumber;
-    public $plotNumber;
+    public $has_open_plots;
     public $longitude;
     public $latitude;
-    public BuriedIndividual $buriedIndividual;
+    public $buriedIndividuals; // list of BuriedIndividual datatype
 }

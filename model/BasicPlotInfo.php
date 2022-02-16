@@ -2,11 +2,10 @@
 
 class BasicPlotInfo{
     public $id;
-    public $open;
+    public $for_sale;
     public $purchaseDate;
     public $price;
     public $mainImage;
-    public $images;
-    public $deed;
+    public $attachments;
     public Owner $owner;
 }
