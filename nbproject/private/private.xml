@@ -4,12 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editTomb.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/error/error.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/model/BasicPlotInfo.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/navbar.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/administration.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Owner.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/model/BuriedIndividual.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/model/Tomb.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/model/functions.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/db/kuc_db.sql</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Columbarium.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/controller/controller.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/administration.css</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/model/connection.php</file>
