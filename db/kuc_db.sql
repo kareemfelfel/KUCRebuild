@@ -29,12 +29,29 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admins` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `FIRST_NAME` varchar(20) NOT NULL,
-  `LAST_NAME` varchar(20) NOT NULL,
-  `USERNAME` varchar(16) NOT NULL UNIQUE,
-  `PASSWORD` varchar(16) NOT NULL,
+  `FIRST_NAME` varchar(50) NOT NULL,
+  `LAST_NAME` varchar(50) NOT NULL,
+  `USERNAME` varchar(50) NOT NULL UNIQUE,
+  `PASSWORD` varchar(60) NOT NULL,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contacts`
+
+CREATE TABLE `contacts` ( 
+`ID` INT NOT NULL AUTO_INCREMENT , 
+`FIRST_NAME` VARCHAR(25) NOT NULL , 
+`LAST_NAME` VARCHAR(25) NOT NULL , 
+`EMAIL` VARCHAR(60) NOT NULL , 
+`TITLE` VARCHAR(25) NULL , 
+`PHONE_NUMBER` VARCHAR(10) NOT NULL, 
+PRIMARY KEY (`ID`)) ENGINE = InnoDB;
+
+--
 
 -- --------------------------------------------------------
 
@@ -44,10 +61,10 @@ CREATE TABLE `admins` (
 
 CREATE TABLE `buried_individuals` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `FIRST_NAME` varchar(20) NOT NULL,
-  `MIDDLE_NAME` varchar(20) DEFAULT NULL,
-  `LAST_NAME` varchar(20) NOT NULL,
-  `MAIDEN_NAME` varchar(20) DEFAULT NULL,
+  `FIRST_NAME` varchar(60) NOT NULL,
+  `MIDDLE_NAME` varchar(60) DEFAULT NULL,
+  `LAST_NAME` varchar(60) NOT NULL,
+  `MAIDEN_NAME` varchar(60) DEFAULT NULL,
   `DOB` date NOT NULL,
   `DOD` date NOT NULL,
   `VETERAN` tinyint(1) NOT NULL CHECK (`VETERAN` = 1 or `VETERAN` = 0),
@@ -72,7 +89,7 @@ CREATE TABLE `columbarium` (
   `SECTION_NUMBER` int(11) NOT NULL,
   `NICHE_TYPE_ID` int(11) NOT NULL,
   `COLUMBARIUM_TYPE_ID` int(11) NOT NULL,
-  `MAIN_IMAGE` varchar(20) DEFAULT NULL,
+  `MAIN_IMAGE` varchar(255) DEFAULT NULL,
   `OWNER_ID` int(11) DEFAULT NULL,
     PRIMARY KEY (`ID`)
 ) ;
@@ -85,7 +102,7 @@ CREATE TABLE `columbarium` (
 
 CREATE TABLE `columbarium_attachments` (
   `COLUMBARIUM_ID` int(11) NOT NULL,
-  `LINK` varchar(20) NOT NULL
+  `LINK` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -108,7 +125,7 @@ CREATE TABLE `columbarium_section_letters` (
 
 CREATE TABLE `columbarium_types` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `TYPE` varchar(10) NOT NULL UNIQUE,
+  `TYPE` varchar(60) NOT NULL UNIQUE,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -120,7 +137,7 @@ CREATE TABLE `columbarium_types` (
 
 CREATE TABLE `niche_types` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `TYPE` varchar(10) NOT NULL UNIQUE,
+  `TYPE` varchar(60) NOT NULL UNIQUE,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -132,12 +149,12 @@ CREATE TABLE `niche_types` (
 
 CREATE TABLE `owners` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `FIRST_NAME` varchar(20) NOT NULL,
-  `LAST_NAME` varchar(20) NOT NULL,
-  `MIDDLE_NAME` varchar(20) DEFAULT NULL,
+  `FIRST_NAME` varchar(60) NOT NULL,
+  `LAST_NAME` varchar(60) NOT NULL,
+  `MIDDLE_NAME` varchar(60) DEFAULT NULL,
   `ADDRESS` longtext DEFAULT NULL,
   `PHONE_NUMBER` varchar(10) DEFAULT NULL,
-  `EMAIL` varchar(30) DEFAULT NULL,
+  `EMAIL` varchar(50) DEFAULT NULL,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -153,11 +170,11 @@ CREATE TABLE `tombs` (
   `HAS_OPEN_PLOTS` tinyint(1) NOT NULL CHECK (`HAS_OPEN_PLOTS` = 0 or `HAS_OPEN_PLOTS` = 1),
   `PURCHASE_DATE` date DEFAULT NULL,
   `PRICE` decimal(10,2) DEFAULT NULL,
-  `SECTION_LETTER_ID` int(5) NOT NULL,
+  `SECTION_LETTER_ID` int(11) NOT NULL,
   `LOT_NUMBER` int(11) NOT NULL,
   `LONGITUDE` decimal(10,2) NOT NULL,
   `LATITUDE` decimal(10,2) NOT NULL,
-  `MAIN_IMAGE` varchar(20) DEFAULT NULL,
+  `MAIN_IMAGE` varchar(255) DEFAULT NULL,
   `OWNER_ID` int(11) DEFAULT NULL,
     PRIMARY KEY (`ID`)
 ) ;
@@ -170,7 +187,7 @@ CREATE TABLE `tombs` (
 
 CREATE TABLE `tomb_attachments` (
   `TOMB_ID` int(11) NOT NULL,
-  `LINK` varchar(20) NOT NULL
+  `LINK` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -181,7 +198,7 @@ CREATE TABLE `tomb_attachments` (
 
 CREATE TABLE `tomb_section_letters` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `SECTION_LETTER` varchar(5) NOT NULL UNIQUE,
+  `SECTION_LETTER` varchar(10) NOT NULL UNIQUE,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
