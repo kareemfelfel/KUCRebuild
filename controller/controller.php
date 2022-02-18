@@ -7,6 +7,14 @@
  */
 session_start();
 
+// Include all of our mapping classes
+include 'requireMappingClasses.php';
+
+// OUR MAIN CONTACT WITH DATABASE
+require_once '../model/connection.php';
+require_once '../model/functions.php';
+
+
 if (isset ($_POST['action']))
 {
     $action = $_POST['action'];

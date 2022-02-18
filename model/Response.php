@@ -10,4 +10,11 @@ Class Response{
         }
         array_push($this -> error, $errorString);
     }
+    
+    function addResult($singleResult){
+        if(!isset($this -> result)){
+            $this -> result = array();
+        }
+        array_push($this -> result, $singleResult);
+    }
 }
