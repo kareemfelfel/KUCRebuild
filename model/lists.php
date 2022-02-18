@@ -1,6 +1,6 @@
 <?php
 
-class NicheType{
+class Type{ // This class encapsulates both tables 'columbarium_types' and 'niche_types'
     public $id;
     public $type;
     
@@ -9,25 +9,7 @@ class NicheType{
         $this -> type = $row['TYPE'];
     }
 }
-class ColumbariumType{
-    public $id;
-    public $type;
-    
-    function __construct($row){
-        $this -> id = $row['ID'];
-        $this -> type = $row['TYPE'];
-    }
-}
-class ColumbariumSectionLetter{
-    public $id;
-    public $letter;
-    
-    function __construct($row){
-        $this -> id = $row['ID'];
-        $this -> letter = $row['SECTION_LETTER'];
-    }
-}
-class TombSectionLetter{
+class SectionLetter{ // This class encapsulates both tables 'columbarium_section_letters' and 'tomb_section_letters'
     public $id;
     public $letter;
     
