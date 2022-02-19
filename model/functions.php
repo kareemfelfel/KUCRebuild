@@ -72,3 +72,34 @@ function getAllOwners(){
         die;
     }
 }
+
+function getAllColumbariumSectionLetters(){
+    try{
+        $response = new Response();
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM columbarium_section_letters;";
+        $statement = $con->prepare($query);
+        $success = $statement->execute();
+        $results = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0){
+            for($i = 0; $i < count($result); $i++)
+            {
+                $row = $result[$i];
+                $columberiumSectionLetter = new SectionLetter($row);
+                $response -> addResult($columberiumSectionLetter);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch Columbarium Section Letters.");
+        }
+        return $response;
+    } 
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        include '../view/error/error.php';
+        die;
+    }
+}
+    
