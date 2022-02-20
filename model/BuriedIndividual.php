@@ -1,14 +1,14 @@
 <?php
 
 class BuriedIndividual{
-    public $id;
+    public int $id;
     public $firstName;
     public $middleName;
     public $maidenName;
     public $lastName;
     public $dob;
     public $dod;
-    public $veteran;
+    public bool $veteran;
     public $obituary;
     
     function __construct($row){

@@ -2,6 +2,10 @@
 // MAPPING CLASSES
 require_once '../model/Admin.php';
 require_once '../model/Attachment.php';
+require_once '../model/ColumbariumAttachment.php';
+require_once '../model/TombAttachment.php';
+require_once '../model/TombFilter.php';
+require_once '../model/ColumbariumFilter.php';
 require_once '../model/BasicPlotInfo.php';
 require_once '../model/BuriedIndividual.php';
 require_once '../model/Columbarium.php';

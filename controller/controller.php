@@ -88,3 +88,15 @@ function addHeaderAndNavbar(){
     include '../View/includes/head.php';
     include '../View/includes/navbar.php';
 }
+
+// TODO remove
+function tombFilterTest(){
+    $filter = new TombFilter();
+    $filter ->setForSale(false);
+    $filter ->setHasOpenPlots(true);
+    $filter ->setLotNumber(123);
+    $response = getAllTombRelatedDataWithFilter($filter);
+    //echo count($response -> result);
+    if(count($response->result) > 0)
+        echo json_encode(get_object_vars($response ->result[0]));
+}

@@ -1,7 +1,7 @@
 <?php
 
 class Columbarium extends BasicPlotInfo{
-    public $sectionNumber;
+    public int $sectionNumber;
     public Type $nicheType;
     public Type $columbariumType; 
     
@@ -19,14 +19,6 @@ class Columbarium extends BasicPlotInfo{
         $updatedRow['ID'] = $row['CT_ID'];
         $updatedRow['TYPE'] = $row['CT_TYPE'];
         $this -> columbariumType = new Type($updatedRow);
-    }
-    function addAttachment($row){
-        if(!isset($this -> attachments)){
-            $this -> attachments = array();
-        }
-        $updatedRow['ID'] = $row['COLUMBARIUM_ID'];
-        $updatedRow['LINK'] = $row['LINK'];
-        array_push($this -> attachments, new Attachment($row));
     }
 }
 

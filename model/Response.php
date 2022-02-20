@@ -1,8 +1,8 @@
 <?php
 
 Class Response{
-    public $result;
-    public $error; // Array of Strings
+    public array $result;
+    public array $error; // Array of Strings
     
     function addError($errorString){
         if(!isset($this -> error)){
@@ -15,6 +15,8 @@ Class Response{
         if(!isset($this -> result)){
             $this -> result = array();
         }
-        array_push($this -> result, $singleResult);
+        if($singleResult != null){
+            array_push($this -> result, $singleResult);
+        }
     }
 }

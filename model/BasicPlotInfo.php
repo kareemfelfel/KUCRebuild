@@ -1,15 +1,15 @@
 <?php
 
 class BasicPlotInfo{
-    public $id;
+    public int $id;
     public SectionLetter $sectionLetter;
-    public $forSale;
+    public bool $forSale;
     public $purchaseDate;
-    public $price;
+    public ?float $price;
     public $mainImage;
-    public $attachments; // will need to call addAttachment from each child class
-    public Owner $owner;
-    public $buriedIndividuals; // Will need to call addBuriedIndividual with a row of Buried Individual data from table 'buried_individuals'
+    public ?array $attachments; // will need to call setAttachments with an array of the appropriate attachment class
+    public ?Owner $owner;
+    public ?array $buriedIndividuals; // Will need to call setBuriedIndividuals with an array of Buried Individuals data from table 'buried_individuals'
     
     function __construct($row){
         $this -> id = $row['ID'];
@@ -30,11 +30,12 @@ class BasicPlotInfo{
         $this -> owner = new Owner($updatedRow);
     }
     
-    function addBuriedIndividual($row){
-        if(!isset($this -> buriedIndividuals)){
-            $this -> buriedIndividuals = array();
-        }
-        array_push($this -> buriedIndividuals, new BuriedIndividual($row));
+    function setBuriedIndividuals(array $buriedIndividuals){
+        $this -> buriedIndividuals = $buriedIndividuals;
+    }
+    
+    function setAttachments(array $attachments){
+        $this->attachments = $attachments;
     }
     
     function setSectionLetter($row){
