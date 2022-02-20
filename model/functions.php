@@ -28,10 +28,6 @@ function getUnlinkedBuriedIndividuals(){
                 $response ->addResult($buriedIndividual);
             }
         }
-        else if(count($result) == 0){
-            // sending null wil generate an empty result
-            $response ->addResult(null);
-        }
         if(!$success){
             $response -> addError("Failed to fetch Unlinked Buried Individuals.");
         }
@@ -64,10 +60,6 @@ function getAllOwners(){
                 $response ->addResult($owner);
             }
         }
-        else if(count($result) == 0){
-            // sending null wil generate an empty result
-            $response ->addResult(null);
-        }
         if(!$success){
             $response -> addError("Failed to fetch All Owners.");
         }
@@ -99,10 +91,6 @@ function getAllColumbariumSectionLetters(){
                 $response -> addResult($columberiumSectionLetter);
             }
         }
-        else if(count($result) == 0){
-            // sending null wil generate an empty result
-            $response ->addResult(null);
-        }
         if(!$success){
             $response -> addError("Failed to fetch Columbarium Section Letters.");
         }
@@ -118,13 +106,14 @@ function getAllColumbariumSectionLetters(){
 // Buried Individual Ids parameter is solely used for the purposes of filtering
 function getBuriedIndividualsForTomb($tombId, $buriedIndividualIds){
     try{
-        //This is done differently because we are comparing in SQL using `IN` 
-        // which we cannot compare list to null
-        $qw = isset($buriedIndividualIds) && count($buriedIndividualIds) > 0? 
-                "and ID in (:buriedIndividualIds)" : "";
         $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
+        //This is done differently because we are comparing in SQL using `IN` 
+        // which we cannot compare list to null
+        $qw = isset($buriedIndividualIds) && count($buriedIndividualIds) > 0? 
+                "and ID in ("
+                . implode(',', $buriedIndividualIds) .")" : "";
         $query = "SELECT * FROM buried_individuals "
                 . "where (:tombId is NULL or TOMB_ID = :tombId) "
                 . $qw .";";
@@ -136,10 +125,6 @@ function getBuriedIndividualsForTomb($tombId, $buriedIndividualIds){
         else{
             $statement->bindParam(':tombId', $tombId);
         }
-        if(isset($buriedIndividualIds) && count($buriedIndividualIds) > 0){
-            $ids_string = implode(',', $buriedIndividualIds);
-            $statement->bindParam(':buriedIndividualIds', $ids_string);
-        }
         $success = $statement->execute();
         $result = $statement->fetchAll();
         $statement->closeCursor();
@@ -150,10 +135,6 @@ function getBuriedIndividualsForTomb($tombId, $buriedIndividualIds){
                 $buriedIndividual = new BuriedIndividual($row);
                 $response -> addResult($buriedIndividual);
             }
-        }
-        else if(count($result) == 0){
-            // sending null wil generate an empty result
-            $response ->addResult(null);
         }
         if(!$success){
             $response -> addError("Failed to fetch Buried Individuals.");
@@ -187,10 +168,6 @@ function getAttachmentsForTomb($tombId){
                 $attachment = new TombAttachment($row);
                 $response -> addResult($attachment);
             }
-        }
-        else if(count($result) == 0){
-            // sending null wil generate an empty result
-            $response ->addResult(null);
         }
         if(!$success){
             $response -> addError("Failed to fetch Tomb Attachments.");
@@ -285,30 +262,26 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
                 
                 $buriedIndividualsPromise = getBuriedIndividualsForTomb($tomb -> id, $filter ->buriedIndividualIds);
                 // If we were able to fetch the buried individuals associated with tomb
-                if(isset($buriedIndividualsPromise -> result) && count($buriedIndividualsPromise->result) > 0){
+                if(count($buriedIndividualsPromise->result) > 0){
                     $tomb ->setBuriedIndividuals($buriedIndividualsPromise->result);
                 }
                 // If we have an error, only care to fetch the first error in the list and add it to our response's error
-                if(isset($buriedIndividualsPromise -> error) && count($buriedIndividualsPromise -> error) > 0){
+                if(count($buriedIndividualsPromise -> error) > 0){
                     $response -> addError($buriedIndividualsPromise -> error[0]);
                 }
                 
                 $attachmentsPromise = getAttachmentsForTomb($tomb ->id);
                 // If we were able to fetch the attachments associated with tomb
-                if(isset($attachmentsPromise -> result) && count($attachmentsPromise->result) > 0){
+                if(count($attachmentsPromise->result) > 0){
                     $tomb ->setAttachments($attachmentsPromise->result);
                 }
                 // If we have an error, only care to fetch the first error in the list and add it to our response's error
-                if(isset($attachmentsPromise -> error) && count($attachmentsPromise -> error) > 0){
+                if(count($attachmentsPromise -> error) > 0){
                     $response -> addError($attachmentsPromise -> error[0]);
                 }
                 
                 $response -> addResult($tomb);
             }
-        }
-        else if(count($result) == 0){
-            // sending null wil generate an empty result
-            $response ->addResult(null);
         }
         if(!$success){
             $response -> addError("Failed to fetch Buried Individuals.");
