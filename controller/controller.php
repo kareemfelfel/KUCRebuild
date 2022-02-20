@@ -40,8 +40,7 @@ switch ($action)
         $homeActive = true;
         include '../View/includes/head.php';
         include '../View/includes/navbar.php';
-        tombFilterTest();
-        //include '../view/home/home.php';
+        include '../view/home/home.php';
         break;
     case"directToAdministrationPage":
         // variable to set active status in navbar
