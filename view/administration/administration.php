@@ -103,7 +103,22 @@
                 </a>
             </div>
         </div>
-        
+    </div> <!<!-- End of second row -->
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <div class="wrimagecard wrimagecard-topimage">
+                <a href="#">
+                    <div class="wrimagecard-topimage_header" style="background-color:rgba(3, 173, 252, 0.1) ">
+                      <center><i class=" fa fa-solid fa-user-group" style="color:#03adfc"></i></center>
+                    </div>
+                    <div class="wrimagecard-topimage_title">
+                      <h4 class="text-center">Contacts
+                      </h4>
+                        <p class="text-center" style="font-weight: 100; font-size: 15px;">Add & Edit</p>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 <link rel="stylesheet" type="text/css" href="../view/administration/administration.css">
