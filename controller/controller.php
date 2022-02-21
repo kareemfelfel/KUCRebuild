@@ -40,7 +40,8 @@ switch ($action)
         $homeActive = true;
         include '../View/includes/head.php';
         include '../View/includes/navbar.php';
-        include '../view/home/home.php';
+        //include '../view/home/home.php';
+        tombFilterTest();
         break;
     case"directToAdministrationPage":
         // variable to set active status in navbar
@@ -100,6 +101,7 @@ function tombFilterTest(){
     $filter ->setForSale(false);
     $filter ->setHasOpenPlots(true);
     $filter ->setLotNumber(123);
+    $filter ->setBuriedIndividualIds(array(2, 1, 3, 4));
     $response = getAllTombRelatedDataWithFilter($filter);
     if(count($response->result) > 0)
         echo json_encode(get_object_vars($response ->result[0]));

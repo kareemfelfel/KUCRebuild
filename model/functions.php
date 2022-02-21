@@ -104,19 +104,13 @@ function getAllColumbariumSectionLetters(){
 }
 
 // Buried Individual Ids parameter is solely used for the purposes of filtering
-function getBuriedIndividualsForTomb($tombId, $buriedIndividualIds){
+function getBuriedIndividualsForTomb($tombId){
     try{
         $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        //This is done differently because we are comparing in SQL using `IN` 
-        // which we cannot compare list to null
-        $qw = isset($buriedIndividualIds) && count($buriedIndividualIds) > 0? 
-                "and ID in ("
-                . implode(',', $buriedIndividualIds) .")" : "";
         $query = "SELECT * FROM buried_individuals "
-                . "where (:tombId is NULL or TOMB_ID = :tombId) "
-                . $qw .";";
+                . "where (:tombId is NULL or TOMB_ID = :tombId);";
         
         $statement = $con->prepare($query);
         if(!isset($tombId)){
@@ -192,6 +186,15 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
         $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
+        //This is done differently because we are comparing in SQL using `IN` 
+        // which we cannot compare list to null
+        if(isset($filter -> buriedIndividualIds) && count($filter->buriedIndividualIds) > 0){
+            $qw = "and T.ID in (select TOMB_ID from buried_individuals where ID in ("
+                . implode(',', $filter ->  buriedIndividualIds) ."))";
+        }
+        else{
+            $qw = "";
+        }
         $query = "SELECT T.ID, T.FOR_SALE, T.HAS_OPEN_PLOTS, T.PURCHASE_DATE, "
                 . "T.PRICE, T.SECTION_LETTER_ID, T.LOT_NUMBER, T.LONGITUDE, "
                 . "T.LATITUDE, T.MAIN_IMAGE, T.OWNER_ID, O.ID AS OWNR_ID, "
@@ -202,13 +205,14 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
                 . "FROM TOMBS T INNER JOIN tomb_section_letters TSL ON "
                 . "T.SECTION_LETTER_ID = TSL.ID LEFT JOIN OWNERS O ON "
                 . "O.ID = T.OWNER_ID "
-                . "WHERE " // All Filters are added here except for buriedIndividualIds
+                . "WHERE " // All Filters are added here
                 . "(:tombId IS NULL or T.ID = :tombId) and"
                 . "(:sectionLetterId IS NULL or t.SECTION_LETTER_ID = :sectionLetterId) and"
                 . "(:lotNumber IS NULL or T.LOT_NUMBER = :lotNumber) and"
                 . "(:hasOpenPlots IS NULL or T.HAS_OPEN_PLOTS = :hasOpenPlots) and"
                 . "(:forSale IS NULL or T.FOR_SALE = :forSale) and"
-                . "(:ownerId IS NULL or T.OWNER_ID = :ownerId);";
+                . "(:ownerId IS NULL or T.OWNER_ID = :ownerId)"
+                . $qw .";";
         
         $statement = $con->prepare($query);
         
