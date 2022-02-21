@@ -10,6 +10,9 @@ session_start();
 // Include all of our mapping classes
 include 'requireMappingClasses.php';
 
+// Include Test cases
+include '../tests/modelTests.php';
+
 // OUR MAIN CONTACT WITH DATABASE
 require_once '../model/connection.php';
 require_once '../model/functions.php';
@@ -40,8 +43,7 @@ switch ($action)
         $homeActive = true;
         include '../View/includes/head.php';
         include '../View/includes/navbar.php';
-    //    include '../view/home/home.php';
-        getTombSectionLettersTest();
+        include '../view/home/home.php';
         break;
     case"directToAdministrationPage":
         // variable to set active status in navbar
@@ -93,18 +95,4 @@ switch ($action)
 function addHeaderAndNavbar(){
     include '../View/includes/head.php';
     include '../View/includes/navbar.php';
-}
-
-// TODO remove
-function tombFilterTest(){
-    $filter = new TombFilter();
-    $filter ->setForSale(false);
-    $filter ->setHasOpenPlots(true);
-    $filter ->setLotNumber(123);
-    $filter ->setBuriedIndividualIds(array(2, 1, 3, 4));
-    $response = getAllTombRelatedDataWithFilter($filter);
-    if(count($response->result) > 0)
-        echo json_encode(get_object_vars($response ->result[0]));
-    if(count($response -> error) > 0)
-        echo $response -> error[0];
 }

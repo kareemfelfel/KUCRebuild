@@ -4,7 +4,7 @@ Class Admin {
     public int $id;
     public $firstName;
     public $lastName;
-    public $userName;
+    public $username;
     public $password;
     
     function __construct($row) {

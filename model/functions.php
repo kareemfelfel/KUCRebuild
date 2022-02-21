@@ -391,7 +391,7 @@ function getAllNicheTypes(){
     }
 }
 
-function checkUserNameExist($username){
+function checkUsernameExist($username){
     try{
         $response = new Response();
         $db = connection::getInstance();

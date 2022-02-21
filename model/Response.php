@@ -2,7 +2,7 @@
 
 Class Response{
     public array $result;
-    public array $error; // Array of Strings    
+    public array $error; // Array of Strings
     
     function __construct() {
         $this -> result = array();
@@ -14,5 +14,5 @@ Class Response{
     
     function addResult($singleResult){
         array_push($this -> result, $singleResult);
-    }    
+    }
 }
