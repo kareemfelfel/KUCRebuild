@@ -82,6 +82,11 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/administration/addNewAdmin/addNewAdmin.php';
         break;
+    case"directToLoginPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/login/login.php';
+        break;
 }
             
 function addHeaderAndNavbar(){

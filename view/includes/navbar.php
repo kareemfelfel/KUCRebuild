@@ -40,7 +40,7 @@
                 Admin</a>
             <ul class="dropdown-menu">
                 <li class="dropdown-item">
-                    <a href="#"><span class="glyphicon glyphicon-log-in"></span> Log in</a>
+                    <a href="controller.php?action=directToLoginPage"><span class="glyphicon glyphicon-log-in"></span> Log in</a>
                    
                 </li>
             </ul>

@@ -13,22 +13,22 @@
     <form>
         <div class="row">
             <div class="col-md-6">
-                <label for="fName">Username:</label>
+                <label for="userName">Username:</label>
                 <input type="text" class="form-control" id="userName"><br>
             </div>
             <div class="col-md-6">
-                <label for="fName">First Name:</label>
+                <label for="firstName">First Name:</label>
                 <input type="text" class="form-control" id="firstName"><br>
             </div>
         </div><!-- end of row -->
 
         <div class="row">
             <div class="col-md-6">
-                <label for="fName">Last Name:</label>
+                <label for="lastName">Last Name:</label>
                 <input type="text" class="form-control" id="lastName"><br>
             </div>
             <div class="col-md-6">
-                <label for="fName">Password:</label>
+                <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password"><br> <!-- using password type -->
             </div>
         </div> <!-- end of row -->
