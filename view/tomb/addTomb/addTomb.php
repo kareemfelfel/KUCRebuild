@@ -16,7 +16,7 @@
  */
 ?>
 <br>
-<h3 class="text-center">Add Tomb</h3>
+<h3 class="text-center">Add Lot</h3>
 <hr>
 <div class="container-fluid">
     <div class="panel-group">
@@ -30,7 +30,7 @@
                 class="fa fa-caret-down inactive-link"
                 onclick="changeIcon(this)"
                 >
-            </a> Tomb Information
+            </a> Lot Information
           </h4>
         </div>
         <div id="collapse1" class="panel-collapse collapse in show">

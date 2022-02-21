@@ -32,7 +32,7 @@
                       <center><i class=" fa fa-solid fa-cross" style="color:#d50f25"></i></center>
                     </div>
                     <div class="wrimagecard-topimage_title">
-                      <h4 class="text-center">Tomb
+                      <h4 class="text-center">Lot
                       </h4>
                         <p class="text-center" style="font-weight: 100; font-size: 15px;">Add</p>
                     </div>
