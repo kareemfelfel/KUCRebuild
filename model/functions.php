@@ -298,4 +298,186 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
         die;
     }
 }
-    
+
+function getAllBuriedIndividuals() {
+    try{
+        $response = new Response();
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM buried_individuals;";
+        $statement = $con->prepare($query);        
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for( $i =0; $i< count($result); $i++)
+            {
+                $row = $result[$i];
+                $buriedIndividual = new BuriedIndividual($row);
+                $response -> addResult($buriedIndividual);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch All Buried Individuals.");
+        }
+        return $response;
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        include '../view/error/error.php';
+        die;
+    }
+}
+
+function getAdmin($username,$password){
+    try{
+        $response = new Response();
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM ADMINS WHERE (USERNAME = :username && PASSWORD = :password );";
+        $statement = $con->prepare($query);  
+        $statement->bindParam(':username', $username);
+        $statement->bindParam(':password', $password);
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for( $i =0; $i< count($result); $i++)
+            {
+                $row = $result[$i];
+                $admin = new Admin($row);
+                $response -> addResult($admin);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch All Admins.");
+        }
+        return $response;
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        include '../view/error/error.php';
+        die;
+    }
+}
+
+function getAllNicheTypes(){
+    try {
+        $response = new Response();
+        $db = connection::getInstance();
+       $con = $db -> get_connection();
+        $query = "SELECT * FROM NICHE_TYPES;";
+        $statement = $con->prepare($query);          
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for( $i =0; $i< count($result); $i++)
+            {
+                $row = $result[$i];
+                $nicheType = new Type($row);
+                $response -> addResult($nicheType);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch All Niche Types.");
+        }
+        return $response;
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        include '../view/error/error.php';
+        die;
+    }
+}
+
+function checkUserNameExist($username){
+    try{
+        $response = new Response();
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM ADMINS WHERE (USERNAME = :username);";
+        $statement = $con->prepare($query);  
+        $statement->bindParam(':username', $username);
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success)
+        {
+            if(count($result) == 1){
+                $response -> addResult(true);
+            }
+            else{
+                $response -> addResult(false);
+            }
+        }
+        else{
+            $response -> addError("Failed to fetch Admin with username");
+        }
+        return $response;
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        include '../view/error/error.php';
+        die;
+    }
+}
+
+function getAllColumbariumTypes(){
+    try{
+        $response = new Response();
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM columbarium_types;";
+        $statement = $con->prepare($query);          
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for($i = 0;$i < count($result); $i++)
+            {
+                $row = $result[$i];
+                $columbariumType = new Type($row);
+                $response -> addResult($columbariumType);                
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch Columbarium types.");
+        }
+        return $response;
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        include '../view/error/error.php';
+        die;
+    }
+}
+
+function getAllTombSectionLetters(){
+    try{
+        $response = new Response();
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM tomb_section_letters;";
+        $statement = $con->prepare($query);          
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for($i = 0; $i < count($result); $i++)
+            {
+                $row = $result[$i];
+                $tombSectionLetters = new SectionLetter($row);
+                $response -> addResult($tombSectionLetters);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch Tomb Section Letters.");
+        }
+        return $response;
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        include '../view/error/error.php';
+        die;
+    }
+}

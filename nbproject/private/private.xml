@@ -2,27 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/BasicPlotInfo.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/navbar.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Owner.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/administration.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/TombFilter.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/functions.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/addNewAdmin/addNewAdmin.css</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Attachment.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Contact.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/db/kuc_db.sql</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Response.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/controller/controller.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/connection.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/head.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/ColumbariumFilter.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/controller/requireMappingClasses.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/addTomb/addTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/login/login.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/addNewAdmin/addNewAdmin.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
