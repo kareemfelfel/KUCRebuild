@@ -96,12 +96,12 @@ switch ($action)
         include '../view/tomb/searchTomb/searchTomb.php';
         break;
     //API
-    case"getAllOwnersList":
+    case"fetchAllOwnersList":
         getAllOwnersList();
         break;
 }
-
-function getAllOwnersList(){
+//-----API--------
+function fetchAllOwnersList(){
     $mutatedResponse = new Response();
     $response = getAllOwners();
     if(count($response->result) > 0){
@@ -119,7 +119,6 @@ function getAllOwnersList(){
         }
     }
     echo json_encode(get_object_vars($mutatedResponse));
-    
 }
             
 function addHeaderAndNavbar(){

@@ -231,7 +231,7 @@
             
                 $.getJSON("controller.php",
                 {
-                    action: "getAllOwnersList"
+                    action: "fetchAllOwnersList"
                 },response => {
                     let data = JSON.parse(JSON.stringify(response.result))
                     this.allOwnersList = data
