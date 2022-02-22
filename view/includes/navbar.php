@@ -24,7 +24,7 @@
                         <a href="#"><span class="fa-solid fa-warehouse"></span> Columbarium</a>
                     </li>
                     <li class="dropdown-item">
-                        <a href="#"><span class="fa-solid fa-cross"></span> Lot</a>
+                        <a href="controller.php?action=directToSearchTombPage"><span class="fa-solid fa-cross"></span> Lot</a>
                     </li>
                 </ul>
 

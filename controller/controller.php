@@ -90,6 +90,36 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/login/login.php';
         break;
+    case"directToSearchTombPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/tomb/searchTomb/searchTomb.php';
+        break;
+    //API
+    case"getAllOwnersList":
+        getAllOwnersList();
+        break;
+}
+
+function getAllOwnersList(){
+    $mutatedResponse = new Response();
+    $response = getAllOwners();
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            $mutatedResult = array(
+                "value" => $response->result[$i]->id,
+                "name" => $response->result[$i]->firstName . " " . $response->result[$i]->lastName
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
+    
 }
             
 function addHeaderAndNavbar(){
