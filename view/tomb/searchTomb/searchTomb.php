@@ -175,7 +175,13 @@
     new Vue({
         el: "#searchTombApp",
         data: {
-          results: [],
+          results: [{
+                    id: 1,
+                    title: "A 1233",
+                    countBuriedIndividuals: 2,
+                    ownerName: "Jody Strausser",
+                    image: "../assets/images/basic-grave.jpg"
+                }],
           loading: false,
           filter:{
               lotNumber: null,
@@ -185,13 +191,12 @@
               ownerId: [],
               buriedIndividualIds: []
           },
-          allOwnersList: null
+          allOwnersList: []
         },
         created(){
             // Make a call to get all results,
             // and all list data
             this.fetchAllOwnersList();
-            console.log(this.allOwnersList);
             //fetchAllBuriedIndividualsList();
             //fetchAllTombSectionLetters();
         },
@@ -220,9 +225,7 @@
                     this.getFakeData();
                     this.loading = false;
                 }, 2000);
-                
-                console.log(this.allOwnersList)
-                
+   
             },
             fetchAllOwnersList(){
             
@@ -231,9 +234,8 @@
                     action: "getAllOwnersList"
                 },response => {
                     let data = JSON.parse(JSON.stringify(response.result))
-                    console.log(data)
                     this.allOwnersList = data
-                    console.log(this.allOwnersList[0])
+                    this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
                 });
                
             }
