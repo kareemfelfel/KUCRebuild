@@ -291,7 +291,7 @@ function fetchTombCards(){
                     isset($response->result[$i]->buriedIndividuals)? 
                     count($response->result[$i]->buriedIndividuals): 0,
                 "ownerName" => 
-                    isset($response->result[$i]->owner)? 
+                    isset($response->result[$i]->owner->id)? 
                     $response->result[$i]->owner->firstName . " " . $response->result[$i]->owner->lastName : "N/A",
                 "image" => $response->result[$i]->mainImage
             );

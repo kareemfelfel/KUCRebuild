@@ -36,7 +36,11 @@
                 <img alt="tutor" :src="result.image" style="width: 100%; height: 60%;">
                 <div class= "card-body">
                     <h4 id = "usercardname" class="usercardname"> {{result.title}} </h4>
-                    <p id = "cardmidsection" style="width: 100%;"> Buried Individuals ({{result.countBuriedIndividuals}})</p>
+                    <p id = "cardmidsection" style="width: 100%;" 
+                       class="buried-individuals-popover" 
+                       data-toggle="popover"
+                       data-placement="top"
+                       data-content="Some content inside the popover"> Buried Individuals ({{result.countBuriedIndividuals}})</p>
                     <p> Owner: {{result.ownerName}}</p>
                 </div>
                 <a style= "" class="btn btn-block btn-success" href = "#">View</a>
@@ -151,9 +155,7 @@
         </div>
       </div>
     </div>
-    </div>
-    
-    
+    </div>  
 </div>
 
 <!-- Used for select picker -->
@@ -276,9 +278,12 @@
             }
         }
       })
-// JS outside of Vue
 $('.selectpicker').selectpicker({
     size: 4
 });
+$(".buried-individuals-popover").popover({ 
+    trigger: "hover",
+    html: true
+});  
 </script>
 

@@ -1,7 +1,7 @@
 <?php
 
 class Owner{
-    public int $id;
+    public ?int $id;
     public $firstName;
     public $middleName;
     public $lastName;
