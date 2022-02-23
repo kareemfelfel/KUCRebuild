@@ -47,9 +47,3 @@ and open the template in the editor.
 .bootstrap-select > .dropdown-toggle{
     border: 1px solid #ced4da;
 } 
-.error-message {
-    position: fixed;
-    bottom: 5px;
-    right: 10px;
-    width: 20%;
-}
