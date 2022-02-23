@@ -97,7 +97,28 @@ switch ($action)
         break;
     //API
     case"fetchAllOwnersList":
-        getAllOwnersList();
+        fetchAllOwnersList();
+        break;
+    case"fetchUnlinkedBuriedIndividualsList":
+        fetchUnlinkedBuriedIndividualsList();
+        break;
+    case"fetchColumbariumSectionLettersList":
+        fetchColumbariumSectionLettersList();
+        break;
+    case"fetchNicheTypesList":
+        fetchNicheTypesList();
+        break;
+    case"fetchColumbariumTypesList":
+        fetchColumbariumTypesList();
+        break;
+    case"fetchTombSectionLettersList":
+        fetchTombSectionLettersList();
+        break;
+    case"fetchAllBuriedIndividualsList":
+        fetchAllBuriedIndividualsList();
+        break;
+    case"fetchTombCards":
+        fetchTombCards();
         break;
 }
 //-----API--------
@@ -120,8 +141,167 @@ function fetchAllOwnersList(){
     }
     echo json_encode(get_object_vars($mutatedResponse));
 }
-            
-function addHeaderAndNavbar(){
-    include '../View/includes/head.php';
-    include '../View/includes/navbar.php';
+
+function fetchUnlinkedBuriedIndividualsList(){
+    $mutatedResponse = new Response();
+    $response = getUnlinkedBuriedIndividuals();
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            $mutatedResult = array(
+                "value" => $response->result[$i]->id,
+                "name" => $response->result[$i]->firstName . " " . $response->result[$i]->lastName
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
+}
+
+function fetchColumbariumSectionLettersList(){
+    $mutatedResponse = new Response();
+    $response = getAllColumbariumSectionLetters();
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            $mutatedResult = array(
+                "value" => $response->result[$i]->id,
+                "name" => $response->result[$i]->letter
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
+}
+
+function fetchNicheTypesList(){
+    $mutatedResponse = new Response();
+    $response = getAllNicheTypes();
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            $mutatedResult = array(
+                "value" => $response->result[$i]->id,
+                "name" => $response->result[$i]->type
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
+}
+
+function fetchColumbariumTypesList(){
+    $mutatedResponse = new Response();
+    $response = getAllColumbariumTypes();
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            $mutatedResult = array(
+                "value" => $response->result[$i]->id,
+                "name" => $response->result[$i]->type
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
+}
+
+function fetchTombSectionLettersList(){
+    $mutatedResponse = new Response();
+    $response = getAllTombSectionLetters();
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            $mutatedResult = array(
+                "value" => $response->result[$i]->id,
+                "name" => $response->result[$i]->letter
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
+}
+
+function fetchAllBuriedIndividualsList(){
+    $mutatedResponse = new Response();
+    $response = getAllBuriedIndividuals();
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            $mutatedResult = array(
+                "value" => $response->result[$i]->id,
+                "name" => $response->result[$i]->firstName . " " . $response->result[$i]->lastName
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
+}
+
+function fetchTombCards(){
+    $request = json_decode($_GET['request']);
+    
+    $sectionLetterId = !empty($request->sectionLetterId) ? $request->sectionLetterId : null;
+    $lotNumber = !empty($request->lotNumber) ? $request->lotNumber : null;
+    $hasOpenPlots = !empty($request->hasOpenPlots) ? $request->hasOpenPlots : null;
+    $forSale = !empty($request->forSale) ? $request->forSale : null;
+    $ownerId = !empty($request->ownerId) ? $request->ownerId : null;
+    $buriedIndividualIds = !empty($request->buriedIndividualIds) ? $request->buriedIndividualIds : null;
+    
+    $filter = new TombFilter();
+    $filter->setSectionLetterId($sectionLetterId);
+    $filter->setLotNumber($lotNumber);
+    $filter->setHasOpenPlots($hasOpenPlots);
+    $filter->setForSale($forSale);
+    $filter->setOwnerId($ownerId);
+    $filter->setBuriedIndividualIds($buriedIndividualIds);
+    
+    $mutatedResponse = new Response();
+    $response = getAllTombRelatedDataWithFilter($filter);
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            $mutatedResult = array(
+                "id" => $response->result[$i]->id,
+                "title" => $response->result[$i]->sectionLetter->letter . " " . $response->result[$i]->lotNumber,
+                "countBuriedIndividuals" => 
+                    isset($response->result[$i]->buriedIndividuals)? 
+                    count($response->result[$i]->buriedIndividuals): 0,
+                "ownerName" => 
+                    isset($response->result[$i]->owner)? 
+                    $response->result[$i]->owner->firstName . " " . $response->result[$i]->owner->lastName : "N/A",
+                "image" => $response->result[$i]->mainImage
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
 }

@@ -7,8 +7,8 @@
  */
 
 function getUnlinkedBuriedIndividuals(){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM BURIED_INDIVIDUALS WHERE "
@@ -31,19 +31,18 @@ function getUnlinkedBuriedIndividuals(){
         if(!$success){
             $response -> addError("Failed to fetch Unlinked Buried Individuals.");
         }
-        return $response;
     }
     catch (PDOException $e) 
     {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 function getAllOwners(){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM OWNERS;";
@@ -63,19 +62,18 @@ function getAllOwners(){
         if(!$success){
             $response -> addError("Failed to fetch All Owners.");
         }
-        return $response;
     }
     catch (PDOException $e) 
     {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 function getAllColumbariumSectionLetters(){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM columbarium_section_letters;";
@@ -94,19 +92,18 @@ function getAllColumbariumSectionLetters(){
         if(!$success){
             $response -> addError("Failed to fetch Columbarium Section Letters.");
         }
-        return $response;
     } 
     catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 // Buried Individual Ids parameter is solely used for the purposes of filtering
 function getBuriedIndividualsForTomb($tombId){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM buried_individuals "
@@ -133,18 +130,17 @@ function getBuriedIndividualsForTomb($tombId){
         if(!$success){
             $response -> addError("Failed to fetch Buried Individuals.");
         }
-        return $response;
     } 
     catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 function getAttachmentsForTomb($tombId){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM "
@@ -166,13 +162,12 @@ function getAttachmentsForTomb($tombId){
         if(!$success){
             $response -> addError("Failed to fetch Tomb Attachments.");
         }
-        return $response;
     } 
     catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 //-------------------------------------------------------------------
@@ -182,8 +177,8 @@ function getAttachmentsForTomb($tombId){
 // function calls getAttachmentsForTomb() and getBuriedIndividualsForTomb()
 // responds with a response with result including listOf(Tombs)
 function getAllTombRelatedDataWithFilter(TombFilter $filter){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         //This is done differently because we are comparing in SQL using `IN` 
@@ -290,18 +285,17 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
         if(!$success){
             $response -> addError("Failed to fetch Buried Individuals.");
         }
-        return $response;
     } 
     catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 function getAllBuriedIndividuals() {
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM buried_individuals;";
@@ -321,17 +315,16 @@ function getAllBuriedIndividuals() {
         if(!$success){
             $response -> addError("Failed to fetch All Buried Individuals.");
         }
-        return $response;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 function getAdmin($username,$password){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM ADMINS WHERE (USERNAME = :username && PASSWORD = :password );";
@@ -353,19 +346,18 @@ function getAdmin($username,$password){
         if(!$success){
             $response -> addError("Failed to fetch All Admins.");
         }
-        return $response;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 function getAllNicheTypes(){
+    $response = new Response();
     try {
-        $response = new Response();
         $db = connection::getInstance();
-       $con = $db -> get_connection();
+        $con = $db -> get_connection();
         $query = "SELECT * FROM NICHE_TYPES;";
         $statement = $con->prepare($query);          
         $success = $statement->execute();
@@ -383,17 +375,16 @@ function getAllNicheTypes(){
         if(!$success){
             $response -> addError("Failed to fetch All Niche Types.");
         }
-        return $response;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 function checkUsernameExist($username){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM ADMINS WHERE (USERNAME = :username);";
@@ -414,17 +405,16 @@ function checkUsernameExist($username){
         else{
             $response -> addError("Failed to fetch Admin with username");
         }
-        return $response;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 function getAllColumbariumTypes(){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM columbarium_types;";
@@ -444,17 +434,16 @@ function getAllColumbariumTypes(){
         if(!$success){
             $response -> addError("Failed to fetch Columbarium types.");
         }
-        return $response;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }
 
 function getAllTombSectionLetters(){
+    $response = new Response();
     try{
-        $response = new Response();
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM tomb_section_letters;";
@@ -474,10 +463,10 @@ function getAllTombSectionLetters(){
         if(!$success){
             $response -> addError("Failed to fetch Tomb Section Letters.");
         }
-        return $response;
+        
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
-        include '../view/error/error.php';
-        die;
+        $response -> addError($errorMessage);
     }
+    return $response;
 }

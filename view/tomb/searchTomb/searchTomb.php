@@ -29,7 +29,7 @@
     </div>
     <hr>
 
-    <div v-if="!loading" class="container-fluid">
+    <div v-if="!loading && results.length > 0" class="container-fluid">
         <div v-for="(result, index) in results" :key="index" id="cell" class="cell text-center col-md-4 col-sm-6 col-lg-3">
             <div class="card" style="width: 18em;">
                 
@@ -43,8 +43,18 @@
             </div>
         </div>
     </div>
-    <div v-else>
-        <div class="loader text-center"></div>
+    <div v-if=" !loading && results.length == 0">
+        <p class="text-center"> No results were found.</p>
+    </div>
+    <div v-if="loading">
+        <div class="loader"></div>
+    </div>
+    <!-- Error Messages -->
+    <div v-for="(error, index) in errors" 
+         :key="index" class="alert alert-danger alert-dismissible fade show error-message" 
+         >
+        <button type="button" class="close" @click="clearErrors">&times;</button>
+        {{error}}
     </div>
     
     
@@ -70,16 +80,7 @@
                             data-width="100%"
                             v-model="filter.sectionLetterId"
                             >
-                          <option>A</option>
-                          <option>B</option>
-                          <option>C</option>
-                          <option>D</option>
-                          <option>YC</option>
-                          <option>YB</option>
-                          <option>XC</option>
-                          <option>XB</option>
-                          <option>XD</option>
-                          <option>XA</option>
+                          <option v-for="item in sectionLettersList" :value="item.value">{{item.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -119,12 +120,10 @@
                           class="selectpicker"
                           id="owner"
                           data-live-search="true"
-                          multiple
                           data-width="100%"
-                          data-max-options="1"
                           v-model="filter.ownerId"
                           >
-                        <option v-for="owner in allOwnersList" :value="owner.value">{{owner.name}}</option>
+                        <option v-for="item in ownersList" :value="item.value">{{item.name}}</option>
                         
                       </select>
                   </div>
@@ -140,28 +139,21 @@
                           multiple
                           v-model="filter.buriedIndividualIds"
                           >
-                        <option value=1>Kareem Felfel</option>
-                        <option value=2>Assembly Language</option>
-                        <option value=3>Am I dead?</option>
-                        <option>What is this place!</option>
-                        <option>Hello World</option>
-                        <option>Peter Griffin</option>
-                        <option>Stewie Griffin</option>
-                        <option>Lewis</option>
-                        <option>John Black</option>
-                        <option>Jody Strausser</option>
+                        <option v-for="item in buriedIndividualsList" :value="item.value">{{item.name}}</option>
                       </select>
                   </div>
               </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="filterData()">Filter</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearFilter()">Clear</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="fetchResults()">Filter</button>
           </div>
         </div>
       </div>
     </div>
     </div>
+    
+    
 </div>
 
 <!-- Used for select picker -->
@@ -170,74 +162,114 @@
 
 <link rel="stylesheet" type="text/css" href="../view/tomb/searchTomb/searchTomb.css">
 <link rel="stylesheet" type="text/css" href="../view/tomb/searchTomb/loadingSpinner.css">
-
+<style scoped>
+.error-message {
+    position: fixed;
+    bottom: 0;
+    right: 5px;
+    width: 25%;
+}
+</style>
 <script>
     new Vue({
         el: "#searchTombApp",
         data: {
-          results: [{
-                    id: 1,
-                    title: "A 1233",
-                    countBuriedIndividuals: 2,
-                    ownerName: "Jody Strausser",
-                    image: "../assets/images/basic-grave.jpg"
-                }],
+          results: [],
           loading: false,
           filter:{
               lotNumber: null,
-              sectionLetterId: [],
-              hasOpenPlots: false,
+              sectionLetterId: null,
+              hasOpenPlots: null,
               forSale: null,
-              ownerId: [],
+              ownerId: null,
               buriedIndividualIds: []
           },
-          allOwnersList: []
+          ownersList: [],
+          buriedIndividualsList: [],
+          sectionLettersList: [],
+          errors: []
         },
         created(){
             // Make a call to get all results,
-            // and all list data
-            this.fetchAllOwnersList();
-            //fetchAllBuriedIndividualsList();
-            //fetchAllTombSectionLetters();
+            // Fetch all lists
+            this.fetchOwnersList();
+            this.fetchBuriedIndividualsList();
+            this.fetchSectionLettersList();
+            
+            this.fetchResults()
         },
         methods:{
-            getFakeData: function(){
-                let fakeResults = [{
-                    id: 1,
-                    title: "A 1233",
-                    countBuriedIndividuals: 2,
-                    ownerName: "Jody Strausser",
-                    image: "../assets/images/basic-grave.jpg"
-                },
-                {
-                    id: 1,
-                    title: "B 54",
-                    countBuriedIndividuals: 5,
-                    ownerName: "Kareem Felfel",
-                    image: "../assets/images/basic-grave.jpg"
-                }]
-                this.results = fakeResults
-            },
-            filterData(){
-                // TODO make the call to filter the results and close the model
+            fetchResults(){
                 this.loading = true;
-                setTimeout(() => {
-                    this.getFakeData();
-                    this.loading = false;
-                }, 2000);
-   
+                let request ={
+                    lotNumber: this.filter.lotNumber,
+                    sectionLetterId: this.filter.sectionLetterId,
+                    hasOpenPlots: this.filter.hasOpenPlots,
+                    forSale: this.filter.forSale,
+                    ownerId: this.filter.ownerId,
+                    buriedIndividualIds: this.filter.buriedIndividualIds
+                }               
+                $.getJSON("controller.php",
+                {
+                    action: "fetchTombCards",
+                    request: JSON.stringify(request)
+                },
+                response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    this.results = data
+                    this.errors = errors
+                })
+                .fail( () => this.errors = ["Failed to fetch data. Check your connection."])
+                .always( () => this.loading = false);
             },
-            fetchAllOwnersList(){
-            
+            fetchOwnersList(){
                 $.getJSON("controller.php",
                 {
                     action: "fetchAllOwnersList"
                 },response => {
                     let data = JSON.parse(JSON.stringify(response.result))
-                    this.allOwnersList = data
-                    this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
-                });
+                    this.ownersList = data
+                    this.refreshSelectPicker();
+                })
                
+            },
+            fetchBuriedIndividualsList(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchAllBuriedIndividualsList"
+                },response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    this.buriedIndividualsList = data
+                    this.refreshSelectPicker();
+                });
+            },
+            fetchSectionLettersList(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchTombSectionLettersList"
+                },response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    this.sectionLettersList = data
+                    this.refreshSelectPicker();
+                });
+            },
+            clearFilter(){
+                this.filter.lotNumber = null
+                this.filter.sectionLetterId = null
+                this.filter.hasOpenPlots = null
+                this.filter.forSale = null
+                this.filter.ownerId = null
+                this.filter.buriedIndividualIds = []
+                
+                this.refreshSelectPicker();
+                this.fetchResults();
+            },
+            refreshSelectPicker(){
+                this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
+            },
+            clearErrors(){
+                this.errors = [];
             }
         }
       })

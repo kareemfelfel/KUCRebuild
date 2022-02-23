@@ -5,8 +5,8 @@ class TombFilter{
     public ?int $tombId = null;
     public ?int $sectionLetterId = null;
     public ?int $lotNumber = null;
-    public ?bool $hasOpenPlots = null;
-    public ?bool $forSale = null;
+    public ?int $hasOpenPlots = null;
+    public ?int $forSale = null;
     public ?int $ownerId = null;
     public ?array $buriedIndividualIds = null;
     
@@ -21,20 +21,23 @@ class TombFilter{
         $this -> lotNumber = $num;
     }
     
-    public function setHasOpenPlots(bool $param){
-        $this -> hasOpenPlots = ($param ? 1 : 0);
+    public function setHasOpenPlots(?bool $param){
+        if($param != null)
+            $this -> hasOpenPlots = ($param ? 1 : 0);
     }
     
-    public function setForSale(bool $param){
-        $this -> forSale = ($param ? 1 : 0);
+    public function setForSale(?bool $param){
+        if($param != null)
+            $this -> forSale = ($param ? 1 : 0);
     }
     
     public function setOwnerId($id){
         $this -> ownerId = $id;
     }
     
-    public function setBuriedIndividualIds(array $ids){
-        $this -> buriedIndividualIds = $ids;
+    public function setBuriedIndividualIds(?array $ids){
+        if($ids != null)
+            $this -> buriedIndividualIds = $ids;
     }
 }
 
