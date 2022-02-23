@@ -167,7 +167,7 @@
     position: fixed;
     bottom: 0;
     right: 5px;
-    width: 25%;
+    width: 300px;
 }
 </style>
 <script>
@@ -219,9 +219,12 @@
                     let errors = JSON.parse(JSON.stringify(response.error))
                     this.results = data
                     this.errors = errors
-                })
-                .fail( () => this.errors = ["Failed to fetch data. Check your connection."])
-                .always( () => this.loading = false);
+                }).fail( () => {
+                    this.errors = ["Failed to fetch data. Check your connection and try again."]
+                    this.results = []
+                }).always( () => {
+                    this.loading = false
+                });
             },
             fetchOwnersList(){
                 $.getJSON("controller.php",
