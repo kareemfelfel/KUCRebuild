@@ -95,6 +95,11 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/tomb/searchTomb/searchTomb.php';
         break;
+    case"directToContactsPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/administration/contacts/contacts.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();

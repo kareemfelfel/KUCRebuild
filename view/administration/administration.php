@@ -107,7 +107,7 @@
     <div class="row">
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="controller.php?action=directToContactsPage">
                     <div class="wrimagecard-topimage_header" style="background-color:rgba(3, 173, 252, 0.1) ">
                       <center><i class=" fa fa-solid fa-user-group" style="color:#03adfc"></i></center>
                     </div>
