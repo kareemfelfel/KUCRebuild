@@ -192,7 +192,7 @@
                     class="fa fa-caret-down inactive-link"
                     onclick="changeIcon(this)"
                     >
-                </a> Add Tomb Section Letter
+                </a> Add Lot Section Letter
             </h4>
         </div>
         <div id="collapse4" class="panel-collapse collapse in show"> 
@@ -201,7 +201,7 @@
                     <div class="col-md-3">
                         <div class="form-group">   
                             <!-- attaches plus icon with btn function to textbox -->
-                            <label for="">Tomb Letter</label>
+                            <label for="">Lot Section Letter</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="tombLetter" placeholder="">
                                 <div class="input-group-append">
