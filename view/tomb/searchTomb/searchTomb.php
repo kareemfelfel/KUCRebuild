@@ -20,13 +20,6 @@
  *      These plots must have an owner
  */
 ?>
-<script>
-    $(document).ready(function(){
-    $('[data-bs-toggle="popover"]').popover({
-        trigger: "hover"
-    });  
-});
-</script>
 <div id="searchTombApp">
     <br>
     <div class="text-center">
