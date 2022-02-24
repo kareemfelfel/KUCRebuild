@@ -20,6 +20,13 @@
  *      These plots must have an owner
  */
 ?>
+<script>
+    $(document).ready(function(){
+    $('[data-bs-toggle="popover"]').popover({
+        trigger: "hover"
+    });  
+});
+</script>
 <div id="searchTombApp">
     <br>
     <div class="text-center">
@@ -36,11 +43,16 @@
                 <img alt="tutor" :src="result.image" style="width: 100%; height: 60%;">
                 <div class= "card-body">
                     <h4 id = "usercardname" class="usercardname"> {{result.title}} </h4>
-                    <p id = "cardmidsection" style="width: 100%;" 
-                       class="buried-individuals-popover" 
-                       data-toggle="popover"
-                       data-placement="top"
-                       data-content="Some content inside the popover"> Buried Individuals ({{result.countBuriedIndividuals}})</p>
+                    <div class="wrapper">
+                        <a id = "cardmidsection" class="trigger"> Buried Individuals ({{result.countBuriedIndividuals}})</a>
+                        <div v-if="result.countBuriedIndividuals > 0" class="content">
+                            <div class="body">
+                                <ul class="popover-list">
+                                    <li v-for="(name, index) in result.buriedIndividualNames" :key="index">{{name}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <p> Owner: {{result.ownerName}}</p>
                 </div>
                 <a style= "" class="btn btn-block btn-success" href = "#">View</a>
@@ -281,9 +293,5 @@
 $('.selectpicker').selectpicker({
     size: 4
 });
-$(".buried-individuals-popover").popover({ 
-    trigger: "hover",
-    html: true
-});  
 </script>
 

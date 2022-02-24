@@ -289,6 +289,7 @@ function fetchTombCards(){
     $response = getAllTombRelatedDataWithFilter($filter);
     if(count($response->result) > 0){
         for($i=0; $i<count($response->result); $i++){
+            
             $mutatedResult = array(
                 "id" => $response->result[$i]->id,
                 "title" => $response->result[$i]->sectionLetter->letter . " " . $response->result[$i]->lotNumber,
@@ -298,7 +299,13 @@ function fetchTombCards(){
                 "ownerName" => 
                     isset($response->result[$i]->owner->id)? 
                     $response->result[$i]->owner->firstName . " " . $response->result[$i]->owner->lastName : "N/A",
-                "image" => $response->result[$i]->mainImage
+                "image" => $response->result[$i]->mainImage,
+                "buriedIndividualNames" => isset($response->result[$i]->buriedIndividuals) ? 
+                    array_map(function($o) { 
+                        return $o->firstName . " " . $o->lastName;
+                        
+                    }, $response->result[$i]->buriedIndividuals) 
+                    : array() 
             );
             $mutatedResponse->addResult($mutatedResult);
         }
