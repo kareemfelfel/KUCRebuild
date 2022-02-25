@@ -3,30 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/index.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/BasicPlotInfo.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/tests/modelTests.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/navbar.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Owner.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/searchTomb/searchTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/TombFilter.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/BuriedIndividual.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/functions.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Tomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Contact.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/controller/controller.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Response.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/searchTomb/searchTomb.css</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Admin.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/head.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/ColumbariumFilter.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/model/Owner.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/administration.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/searchTomb/searchTomb.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/model/BuriedIndividual.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/viewTomb/viewTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/addTomb/addTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/contactUs/contactUs.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/lists.php</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.css</file>
+            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.js</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/addNewAdmin/addNewAdmin.php</file>
         </group>
     </open-files>
 </project-private>
