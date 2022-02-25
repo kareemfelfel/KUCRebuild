@@ -201,7 +201,7 @@
                     <div class="col-md-3">
                         <div class="form-group">   
                             <!-- attaches plus icon with btn function to textbox -->
-                            <label for="">Lot Section Letter</label>
+                            <label for="">Section Letter</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="tombLetter" placeholder="">
                                 <div class="input-group-append">
