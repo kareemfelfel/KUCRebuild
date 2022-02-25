@@ -100,6 +100,11 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/administration/contacts/contacts.php';
         break;
+    case"directToEditContactPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/administration/contacts/editContact/editContact.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();

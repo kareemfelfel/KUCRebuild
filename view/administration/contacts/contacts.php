@@ -118,7 +118,7 @@
                                     </select>
                                 </div>
                                     <div class="input-group-append">
-                                    <btn 
+                                    <btn onclick="window.location.href='controller.php?action=directToEditContactPage'"
                                         type="button" 
                                         class="btn btn-success" 
                                         style="border-radius: 0px 5px 5px 0px"><span class="fa fa-edit"></span></btn>
