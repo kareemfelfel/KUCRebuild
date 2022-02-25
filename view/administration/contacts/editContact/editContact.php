@@ -11,7 +11,6 @@
 <hr>
 
 <div class="container-fluid">
-    <div class="panel-group">
      <div class="panel panel-default" id="accordion1">
         <div class="panel-heading">
             <h4 class="panel-title">Edit Contact</h4>
@@ -62,7 +61,6 @@
             </form>
         </div>
      </div>
-    </div>
 </div>
 
 <link rel="stylesheet" href="../view/administration/contacts/contacts.css">
