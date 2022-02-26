@@ -43,7 +43,7 @@ switch ($action)
         $homeActive = true;
         include '../View/includes/head.php';
         include '../View/includes/navbar.php';
-        include '../view/home/home.php';
+        include '../view/home/home.php';  
         break;
     case"directToAdministrationPage":
         // variable to set active status in navbar
@@ -322,3 +322,4 @@ function fetchTombCards(){
     }
     echo json_encode(get_object_vars($mutatedResponse));
 }
+

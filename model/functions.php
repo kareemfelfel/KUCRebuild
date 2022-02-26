@@ -470,3 +470,195 @@ function getAllTombSectionLetters(){
     }
     return $response;
 }
+
+// Buried Individual Ids parameter is solely used for the purposes of filtering
+function getBuriedIndividualsForColumbarium($columbariumId){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM buried_individuals "
+                . "where (:columbariumId is NULL or COLUMBARIUM_ID = :columbariumId);";
+        
+        $statement = $con->prepare($query);
+        if(!isset($columbariumId)){
+            $statement->bindValue(':columbariumId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':columbariumId', $columbariumId);
+        }
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0){
+            for($i = 0; $i < count($result); $i++)
+            {
+                $row = $result[$i];
+                $buriedIndividual = new BuriedIndividual($row);
+                $response -> addResult($buriedIndividual);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch Buried Individuals.");
+        }
+    } 
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function getColumbariumAttachments($columbariumId){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM "
+                . "COLUMBARIUM_ATTACHMENTS "
+                . "WHERE COLUMBARIUM_ID = :columbariumId;";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':columbariumId', $columbariumId);
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0){
+            for($i = 0; $i < count($result); $i++)
+            {
+                $row = $result[$i];
+                $attachment = new ColumbariumAttachment($row);
+                $response -> addResult($attachment);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch Columbarium Attachments.");
+        }
+    } 
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+
+function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
+{
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        //comparing in SQL using 'IN', which can't compare list to null
+        if(isset($filter -> buriedIndividualIds) && count($filter->buriedIndividualIds) > 0){
+            $qw = "and C.ID in (select COLUMBARIUM_ID from buried_individuals where ID in ("
+                . implode(',', $filter ->  buriedIndividualIds) ."))";
+        }
+        else{
+            $qw = "";
+        }
+        $query = "SELECT C.ID, C.FOR_SALE, C.PURCHASE_DATE, C.PRICE, "
+            . "C.SECTION_LETTER_ID, C.SECTION_NUMBER, C.NICHE_TYPE_ID, "
+            . "C.COLUMBARIUM_TYPE_ID, "
+            . "C.MAIN_IMAGE, C.OWNER_ID, O.ID AS OWNR_ID, O.FIRST_NAME AS OWNR_FIRST_NAME, "
+            . "O.LAST_NAME AS OWNR_LAST_NAME, O.MIDDLE_NAME AS OWNR_MIDDLE_NAME, "
+            . "O.ADDRESS AS OWNR_ADDRESS, O.PHONE_NUMBER AS OWNR_PHONE_NUMBER, "
+            . "O.EMAIL AS OWNR_EMAIL, CSL.ID AS SL_ID, CSL.SECTION_LETTER AS SL_SECTION_LETTER, "
+            . "NT.ID AS NT_ID, NT.TYPE AS NT_TYPE, CT.ID AS CT_ID, CT.TYPE AS CT_TYPE "
+            . "FROM COLUMBARIUM C LEFT JOIN owners O ON C.OWNER_ID = O.ID "
+            . "INNER JOIN columbarium_section_letters CSL ON CSL.ID = C.SECTION_LETTER_ID "
+            . "INNER JOIN niche_types NT ON NT.ID = C.NICHE_TYPE_ID "
+            . "INNER JOIN columbarium_types CT ON CT.ID=C.COLUMBARIUM_TYPE_ID "
+            . "WHERE " //FILTERS ADD HERE
+            . "(:columbariumId IS NULL or C.ID = :columbariumId) and "
+            . "(:sectionLetterId IS NULL or C.SECTION_LETTER_ID = :sectionLetterId) and "
+            . "(:sectionNumber IS NULL or C.SECTION_NUMBER = :sectionNumber) and "
+            . "(:nicheTypeId IS NULL or C.NICHE_TYPE_ID = :nicheTypeId) and "
+            . "(:columbariumTypeId IS NULL or C.COLUMBARIUM_TYPE_ID = :columbariumTypeId) and "
+            . "(:forSale IS NULL or C.FOR_SALE = :forSale) and "
+            . "(:ownerId IS NULL or C.OWNER_ID = :ownerId)"
+            . $qw. ";";
+        $statement = $con->prepare($query);
+        
+        //binding paramters        
+        if(!isset($filter ->columbariumId)){
+            $statement->bindValue(':columbariumId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':columbariumId', $filter ->columbariumId);
+        }
+        if(!isset($filter -> sectionLetterId)){
+            $statement->bindValue(':sectionLetterId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':sectionLetterId', $filter ->sectionLetterId);
+        }
+        if(!isset($filter -> sectionNumber)){
+            $statement->bindValue(':sectionNumber', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':sectionNumber', $filter ->sectionNumber);
+        }
+        if(!isset($filter -> nicheTypeId)){
+            $statement->bindValue(':nicheTypeId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':nicheTypeId', $filter ->nicheTypeId);
+        }
+        if(!isset($filter -> columbariumTypeId)){
+            $statement->bindValue(':columbariumTypeId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':columbariumTypeId', $filter ->columbariumTypeId);
+        }
+        if(!isset($filter -> forSale)){
+            $statement->bindValue(':forSale', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':forSale', $filter->forSale);
+        }
+        if(!isset($filter -> ownerId)){
+            $statement->bindValue(':ownerId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':ownerId', $filter ->ownerId);
+        }
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0) {
+            for($i = 0; $i < count($result); $i++)
+            {
+                $row = $result[$i];
+                $columbarium = new Columbarium($row);
+                $columbarium ->setOwner($row);
+                $columbarium ->setSectionLetter($row);
+                $buriedIndividualsPromise = getBuriedIndividualsForColumbarium($columbarium -> id, $filter->buriedIndividualIds);
+                if(count($buriedIndividualsPromise ->result)>0){
+                    $columbarium->setBuriedIndividuals($buriedIndividualsPromise->result);
+                }
+                if(count($buriedIndividualsPromise-> error) > 0){
+                    $response ->addError($buriedIndividualsPromise -> error[0]);
+                }
+                $attachmentsPromise = getColumbariumAttachments($columbarium ->id);
+                //if we were able to fetch the attachments associated with tomb
+                if(count($attachmentsPromise -> result) > 0){
+                    $columbarium -> setAttachments($attachmentsPromise->result);
+                }
+                //if we have an error, only care to fetch the first error in the list and add it to our response's error
+                if(count($attachmentsPromise -> error) > 0){
+                    $response -> addError($attachmentsPromise -> error[0]);
+                }
+                $response -> addResult($columbarium);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch Columbarium Data.");
+        }
+        }
+
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}

@@ -1,10 +1,10 @@
 <?php
 
 class ColumbariumFilter{
-    public ?int $columbariumId = null;
-    public ?int $columbariumTypeId = null;
-    public ?int $forSale = null;
-    public ?int $nicheTypeId = null;
+    public ?int $columbariumId = null;      //
+    public ?int $columbariumTypeId = null;  //
+    public ?int $forSale = null;            //
+    public ?int $nicheTypeId = null;        
     public ?int $sectionLetterId = null;
     public ?int $sectionNumber = null;
     public ?int $ownerId = null;
