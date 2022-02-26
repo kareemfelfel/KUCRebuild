@@ -1,7 +1,7 @@
 <?php
 
 function getAllTombRelatedDataWithFilterTest(){
-    $filter = new TombFilter();    
+    $filter = new TombFilter();
     $filter ->setForSale(false);
     $filter ->setHasOpenPlots(true);
     $filter ->setLotNumber(123);
@@ -117,7 +117,7 @@ function getBuriedIndividualsForColumbariumTest($columbariumID){
     $response = getBuriedIndividualsForColumbarium($columbariumID);
     if(count($response->result) > 0)
         echo json_encode(get_object_vars($response ->result[0]));
-if(count($response -> error) > 0)
+    if(count($response -> error) > 0)
         echo $response -> error[0];
 }
 
@@ -127,18 +127,18 @@ function getColumbariumAttachmentsTest($columbariumId){
     $response = getColumbariumAttachments($columbariumId);
     if(count($response->result) > 0)
         echo json_encode(get_object_vars($response ->result[0]));
-if(count($response -> error) > 0)
+    if(count($response -> error) > 0)
         echo $response -> error[0];
 }
 
 function getAllColumbariumRelatedDataWithFilterTest()
 {
     $filter = new ColumbariumFilter();
-    $filter->setForSale(false);
+    $filter->setForSale(true);
     $filter->setSectionLetterId(4);
-    $filter->setSectionNumber(5);
+    $filter->setSectionNumber(123);
     $filter->setColumbariumTypeId(5);
-    $filter ->setNicheTypeId(3);
+    $filter ->setNicheTypeId(1);
     $response = getAllColumbariumRelatedDataWithFilter($filter);
     if(count($response->result) > 0)
         echo json_encode(get_object_vars($response ->result[0]));

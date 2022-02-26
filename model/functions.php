@@ -100,7 +100,6 @@ function getAllColumbariumSectionLetters(){
     return $response;
 }
 
-// Buried Individual Ids parameter is solely used for the purposes of filtering
 function getBuriedIndividualsForTomb($tombId){
     $response = new Response();
     try{
@@ -259,7 +258,7 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
                 $tomb ->setOwner($row);
                 $tomb ->setSectionLetter($row);
                 
-                $buriedIndividualsPromise = getBuriedIndividualsForTomb($tomb -> id, $filter ->buriedIndividualIds);
+                $buriedIndividualsPromise = getBuriedIndividualsForTomb($tomb -> id);
                 // If we were able to fetch the buried individuals associated with tomb
                 if(count($buriedIndividualsPromise->result) > 0){
                     $tomb ->setBuriedIndividuals($buriedIndividualsPromise->result);
@@ -471,7 +470,6 @@ function getAllTombSectionLetters(){
     return $response;
 }
 
-// Buried Individual Ids parameter is solely used for the purposes of filtering
 function getBuriedIndividualsForColumbarium($columbariumId){
     $response = new Response();
     try{
@@ -540,7 +538,6 @@ function getColumbariumAttachments($columbariumId){
     }
     return $response;
 }
-
 
 function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
 {
@@ -632,7 +629,9 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
                 $columbarium = new Columbarium($row);
                 $columbarium ->setOwner($row);
                 $columbarium ->setSectionLetter($row);
-                $buriedIndividualsPromise = getBuriedIndividualsForColumbarium($columbarium -> id, $filter->buriedIndividualIds);
+                $columbarium->setNicheType($row);
+                $columbarium->setColumbariumType($row);
+                $buriedIndividualsPromise = getBuriedIndividualsForColumbarium($columbarium -> id);
                 if(count($buriedIndividualsPromise ->result)>0){
                     $columbarium->setBuriedIndividuals($buriedIndividualsPromise->result);
                 }
@@ -654,7 +653,7 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
         if(!$success){
             $response -> addError("Failed to fetch Columbarium Data.");
         }
-        }
+    }
 
     catch (PDOException $e) {
         $errorMessage = $e->getMessage();
