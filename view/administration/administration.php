@@ -81,7 +81,7 @@
                       <center><i class=" fa fa-solid fa-list-ul" style="color:#BB7824"></i></center>
                     </div>
                     <div class="wrimagecard-topimage_title">
-                      <h4 class="text-center">Registry Options
+                      <h4 class="text-center">List Options
                       </h4>
                         <p class="text-center" style="font-weight: 100; font-size: 15px;">Add</p>
                     </div>
