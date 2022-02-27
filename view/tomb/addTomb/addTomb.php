@@ -213,14 +213,13 @@
       <!-- Fourth panel -->
       <div class="panel panel-default" id="accordion4">
         <div class="panel-heading">
-          <h4 class="panel-title">
+          <h4 class="panel-title required">
             <a 
                 data-toggle="collapse" 
                 data-parent="#accordion4" 
                 href="#collapse4" 
                 class="fa fa-caret-down inactive-link"
                 onclick="changeIcon(this)"
-                class="required"
                 >
             </a> Map 
           </h4>
