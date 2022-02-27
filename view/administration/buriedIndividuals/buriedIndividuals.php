@@ -75,7 +75,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <!-- Veteran status section. -->
-                            <label class="required">Veteran Status: </label>
+                            <label>Veteran Status: </label>
                             <div class="custom-control custom-switch inactive-link">
                                 <input type="checkbox" class="custom-control-input" id="open-switch">
                                 <label class="custom-control-label" for="open-switch"></label>

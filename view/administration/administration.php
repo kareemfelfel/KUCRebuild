@@ -12,7 +12,7 @@
         
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="controller.php?action=directToAddColumbariumPage">
                     <div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1) ">
                       <center><i class="fa fa-solid fa-warehouse" style="color:#16A085"></i></center>
                     </div>

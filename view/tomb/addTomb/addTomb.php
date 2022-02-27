@@ -34,12 +34,11 @@
           </h4>
         </div>
         <div id="collapse1" class="panel-collapse collapse in show">
-          <div class="panel-body">
-              <form>
+            <div class="panel-body">
                 <div class ="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Section Letter</label><br>
+                            <label class="required">Section Letter</label><br>
                             <select 
                                 class="selectpicker"
                                 id="section-letter"
@@ -61,7 +60,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Lot Number</label>
+                            <label class="required">Lot Number</label>
                             <input type="number" class="form-control" id="lot-number" placeholder="">
                         </div>
                     </div>
@@ -72,44 +71,44 @@
                             <input type="number" class="form-control" id="" placeholder="">
                         </div>
                     </div>
-                    
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">Purchase Date</label>
-                            <input type="date" class="form-control" id="purchaseDate" placeholder="Select a Date">
-                        </div>
-                    </div>
+                                        
                 </div><br>
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Main Image</label>
                             <div class="input-group">
-                                <input class="form-control" type="file" id="mainImage" />
+                                <input class="form-control curved-input" type="file" id="mainImage" />
                             </div>
                         </div>
                     </div>
                     
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="for-sale-switch">For Sale</label>
-                            <div class="custom-control custom-switch inactive-link">
-                                <input type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="for-sale-switch">
-                                <label class="custom-control-label" for="for-sale-switch"></label>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="for-sale-switch">For Sale</label>
+                                <div class="custom-control custom-switch inactive-link">
+                                    <input type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="for-sale-switch">
+                                    <label class="custom-control-label" for="for-sale-switch"></label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="open-plots-switch">Has Open Plots</label>
+                                <div class="custom-control custom-switch inactive-link">
+                                    <input type="checkbox" class="custom-control-input" id="open-plots-switch">
+                                    <label class="custom-control-label" for="open-plots-switch"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="open-plots-switch">Has Open Plots</label>
-                            <div class="custom-control custom-switch inactive-link">
-                                <input type="checkbox" class="custom-control-input" id="open-plots-switch">
-                                <label class="custom-control-label" for="open-plots-switch"></label>
-                            </div>
+                            <label for="">Purchase Date</label>
+                            <input type="date" class="form-control" id="purchaseDate" placeholder="Select a Date">
                         </div>
                     </div>
-                    
                 </div>
           </div>
         </div>
@@ -126,7 +125,9 @@
                 class="fa fa-caret-down inactive-link"
                 onclick="changeIcon(this)"
                 >
-            </a> Associations
+            </a> Associations 
+            <span class="fa fa-info-circle associations-popover" style="color: #3498db" data-container="body" data-toggle="popover" data-placement="top" data-content="Associations can be added only when a Lot is not for sale.">
+            </span>
           </h4>
         </div>
         <div id="collapse2" class="panel-collapse collapse in show">
@@ -134,7 +135,7 @@
             <div class ="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="">Owner</label> <br>
+                        <label id="owner-label" class="required">Owner</label> <br>
                         <select 
                             class="selectpicker"
                             id="owner"
@@ -200,7 +201,7 @@
                     <div class="form-group">
                         <label for="">All Attached Documents - Including Deed</label>
                         <div class="input-group">
-                            <input class="form-control" type="file" id="attached-documents" multiple/>
+                            <input class="form-control curved-input" type="file" id="attached-documents" multiple/>
                         </div>
                     </div>
                 </div>
@@ -219,16 +220,15 @@
                 href="#collapse4" 
                 class="fa fa-caret-down inactive-link"
                 onclick="changeIcon(this)"
+                class="required"
                 >
-            </a> Map
+            </a> Map 
           </h4>
         </div>
         <div id="collapse4" class="panel-collapse collapse in show">
-          <div class="panel-body">
-            <div class ="row">
-                <div id="googleMap" class="map">
-                    <!-- GMAP API -->
-                </div>
+          <div class="panel-body map-panel">
+            <div id="googleMap" class="map">
+                <!-- GMAP API -->
             </div>
             <br>
             <div class="text-center">
@@ -236,7 +236,6 @@
             </div>
           </div>
         </div>
-      </form>
     </div>
   </div>
   <br>
@@ -244,20 +243,7 @@
   <button type="button" class="btn btn-default">Cancel</button>
   <br><br>
 </div>
-<style>
-.inactive-link {
-   cursor: default;
-}
-.map {
-    margin: auto;
-    width: 70%;
-    border-radius: 20px;
-    height: 400px;
-}
-.bootstrap-select > .dropdown-toggle{
-    border: 1px solid #ced4da;
-} 
-</style>
+<link rel="stylesheet" type="text/css" href="../view/tomb/addTomb/addTomb.css">
 <!-- Used for select picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
@@ -318,10 +304,6 @@
         marker = null;
     }
     
-    $('.selectpicker').selectpicker({
-      size: 4
-    });
-    
     function changeIcon(x){
         if(x.classList.contains("fa-caret-down")){
             x.classList.add("fa-caret-right");
@@ -335,7 +317,8 @@
     
     function disableForOpen(x){
         if(x.checked){
-            //Clear the owner selected data and disable it
+            //Clear the owner selected data, make it not required, and disable it
+            document.getElementById("owner-label").classList.remove("required");
             document.getElementById("owner").setAttribute("disabled", true)
             $('#owner').selectpicker('val', '');
             document.getElementById("buried-individuals").setAttribute("disabled", true)
@@ -350,6 +333,7 @@
             
         }
         else{
+            document.getElementById("owner-label").classList.add("required");
             document.getElementById("owner").removeAttribute("disabled")
             document.getElementById("buried-individuals").removeAttribute("disabled")
             document.getElementById("purchaseDate").removeAttribute("disabled")
@@ -366,6 +350,14 @@
             }
         }
     }
+    
+    $('.selectpicker').selectpicker({
+      size: 4
+    });
+    
+    $('.associations-popover').popover({
+      trigger: 'click'
+    });
 </script>
 
 </body>
