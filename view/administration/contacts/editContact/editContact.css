@@ -6,16 +6,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Created on : Feb 24, 2022, 4:24:07 PM
     Author     : slade
 */
-
-  /* The margin between the buttons */
-.bottom-form-button {
-      margin-left: 15px;
-  }
   
-  /* Red Asterisk for text boxes. */
-  .required:after {
-    content:" *";
-    color: red;
-    margin-right: 5px;
-  }
+/* Red Asterisk for text boxes. */
+.required:after {
+  content:" *";
+  color: red;
+  margin-right: 5px;
+}
 

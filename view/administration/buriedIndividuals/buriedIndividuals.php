@@ -30,32 +30,30 @@
         </div>
         <div id="collapse1" class="panel-collapse collapse in show">
           <div class="panel-body">
-              <form>
                 <div class ="row">
                     <div class="col-md-3">
                         <div class="form-group">
-
                             <!-- Text fields for buried individuals names. -->
-                            <label class="required" for="fName">First Name:</label>
+                            <label class="required" for="fName" class="required">First Name:</label>
                                 <input type="text" class="form-control" id="fName" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="required" for="lName">Last Name:</label>
+                            <label for="middleName">Middle Name:</label>
+                                <input type="text" class="form-control" id="middleName">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="required" for="lName" class="required">Last Name:</label>
                                 <input type="text" class="form-control" id="lname" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="required" for="middleName">Middle Name:</label>
-                                <input type="text" class="form-control" id="middleName" required>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                        <label class="required" for="maidenName">Maiden Name:</label>
-                            <input type="text" class="form-control" id="maidenName" required>
+                        <label for="maidenName">Maiden Name:</label>
+                            <input type="text" class="form-control" id="maidenName">
                         </div>
                     </div>
                 </div><br>
@@ -77,7 +75,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <!-- Veteran status section. -->
-                            <label for "">Veteran Status: </label>
+                            <label class="required">Veteran Status: </label>
                             <div class="custom-control custom-switch inactive-link">
                                 <input type="checkbox" class="custom-control-input" id="open-switch">
                                 <label class="custom-control-label" for="open-switch"></label>
@@ -98,9 +96,8 @@
                     <button type="button" class="btn btn-success bottom-form-button">Submit</button>
                     <button type="button" class="btn btn-default bottom-form-button">Cancel</button>
                 </div>
-            </form>
+            </div> 
         </div> 
-      </div> 
     <!-- end of panel -->
       </div>
       <br>
@@ -120,42 +117,40 @@
         </div>
         <div id="collapse2" class="panel-collapse collapse in show"> 
             <div class="panel-body">
-              <form>
-                  <div class ="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">Select a Buried Individual</label> <br>
-                                <div style="float: left; width: 80%">
-                                    <select 
-                                        class="selectpicker"
-                                        id="buried-individuals"
-                                        data-live-search="true"
-                                        multiple
-                                        data-max-options="1"
-                                        data-width="100%"
-                                        >
-                                      <option>Kareem Felfel</option>
-                                      <option>Assembly Language</option>
-                                      <option>Am I dead?</option>
-                                      <option>What is this place!</option>
-                                      <option>Hello World</option>
-                                      <option>Peter Griffin</option>
-                                      <option>Stewie Griffin</option>
-                                      <option>Lewis</option>
-                                      <option>John Black</option>
-                                      <option>Jody Strausser</option>
-                                    </select>
-                                </div>
-                                    <div class="input-group-append">
-                                    <btn 
-                                        type="button" 
-                                        class="btn btn-success" 
-                                        style="border-radius: 0px 5px 5px 0px"><span class="fa fa-edit"></span></btn>
-                                    </div>
-                            </div>
-                        </div>
-                  </div>
-              </form>
+                <div class ="row">
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <label for="">Select a Buried Individual</label> <br>
+                              <div style="float: left; width: 80%">
+                                  <select 
+                                      class="selectpicker"
+                                      id="buried-individuals"
+                                      data-live-search="true"
+                                      multiple
+                                      data-max-options="1"
+                                      data-width="100%"
+                                      >
+                                    <option>Kareem Felfel</option>
+                                    <option>Assembly Language</option>
+                                    <option>Am I dead?</option>
+                                    <option>What is this place!</option>
+                                    <option>Hello World</option>
+                                    <option>Peter Griffin</option>
+                                    <option>Stewie Griffin</option>
+                                    <option>Lewis</option>
+                                    <option>John Black</option>
+                                    <option>Jody Strausser</option>
+                                  </select>
+                              </div>
+                                  <div class="input-group-append">
+                                  <btn 
+                                      type="button" 
+                                      class="btn btn-success" 
+                                      style="border-radius: 0px 5px 5px 0px"><span class="fa fa-edit"></span></btn>
+                                  </div>
+                          </div>
+                      </div>
+                </div>
             </div>
         </div>
       </div>                

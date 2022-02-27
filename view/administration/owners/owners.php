@@ -29,33 +29,32 @@
             </div>
             <div id="collapse1" class="panel-collapse collapse in show">
               <div class="panel-body">
-                  <form>
                     <div class ="row">
                         <div class="col-md-3">
                             <div class="form-group">
 
                                 <!-- Text fields for buried individuals names. -->
-                                <label for="fName">First Name:</label>
-                                    <input type="text" class="form-control" id="fName"><br>
+                                <label for="fName" class="required">First Name:</label>
+                                    <input type="text" class="form-control" id="fName" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="middleName">Middle Name:</label>
-                                    <input type="text" class="form-control" id="middleName"><br>
+                                    <input type="text" class="form-control" id="middleName">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="lName">Last Name:</label>
-                                    <input type="text" class="form-control" id="lname"><br>
+                                <label for="lName" class="required">Last Name:</label>
+                                    <input type="text" class="form-control" id="lname" required>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
                             <label for="phoneNumber">Phone Number:</label>
-                                <input type="text" class="form-control" id="phoneNumber"><br>
+                                <input type="text" class="form-control" id="phoneNumber">
                             </div>
                         </div>
                     </div>
@@ -64,28 +63,24 @@
                             <div class="form-group">
                             <!-- DOD section -->
                             <label for="address">Address:</label>
-                                <textarea id="address" class="form-control" rows="4" cols="30"></textarea><br>
+                                <textarea id="address" class="form-control" rows="4" cols="30"></textarea>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                             <!-- DOB section -->
                             <label for="email">Email:</label>
-                                <input type="text" class="form-control" id="email"><br>
+                                <input type="text" class="form-control" id="email">
                             </div>
                         </div>
                     </div> 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                            <button type="button" class="btn btn-success bottom-form-button">Submit</button>
-                            <button type="button" class="btn btn-default bottom-form-button">Cancel</button>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                                <button type="button" class="btn btn-success">Submit</button>
+                                <button type="button" class="btn btn-default bottom-form-button">Cancel</button>
                         </div>
-                  </form>
-              </div> 
-            <!-- end of panel -->
+                    </div>
+                </div> 
             </div>
           </div><br>
           <!-- Second panel -->
@@ -104,42 +99,41 @@
             </div>
             <div id="collapse2" class="panel-collapse collapse in show"> 
                 <div class="panel-body">
-                    <form>
-                        <div class ="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label for="">Select an Owner</label> <br>
-                                      <div style="float: left; width: 80%">
-                                          <select 
-                                              class="selectpicker"
-                                              id="buried-individuals"
-                                              data-live-search="true"
-                                              multiple
-                                              data-max-options="1"
-                                              data-width="100%"
-                                              >
-                                            <option>Kareem Felfel</option>
-                                            <option>Assembly Language</option>
-                                            <option>Am I dead?</option>
-                                            <option>What is this place!</option>
-                                            <option>Hello World</option>
-                                            <option>Peter Griffin</option>
-                                            <option>Stewie Griffin</option>
-                                            <option>Lewis</option>
-                                            <option>John Black</option>
-                                            <option>Jody Strausser</option>
-                                          </select>
-                                      </div>
-                                          <div class="input-group-append">
-                                          <btn 
-                                              type="button" 
-                                              class="btn btn-success" 
-                                              style="border-radius: 0px 5px 5px 0px"><span class="fa fa-edit"></span></btn>
-                                          </div>
+                    <div class ="row">
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="">Select an Owner</label> <br>
+                                  <div style="float: left; width: 80%">
+                                      <select 
+                                          class="selectpicker"
+                                          id="buried-individuals"
+                                          data-live-search="true"
+                                          multiple
+                                          data-max-options="1"
+                                          data-width="100%"
+                                          >
+                                        <option>Kareem Felfel</option>
+                                        <option>Assembly Language</option>
+                                        <option>Am I dead?</option>
+                                        <option>What is this place!</option>
+                                        <option>Hello World</option>
+                                        <option>Peter Griffin</option>
+                                        <option>Stewie Griffin</option>
+                                        <option>Lewis</option>
+                                        <option>John Black</option>
+                                        <option>Jody Strausser</option>
+                                      </select>
                                   </div>
+                                      <div class="input-group-append">
+                                      <btn
+                                          onclick="window.location.href='controller.php?action=directToEditOwnerPage'"
+                                          type="button" 
+                                          class="btn btn-success" 
+                                          style="border-radius: 0px 5px 5px 0px"><span class="fa fa-edit"></span></btn>
+                                      </div>
                               </div>
-                        </div>
-                    </form>
+                          </div>
+                    </div>
                 </div>
             </div>
         </div>                
