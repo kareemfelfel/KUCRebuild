@@ -105,6 +105,16 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/administration/contacts/editContact/editContact.php';
         break;
+    case"directToEditOwnerPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/administration/owners/editOwner/editOwner.php';
+        break;
+    case"directToAddColumbariumPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/columbarium/addColumbarium/addColumbarium.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();

@@ -11,12 +11,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
       margin-left: 15px;
   }
   
-  /* Red Asterik for First name text box. */
-  .required:after {
-    content:" *";
-    color: red;
-    margin-right: 5px;
-  }
+/* Red Asterik for First name text box. */
+.required:after {
+  content:" *";
+  color: red;
+  margin-right: 5px;
+}
   
   
 .inactive-link {

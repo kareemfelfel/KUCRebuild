@@ -1,0 +1,24 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 26, 2022, 9:51:02 PM
+    Author     : karee
+*/
+.inactive-link {
+   cursor: default;
+}
+/* Red Asterisk for text boxes. */
+.required:after {
+  content:" *";
+  color: red;
+  margin-right: 5px;
+}
+.bootstrap-select > .dropdown-toggle{
+    border: 1px solid #ced4da;
+}
+.curved-input{
+    border-radius: 5px !important;
+}

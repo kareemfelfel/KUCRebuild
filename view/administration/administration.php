@@ -12,7 +12,7 @@
         
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="controller.php?action=directToAddColumbariumPage">
                     <div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1) ">
                       <center><i class="fa fa-solid fa-warehouse" style="color:#16A085"></i></center>
                     </div>
@@ -81,7 +81,7 @@
                       <center><i class=" fa fa-solid fa-list-ul" style="color:#BB7824"></i></center>
                     </div>
                     <div class="wrimagecard-topimage_title">
-                      <h4 class="text-center">Registry Options
+                      <h4 class="text-center">List Options
                       </h4>
                         <p class="text-center" style="font-weight: 100; font-size: 15px;">Add</p>
                     </div>
