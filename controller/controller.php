@@ -332,3 +332,4 @@ function fetchTombCards(){
     }
     echo json_encode(get_object_vars($mutatedResponse));
 }
+
