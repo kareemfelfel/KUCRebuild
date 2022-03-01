@@ -22,6 +22,7 @@ class ToTableTomb {
     public ?int $ownerId;
     public $longitude;
     public $latitude;
+    public ?array $attachedDocuments;
     public ?array $buriedIndividualIds;
     
     public function __construct(
@@ -35,6 +36,7 @@ class ToTableTomb {
             $ownerId,
             $longitude,
             $latitude,
+            $attachedDocuments,
             $buriedIndividualIds
     ) {
         $this->sectionLetterId = $sectionLetterId;
@@ -47,6 +49,7 @@ class ToTableTomb {
         $this->ownerId = $ownerId;
         $this->longitude = $longitude;
         $this->latitude = $latitude;
+        $this->attachedDocuments = $attachedDocuments;
         $this->buriedIndividualIds = $buriedIndividualIds;
        
     }
