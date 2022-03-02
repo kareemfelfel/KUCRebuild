@@ -219,7 +219,7 @@
       </div>
       <br>
       <button type="button" class="btn btn-success" style="margin-right: 10px;">Submit</button>
-      <button type="button" class="btn btn-default">Cancel</button>
+      <button type="button" class="btn btn-default" @click="viewLng()">Cancel</button>
       <br><br>
     </div>
 </div>
@@ -243,8 +243,6 @@ App = new Vue({
                 hasOpenPlots: false,
                 purchaseDate: null,
                 ownerId: null,
-                longitude: null, //Will be automatically set from outside of Vue instance
-                latitude: null, //Will be automatically set from outside of Vue instance
                 attachments: null,
                 buriedIndividualIds: [],
                 
@@ -259,6 +257,19 @@ App = new Vue({
             this.fetchBuriedIndividualsList();
         },
         methods:{
+            longitude(){
+                if(marker)
+                    return marker.getPosition().lng();
+                return null;
+            },
+            latitude(){
+                if(marker)
+                    return marker.getPosition().lat();
+                return null;
+            },
+            viewLng(){
+                console.log(this.longitude())
+            },
             fetchSectionLettersList(){
                 $.getJSON("controller.php",
                 {
@@ -351,12 +362,7 @@ App = new Vue({
         if(document.getElementById("for-sale-switch").checked){
             changeToBlueMarkerColor(true);
         }
-        //Set longitude and latitude values inside Vue instance
-        App.$data.longitude = marker.getPosition().lng();
-        App.$data.latitude = marker.getPosition().lat();
         
-        console.log(marker.getPosition().lng())
-        console.log(App.$data.longitude);
     }
     function deleteMarker(){
         marker.setMap(null);
