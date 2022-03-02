@@ -396,10 +396,10 @@ function fetchColumbariumCards(){
 }
 
 function addTomb(){
-    print_r($_FILES);
-    print_r($_POST);
+    //print_r($_FILES);
+    //print_r($_POST);
     $response = new Response();
     $response->addError("Lot must have a unique Lot Number and Section Letter");
-    //echo json_encode(get_object_vars($response));
+    echo json_encode(get_object_vars($response));
 }
 

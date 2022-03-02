@@ -357,9 +357,10 @@ App = new Vue({
                     type: "POST",
                     url: "controller.php?action=addTomb",
                     data: formData,
+                    dataType: "json",
                     processData: false,
                     contentType: false,
-                    success: response => {
+                    success: (response) => {
                         let errors = JSON.parse(JSON.stringify(response.error))
                         let result = JSON.parse(JSON.stringify(response.result))
                         this.errors = errors
@@ -367,10 +368,10 @@ App = new Vue({
                         if(result.length > 0 && result[0]){
                             this.successMessage = "Lot was Successfully Added!"
                         }
+                    },
+                    error: () =>{
+                        this.errors = ["Failed to Add Lot."]
                     }
-                })
-                .fail( () => {
-                    this.errors = ["Failed to Add Lot."]
                 });
             },
             clearErrors(){
