@@ -28,7 +28,7 @@
                         <div v-if="result.buriedIndividualsCount > 0" class="content">
                             <div class="body">
                                 <ul class="popover-list">
-                                    <li v-for="(name, index) in result.buriedIndividualsNames" :key="index">{{name}}</li>
+                                    <li v-for="(name, index) in result.buriedIndividualNames" :key="index">{{name}}</li>
                                 </ul>
                             </div>
                         </div>
