@@ -71,7 +71,7 @@
                             <div class="form-group">
                                 <label for="">Main Image</label>
                                 <div class="input-group">
-                                    <input @change="mainImageChanged" class="form-control curved-input" type="file" id="mainImage" />
+                                    <input class="form-control curved-input" type="file" id="mainImage" ref="mainImage" />
                                 </div>
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                         <div class="form-group">
                             <label for="">All Attached Documents - Including Deed</label>
                             <div class="input-group">
-                                <input @change="attachmentsChanged" class="form-control curved-input" type="file" id="attached-documents" multiple/>
+                                <input class="form-control curved-input" type="file" id="attached-documents" ref="attachments" multiple/>
                             </div>
                         </div>
                     </div>
@@ -217,9 +217,26 @@
             </div>
         </div>
       </div>
+        
+        <!-- Error Messages -->
+        <div v-for="(error, index) in errors" 
+             :key="index" class="alert alert-danger alert-dismissible fade show message-box" 
+             >
+            <button type="button" class="close" @click="clearErrors">&times;</button>
+            {{error}}
+        </div>
+        
+        <!-- Success Message -->
+        <div v-if="successMessage != null" 
+             class="alert alert-success alert-dismissible fade show message-box" 
+             >
+            <button type="button" class="close" @click="clearSuccessMessage">&times;</button>
+            {{successMessage}}
+        </div>
+        
       <br>
-      <button type="button" class="btn btn-success" style="margin-right: 10px;">Submit</button>
-      <button type="button" class="btn btn-default" @click="viewLng()">Cancel</button>
+      <button type="button" class="btn btn-success" style="margin-right: 10px;" @click="addTomb">Submit</button>
+      <button type="button" class="btn btn-default">Cancel</button>
       <br><br>
     </div>
 </div>
@@ -230,6 +247,14 @@
 <!-- GMAP Async script executes immediately and must be after any DOM elements used in callback. -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXbb-v0RvEbY5PYpp1HsPgRxDjVH8oAsM&callback=myMap&v=weekly" async></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<style scoped>
+.message-box {
+    position: fixed;
+    bottom: 0;
+    right: 5px;
+    width: 300px;
+}
+</style>
 <script>
 App = new Vue({
         el: "#addTombApp",
@@ -238,17 +263,18 @@ App = new Vue({
                 sectionLetter: null,
                 lotNumber: null,
                 price: null,
-                mainImage: null,
                 forSale: false,
                 hasOpenPlots: false,
                 purchaseDate: null,
                 ownerId: null,
-                attachments: null,
                 buriedIndividualIds: [],
                 
                 sectionLettersList: [],
                 ownersList: [],
-                buriedIndividualsList: []
+                buriedIndividualsList: [],
+                
+                errors: [],
+                successMessage: null
             }
         },
         created(){
@@ -266,9 +292,6 @@ App = new Vue({
                 if(marker)
                     return marker.getPosition().lat();
                 return null;
-            },
-            viewLng(){
-                console.log(this.longitude())
             },
             fetchSectionLettersList(){
                 $.getJSON("controller.php",
@@ -301,15 +324,60 @@ App = new Vue({
                     this.refreshSelectPicker();
                 })
             },
-            mainImageChanged(e){
-                this.mainImage = e.target.files[0]
-            },
-            attachmentsChanged(e){
-                this.attachments = e.target.files
-                console.log(e.target.files)
-            },
             refreshSelectPicker(){
                 this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
+            },
+            addTomb(){
+                
+                let formData = new FormData();
+                formData.append('lotNumber', this.lotNumber);
+                formData.append('sectionLetterId', this.sectionLetter);
+                formData.append('price', this.price);
+                formData.append('forSale', this.forSale);
+                formData.append('hasOpenPlots', this.hasOpenPlots);
+                formData.append('purchaseDate', this.purchaseDate);
+                formData.append('ownerId', this.ownerId);
+                if(this.buriedIndividualIds.length > 0)
+                    this.buriedIndividualIds.forEach((id)=>{
+                        formData.append('buriedIndividualIds[]', id);
+                    });
+                else
+                    formData.append('buriedIndividualIds', null)
+                formData.append('longitude', this.longitude());
+                formData.append('latitude', this.latitude());
+                if(this.$refs.mainImage.files[0])
+                    formData.append('mainImage', this.$refs.mainImage.files[0]);
+
+                let attachments = this.$refs.attachments.files;
+                for(var i =0; i< attachments.length; i++){
+                    formData.append('attachedDocuments[]', attachments[i]);
+                }
+                
+                $.ajax({
+                    type: "POST",
+                    url: "controller.php?action=addTomb",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: response => {
+                        let errors = JSON.parse(JSON.stringify(response.error))
+                        let result = JSON.parse(JSON.stringify(response.result))
+                        this.errors = errors
+                        // result 0 will indicate a true or false for success or failure
+                        if(result.length > 0 && result[0]){
+                            this.successMessage = "Lot was Successfully Added!"
+                        }
+                    }
+                })
+                .fail( () => {
+                    this.errors = ["Failed to Add Lot."]
+                });
+            },
+            clearErrors(){
+                this.errors = [];
+            },
+            clearSuccessMessage(){
+                this.successMessage = null;
             }
         }
     })
