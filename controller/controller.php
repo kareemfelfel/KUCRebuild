@@ -115,6 +115,11 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/columbarium/addColumbarium/addColumbarium.php';
         break;
+    case"directToSearchColumbariumPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/columbarium/searchColumbarium/searchColumbarium.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();
