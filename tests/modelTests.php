@@ -113,3 +113,35 @@ function getAllTombSectionLettersTest(){
 }
 
 
+function getBuriedIndividualsForColumbariumTest($columbariumID){
+    $response = getBuriedIndividualsForColumbarium($columbariumID);
+    if(count($response->result) > 0)
+        echo json_encode(get_object_vars($response ->result[0]));
+    if(count($response -> error) > 0)
+        echo $response -> error[0];
+}
+
+
+
+function getColumbariumAttachmentsTest($columbariumId){
+    $response = getColumbariumAttachments($columbariumId);
+    if(count($response->result) > 0)
+        echo json_encode(get_object_vars($response ->result[0]));
+    if(count($response -> error) > 0)
+        echo $response -> error[0];
+}
+
+function getAllColumbariumRelatedDataWithFilterTest()
+{
+    $filter = new ColumbariumFilter();
+    $filter->setForSale(true);
+    $filter->setSectionLetterId(4);
+    $filter->setSectionNumber(123);
+    $filter->setColumbariumTypeId(5);
+    $filter ->setNicheTypeId(1);
+    $response = getAllColumbariumRelatedDataWithFilter($filter);
+    if(count($response->result) > 0)
+        echo json_encode(get_object_vars($response ->result[0]));
+    if(count($response -> error) > 0)
+        echo $response -> error[0];
+}

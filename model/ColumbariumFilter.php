@@ -18,8 +18,9 @@ class ColumbariumFilter{
         $this -> columbariumTypeId = $id;
     }
     
-    public function setForSale(bool $param){
-        $this -> forSale = ($param ? 1: 0);
+    public function setForSale(?bool $param){
+        if($param != null)
+            $this -> forSale = ($param ? 1: 0);
     }
     
     public function setNicheTypeId($id){
@@ -39,7 +40,8 @@ class ColumbariumFilter{
     }
     
     public function setBuriedIndividualIds(array $ids){
-        $this -> buriedIndividualIds = $ids;
+        if($ids != null)
+            $this -> buriedIndividualIds = $ids;
     }
 }
 

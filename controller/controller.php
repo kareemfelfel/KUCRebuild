@@ -145,6 +145,9 @@ switch ($action)
     case"fetchTombCards":
         fetchTombCards();
         break;
+    case"fetchColumbariumCards":
+        fetchColumbariumCards();
+        break;
 }
 //-----API--------
 function fetchAllOwnersList(){
@@ -337,3 +340,60 @@ function fetchTombCards(){
     }
     echo json_encode(get_object_vars($mutatedResponse));
 }
+
+function fetchColumbariumCards(){
+    $request = json_decode($_GET['request']);
+    
+    $columbariumTypeId = !empty($request->columbariumTypeId) ? $request->columbariumTypeId : null;
+    $nicheTypeId = !empty($request->nicheTypeId) ? $request->nicheTypeId : null;
+    $sectionLetterId = !empty($request->sectionLetterId) ? $request->sectionLetterId : null;
+    $sectionNumber = !empty($request->sectionNumber) ? $request->sectionNumber : null;
+    $forSale = !empty($request->forSale) ? $request->forSale : null;
+    $ownerId = !empty($request->ownerId) ? $request->ownerId : null;
+    $buriedIndividualIds = !empty($request->buriedIndividualIds) ? $request->buriedIndividualIds : null;
+    
+    $filter = new ColumbariumFilter();
+    $filter->setColumbariumTypeId($columbariumTypeId);
+    $filter->setNicheTypeId($nicheTypeId);
+    $filter->setSectionLetterId($sectionLetterId);
+    $filter->setSectionNumber($sectionNumber);
+    $filter->setForSale($forSale);
+    $filter->setOwnerId($ownerId);
+    $filter->setBuriedIndividualIds($buriedIndividualIds);
+    
+    $mutatedResponse = new Response();
+    $response = getAllColumbariumRelatedDataWithFilter($filter);
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            
+            $mutatedResult = array(
+                "id" => $response->result[$i]->id,
+                "columbarium" => $response->result[$i]->columbariumType->type,
+                "title" => $response->result[$i]->nicheType->type . " - " . 
+                           $response->result[$i]->sectionLetter->letter . " " . 
+                           $response->result[$i]->sectionNumber,
+                "countBuriedIndividuals" => 
+                    isset($response->result[$i]->buriedIndividuals)? 
+                    count($response->result[$i]->buriedIndividuals): 0,
+                "ownerName" => 
+                    isset($response->result[$i]->owner->id)? 
+                    $response->result[$i]->owner->firstName . " " . $response->result[$i]->owner->lastName : "N/A",
+                "image" => $response->result[$i]->mainImage,
+                "buriedIndividualNames" => isset($response->result[$i]->buriedIndividuals) ? 
+                    array_map(function($o) { 
+                        return $o->firstName . " " . $o->lastName;
+                        
+                    }, $response->result[$i]->buriedIndividuals) 
+                    : array() 
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
+}
+
