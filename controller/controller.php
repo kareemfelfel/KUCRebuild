@@ -118,6 +118,11 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/columbarium/searchColumbarium/searchColumbarium.php';
         break;
+    case"directToEditBuriedIndividualPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/administration/buriedIndividuals/editBuriedIndividual/editBuriedIndividual.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();

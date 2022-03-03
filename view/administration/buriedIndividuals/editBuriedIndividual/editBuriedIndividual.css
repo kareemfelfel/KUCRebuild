@@ -1,0 +1,21 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Mar 3, 2022, 4:08:20 PM
+    Author     : slade
+*/
+
+/* Red Asterisk for text boxes. */
+.required:after {
+  content:" *";
+  color: red;
+  margin-right: 5px;
+}
+
+/* this is so edit button is not directly on left side of the screen */
+.bottom-form-button {
+      margin-left: 15px;
+  }
+  
