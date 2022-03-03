@@ -21,7 +21,7 @@
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Search</a>
                 <ul class="dropdown-menu">
                     <li class="dropdown-item">
-                        <a href="#"><span class="fa-solid fa-warehouse"></span> Columbarium</a>
+                        <a href="controller.php?action=directToSearchColumbariumPage"><span class="fa-solid fa-warehouse"></span> Columbarium</a>
                     </li>
                     <li class="dropdown-item">
                         <a href="controller.php?action=directToSearchTombPage"><span class="fa-solid fa-cross"></span> Lot</a>
