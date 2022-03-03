@@ -39,7 +39,7 @@ class ColumbariumFilter{
         $this -> ownerId = $id;
     }
     
-    public function setBuriedIndividualIds(array $ids){
+    public function setBuriedIndividualIds(?array $ids){
         if($ids != null)
             $this -> buriedIndividualIds = $ids;
     }

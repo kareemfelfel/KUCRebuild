@@ -63,8 +63,6 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../View/tomb/addTomb/addTomb.php';
         break;
-    case"driectToAddColumbariumPage":
-        break;
     case"directToOwnersPage":
         include '../View/includes/head.php';
         include '../View/includes/navbar.php';
@@ -372,7 +370,7 @@ function fetchColumbariumCards(){
                 "title" => $response->result[$i]->nicheType->type . " - " . 
                            $response->result[$i]->sectionLetter->letter . " " . 
                            $response->result[$i]->sectionNumber,
-                "countBuriedIndividuals" => 
+                "buriedIndividualsCount" => 
                     isset($response->result[$i]->buriedIndividuals)? 
                     count($response->result[$i]->buriedIndividuals): 0,
                 "ownerName" => 
