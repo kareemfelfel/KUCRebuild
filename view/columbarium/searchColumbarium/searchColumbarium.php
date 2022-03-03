@@ -271,21 +271,32 @@
                 });
             },
             fetchResults(){
-                
-                
-                this.loading = true
-                setTimeout(() => {
-                    this.results.push({
-                    image: "../assets/images/basic-grave.jpg",
-                    columbarium: "columbarium 1",
-                    title: "heart - A11",
-                    buriedIndividualsCount: 2,
-                    buriedIndividualsNames: ["ben", "james"],
-                    ownerName: "Jane",
-
-                    });
+                this.loading = true;
+                let request ={
+                    columbariumTypeId: this.filter.columbariumTypeId,
+                    sectionNumber: this.filter.sectionNumber,
+                    nicheTypeId: this.filter.nicheTypeId,
+                    sectionLetterId: this.filter.sectionLetterId,
+                    forSale: this.filter.forSale,
+                    ownerId: this.filter.ownerId,
+                    buriedIndividualIds: this.filter.buriedIndividualIds
+                }               
+                $.getJSON("controller.php",
+                {
+                    action: "fetchColumbariumCards",
+                    request: JSON.stringify(request)
+                },
+                response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    this.results = data
+                    this.errors = errors
+                }).fail( () => {
+                    this.errors = ["Failed to fetch data. Check your connection and try again."]
+                    this.results = []
+                }).always( () => {
                     this.loading = false
-                }, 5000);
+                });
             },
             clearFilter(){
                 this.filter.columbariumTypeId = null
@@ -298,6 +309,9 @@
                 
                 this.refreshSelectPicker();
                 this.fetchResults();
+            },
+            clearErrors(){
+                this.errors = []
             },
             refreshSelectPicker(){
                 this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
