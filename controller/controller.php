@@ -396,8 +396,10 @@ function fetchColumbariumCards(){
 }
 
 function addTomb(){
+    // Files will have the attachmedDocuments and mainImage if they exist.
     //print_r($_FILES);
-    // Getting all POST data
+   
+    // Getting all REQUEST data
     $data = json_decode($_POST['request']);
     $sectionLetterId = !empty($data->sectionLetterId) ? $data->sectionLetterId : null;
     $lotNumber = !empty($data->lotNumber) ? $data->lotNumber : null;

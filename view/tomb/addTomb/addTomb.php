@@ -365,6 +365,7 @@ App = new Vue({
                         // result 0 will indicate a true or false for success or failure
                         if(result.length > 0 && result[0]){
                             this.successMessage = "Lot was Successfully Added!"
+                            this.clearForm();
                         }
                     },
                     error: () =>{
@@ -377,6 +378,19 @@ App = new Vue({
             },
             clearSuccessMessage(){
                 this.successMessage = null;
+            },
+            clearForm(){
+                this.sectionLetter = null
+                this.lotNumber = null
+                this.price = null
+                this.forSale = false
+                this.hasOpenPlots = false
+                this.purchaseDate = null
+                this.ownerId = null
+                this.buriedIndividualIds = []
+                
+                this.refreshSelectPicker();
+                deleteMarker();
             }
         }
     })
@@ -434,10 +448,6 @@ App = new Vue({
     function deleteMarker(){
         marker.setMap(null);
         marker = null;
-        
-        //Set longitude and latitude values inside Vue instance
-        App.$data.longitude = null;
-        App.$data.latitude = null;
     }
     
     function changeIcon(x){
