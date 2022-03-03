@@ -661,3 +661,73 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
     }
     return $response;
 }
+
+function checkColumbariumExists($columbariumTypeId, $nicheId, $sectionLetterId, $sectionNumber){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT ID FROM `columbarium` "
+                . "WHERE COLUMBARIUM_TYPE_ID = :columbariumTypeId "
+                . "AND NICHE_TYPE_ID = :nicheTypeId "
+                . "AND SECTION_LETTER_ID = :sectionLetterId "
+                . "AND SECTION_NUMBER = :sectionNumber;";
+        $statement = $con->prepare($query);  
+        $statement->bindParam(':columbariumTypeId', $columbariumTypeId);
+        $statement->bindParam(':nicheTypeId', $nicheId);
+        $statement->bindParam(':sectionLetterId', $sectionLetterId);
+        $statement->bindParam(':sectionNumber', $sectionNumber);
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success)
+        {
+            if(count($result) == 1){
+                $response -> addResult(true);
+            }
+            else{
+                $response -> addResult(false);
+            }
+        }
+        else{
+            $response -> addError("Failed to check if columbarium already exists.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function checkTombExists($sectionLetterId, $lotNumber){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT ID from `tombs` "
+                . "WHERE SECTION_LETTER_ID = :sectionLetterId "
+                . "AND LOT_NUMBER = :lotNumber;";
+        $statement = $con->prepare($query);  
+        $statement->bindParam(':sectionLetterId', $sectionLetterId);
+        $statement->bindParam(':lotNumber', $lotNumber);
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success)
+        {
+            if(count($result) == 1){
+                $response -> addResult(true);
+            }
+            else{
+                $response -> addResult(false);
+            }
+        }
+        else{
+            $response -> addError("Failed to check if lot already exists.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
