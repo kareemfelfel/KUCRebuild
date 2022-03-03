@@ -397,9 +397,65 @@ function fetchColumbariumCards(){
 
 function addTomb(){
     //print_r($_FILES);
-    //print_r($_POST);
+    // Getting all POST data
+    $data = json_decode($_POST['request']);
+    $sectionLetterId = !empty($data->sectionLetterId) ? $data->sectionLetterId : null;
+    $lotNumber = !empty($data->lotNumber) ? $data->lotNumber : null;
+    $price = !empty($data->price) ? $data->price : null;
+    $forSale = !empty($data->forSale) ? $data->forSale : null;
+    $hasOpenPlots = !empty($data->hasOpenPlots) ? $data->hasOpenPlots : null;
+    $purchaseDate = !empty($data->purchaseDate) ? $data->purchaseDate : null;
+    $ownerId = !empty($data->ownerId) ? $data->ownerId : null;
+    $buriedIndividualIds = !empty($data->buriedIndividualIds) ? $data->buriedIndividualIds : null;
+    $longitude = !empty($data->longitude) ? $data->longitude : null;
+    $latitude = !empty($data->latitude) ? $data->latitude : null;
+    
+    // Validating data before calling method to add
     $response = new Response();
-    $response->addError("Lot must have a unique Lot Number and Section Letter");
+    
+    if(!isset($sectionLetterId)){
+        $response->addError("Section Letter must be specified.");
+    }
+    if(!isset($lotNumber) || !is_numeric($lotNumber) || (is_numeric($lotNumber) && $lotNumber < 0)){
+        $response->addError("Lot Number must be specified.");
+    }
+    // Meaning, lot Number and section Letter ID are specified
+    if(empty($response->error)){
+        $tombExistResponse = checkTombExists($sectionLetterId, $lotNumber);
+        if(empty($tombExistResponse->error) && !empty($tombExistResponse->result)){
+            // If tomb exists
+            if($tombExistResponse->result[0])
+                $response->addError("A lot already exists with the same Section Letter and lotNumber.");
+        }
+        else{
+            $response->addError($tombExistResponse->error[0]);
+        }
+    }
+
+    if(isset($price) && (!is_numeric($price) || $price < 0)){
+        $response->addError("Price must be of positive numerical value or left empty.");
+    }
+    if($forSale){
+        if(isset($purchaseDate))
+            $response->addError("A lot that is for sale can not have a purchase date.");
+        if(isset($buriedIndividualIds) && count($buriedIndividualIds) > 0)
+            $response->addError ("A lot that is for sale can not have buried individuals associated.");
+        if(isset($ownerId))
+            $response->addError ("A lot that is for sale can not have an owner associated.");
+    }
+    else{
+        if(!isset($ownerId))
+            $response->addError ("A lot that is NOT for sale MUST have an owner associated.");
+    }
+    if(!isset($longitude) || !isset($latitude)){
+        $response->addError ("All Lots must be plotted on the map.");
+    }
+    
+    //If all the data is validated, call the model function to add the lot
+    if(empty($response->error)){
+        // TODO remove this and make the actual call
+        $response->addResult(true);
+    }
     echo json_encode(get_object_vars($response));
 }
 

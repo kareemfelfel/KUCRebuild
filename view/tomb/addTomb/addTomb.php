@@ -222,7 +222,7 @@
         <div v-for="(error, index) in errors" 
              :key="index" class="alert alert-danger alert-dismissible fade show message-box" 
              >
-            <button type="button" class="close" @click="clearErrors">&times;</button>
+            <button type="button" class="close" @click="clearError(index)">&times;</button>
             {{error}}
         </div>
         
@@ -328,23 +328,21 @@ App = new Vue({
                 this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
             },
             addTomb(){
-                
                 let formData = new FormData();
-                formData.append('lotNumber', this.lotNumber);
-                formData.append('sectionLetterId', this.sectionLetter);
-                formData.append('price', this.price);
-                formData.append('forSale', this.forSale);
-                formData.append('hasOpenPlots', this.hasOpenPlots);
-                formData.append('purchaseDate', this.purchaseDate);
-                formData.append('ownerId', this.ownerId);
-                if(this.buriedIndividualIds.length > 0)
-                    this.buriedIndividualIds.forEach((id)=>{
-                        formData.append('buriedIndividualIds[]', id);
-                    });
-                else
-                    formData.append('buriedIndividualIds', null)
-                formData.append('longitude', this.longitude());
-                formData.append('latitude', this.latitude());
+                let request = {
+                    lotNumber: this.lotNumber,
+                    sectionLetterId: this.sectionLetter,
+                    price: this.price,
+                    forSale: this.forSale,
+                    hasOpenPlots: this.hasOpenPlots,
+                    purchaseDate: this.purchaseDate,
+                    ownerId: this.ownerId,
+                    buriedIndividualIds: this.buriedIndividualIds,
+                    longitude: this.longitude(),
+                    latitude: this.latitude()
+                }
+                
+                formData.append('request', JSON.stringify(request))
                 if(this.$refs.mainImage.files[0])
                     formData.append('mainImage', this.$refs.mainImage.files[0]);
 
@@ -374,8 +372,8 @@ App = new Vue({
                     }
                 });
             },
-            clearErrors(){
-                this.errors = [];
+            clearError(index){
+                this.errors.splice(index, 1);
             },
             clearSuccessMessage(){
                 this.successMessage = null;
@@ -402,7 +400,7 @@ App = new Vue({
     }
     function openInfo(){
         if(App.$data.sectionLetter){
-            var plotLabel = App.$data.sectionLettersList[App.$data.sectionLetter].name + " " + document.getElementById("lot-number").value;
+            var plotLabel = App.$data.sectionLettersList.find(item => item.value == App.$data.sectionLetter).name + " " + document.getElementById("lot-number").value;
             if(infowindow){
                 infowindow.setContent(plotLabel? plotLabel :null)
             }
@@ -459,7 +457,7 @@ App = new Vue({
             document.getElementById("owner-label").classList.remove("required");
             document.getElementById("owner").setAttribute("disabled", true)
             App.$data.ownerId = null;
-            //$('#owner').selectpicker('val', App.$data.ownerId);
+            $('#owner').selectpicker('val', App.$data.ownerId);
             document.getElementById("buried-individuals").setAttribute("disabled", true)
             App.$data.buriedIndividualIds = [];
              $('#buried-individuals').selectpicker('val', App.$data.buriedIndividualIds);
