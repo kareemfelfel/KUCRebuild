@@ -398,8 +398,7 @@ App = new Vue({
     var map;
     var infowindow;
     var openMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-    // marker.getPosition().lat();
-    // marker.getPosition().lng();
+
     function myMap() {
         const cemetery = { lat: 41.239094, lng: -79.542186 };
         var mapProp= {
