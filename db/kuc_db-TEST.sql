@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2022 at 10:45 PM
+-- Generation Time: Mar 05, 2022 at 09:33 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -35,13 +35,6 @@ CREATE TABLE `admins` (
   `PASSWORD` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `admins`
---
-
-INSERT INTO `admins` (`ID`, `FIRST_NAME`, `LAST_NAME`, `USERNAME`, `PASSWORD`) VALUES
-(1, 'test', 'test', 'test', 'test');
-
 -- --------------------------------------------------------
 
 --
@@ -54,6 +47,7 @@ CREATE TABLE `buried_individuals` (
   `MIDDLE_NAME` varchar(60) DEFAULT NULL,
   `LAST_NAME` varchar(60) NOT NULL,
   `MAIDEN_NAME` varchar(60) DEFAULT NULL,
+  `NICKNAME` varchar(60) DEFAULT NULL,
   `DOB` date NOT NULL,
   `DOD` date NOT NULL,
   `VETERAN` tinyint(1) NOT NULL CHECK (`VETERAN` = 1 or `VETERAN` = 0),
@@ -66,11 +60,11 @@ CREATE TABLE `buried_individuals` (
 -- Dumping data for table `buried_individuals`
 --
 
-INSERT INTO `buried_individuals` (`ID`, `FIRST_NAME`, `MIDDLE_NAME`, `LAST_NAME`, `MAIDEN_NAME`, `DOB`, `DOD`, `VETERAN`, `OBITUARY`, `TOMB_ID`, `COLUMBARIUM_ID`) VALUES
-(1, 'Peter', NULL, 'Griffin', NULL, '2012-02-09', '2022-02-11', 1, 'Hello World!', 1, NULL),
-(2, 'test', NULL, 'test', NULL, '2022-02-03', '2022-02-11', 1, 'Testing obituary', NULL, NULL),
-(3, 'John', NULL, 'Doe', NULL, '2021-04-13', '2022-02-16', 0, 'He was a good man.', 4, NULL),
-(4, 'Betty', NULL, 'White', NULL, '2021-04-13', '2022-02-16', 0, 'She was a great woman.', 4, NULL);
+INSERT INTO `buried_individuals` (`ID`, `FIRST_NAME`, `MIDDLE_NAME`, `LAST_NAME`, `MAIDEN_NAME`, `NICKNAME`, `DOB`, `DOD`, `VETERAN`, `OBITUARY`, `TOMB_ID`, `COLUMBARIUM_ID`) VALUES
+(3, 'Jody', NULL, 'Strausser', NULL, NULL, '2022-03-01', '2022-03-09', 0, NULL, NULL, NULL),
+(4, 'John', NULL, 'Doe', NULL, 'Legend', '2022-03-01', '2022-03-03', 1, 'He was a good man', NULL, NULL),
+(5, 'Someone', NULL, 'Dead', NULL, 'Mickey', '2022-03-02', '2022-03-12', 0, NULL, NULL, NULL),
+(6, 'Sarah', NULL, 'Lizard', NULL, NULL, '2022-03-02', '2022-03-17', 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -90,13 +84,6 @@ CREATE TABLE `columbarium` (
   `MAIN_IMAGE` varchar(255) DEFAULT NULL,
   `OWNER_ID` int(11) DEFAULT NULL
 ) ;
-
---
--- Dumping data for table `columbarium`
---
-
-INSERT INTO `columbarium` (`ID`, `FOR_SALE`, `PURCHASE_DATE`, `PRICE`, `SECTION_LETTER_ID`, `SECTION_NUMBER`, `NICHE_TYPE_ID`, `COLUMBARIUM_TYPE_ID`, `MAIN_IMAGE`, `OWNER_ID`) VALUES
-(1, 1, NULL, NULL, 4, 123, 1, 5, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -125,8 +112,8 @@ CREATE TABLE `columbarium_section_letters` (
 --
 
 INSERT INTO `columbarium_section_letters` (`ID`, `SECTION_LETTER`) VALUES
-(3, 'A'),
-(4, 'B');
+(1, 'A'),
+(2, 'B');
 
 -- --------------------------------------------------------
 
@@ -203,8 +190,21 @@ CREATE TABLE `owners` (
 --
 
 INSERT INTO `owners` (`ID`, `FIRST_NAME`, `LAST_NAME`, `MIDDLE_NAME`, `ADDRESS`, `PHONE_NUMBER`, `EMAIL`) VALUES
-(1, 'Kareem', 'Felfel', 'Ahmed', '108 Greenville Avenue Apt 2B', '8142450283', 'kfelfel@yahoo.com'),
-(2, 'Jody', 'Strausser', NULL, '111 Center St.\r\nClarion, PA', '1234448786', 'jstrausser@clarion.edu');
+(1, 'Kareem', 'Felfel', NULL, '108 Greenville Avenue', NULL, NULL),
+(2, 'Slade', 'Knepp', NULL, NULL, NULL, NULL),
+(3, 'Nick', 'Shiner', NULL, NULL, NULL, NULL),
+(4, 'Brett', 'Morgan', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `protected_actions`
+--
+
+CREATE TABLE `protected_actions` (
+  `ID` int(11) NOT NULL,
+  `ACTION` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -220,21 +220,11 @@ CREATE TABLE `tombs` (
   `PRICE` decimal(10,2) DEFAULT NULL,
   `SECTION_LETTER_ID` int(11) NOT NULL,
   `LOT_NUMBER` int(11) NOT NULL,
-  `LONGITUDE` decimal(9,6) NOT NULL,
-  `LATITUDE` decimal(8,6) NOT NULL,
+  `LONGITUDE` decimal(10,6) NOT NULL,
+  `LATITUDE` decimal(10,6) NOT NULL,
   `MAIN_IMAGE` varchar(255) DEFAULT NULL,
   `OWNER_ID` int(11) DEFAULT NULL
 ) ;
-
---
--- Dumping data for table `tombs`
---
-
-INSERT INTO `tombs` (`ID`, `FOR_SALE`, `HAS_OPEN_PLOTS`, `PURCHASE_DATE`, `PRICE`, `SECTION_LETTER_ID`, `LOT_NUMBER`, `LONGITUDE`, `LATITUDE`, `MAIN_IMAGE`, `OWNER_ID`) VALUES
-(1, 0, 1, '2022-02-09', '2133.29', 1, 123, '781.040000', '23.000000', '../assets/images/basic-grave.jpg', 1),
-(2, 1, 1, NULL, '677.00', 2, 223, '701.037375', '22.998283', '../assets/images/basic-grave.jpg', NULL),
-(3, 0, 1, '2022-02-10', NULL, 2, 12, '721.037375', '22.998212', '../assets/images/basic-grave.jpg', 2),
-(4, 0, 0, '2021-12-08', '444.21', 1, 77, '751.037375', '22.898283', '../assets/images/basic-grave.jpg', 2);
 
 -- --------------------------------------------------------
 
@@ -263,8 +253,16 @@ CREATE TABLE `tomb_section_letters` (
 --
 
 INSERT INTO `tomb_section_letters` (`ID`, `SECTION_LETTER`) VALUES
-(1, 'A'),
-(2, 'B');
+(8, 'A'),
+(6, 'B'),
+(5, 'C'),
+(7, 'D'),
+(10, 'XA'),
+(4, 'XB'),
+(3, 'XC'),
+(9, 'XD'),
+(2, 'YB'),
+(1, 'YC');
 
 --
 -- Indexes for dumped tables
@@ -335,6 +333,13 @@ ALTER TABLE `owners`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `protected_actions`
+--
+ALTER TABLE `protected_actions`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `ACTION` (`ACTION`);
+
+--
 -- Indexes for table `tombs`
 --
 ALTER TABLE `tombs`
@@ -363,7 +368,7 @@ ALTER TABLE `tomb_section_letters`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `buried_individuals`
@@ -381,7 +386,7 @@ ALTER TABLE `columbarium`
 -- AUTO_INCREMENT for table `columbarium_section_letters`
 --
 ALTER TABLE `columbarium_section_letters`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `columbarium_types`
@@ -405,7 +410,13 @@ ALTER TABLE `niche_types`
 -- AUTO_INCREMENT for table `owners`
 --
 ALTER TABLE `owners`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `protected_actions`
+--
+ALTER TABLE `protected_actions`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tombs`
@@ -417,7 +428,7 @@ ALTER TABLE `tombs`
 -- AUTO_INCREMENT for table `tomb_section_letters`
 --
 ALTER TABLE `tomb_section_letters`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -427,8 +438,8 @@ ALTER TABLE `tomb_section_letters`
 -- Constraints for table `buried_individuals`
 --
 ALTER TABLE `buried_individuals`
-  ADD CONSTRAINT `buried_individuals_ibfk_1` FOREIGN KEY (`COLUMBARIUM_ID`) REFERENCES `columbarium` (`ID`),
-  ADD CONSTRAINT `buried_individuals_ibfk_2` FOREIGN KEY (`TOMB_ID`) REFERENCES `tombs` (`ID`);
+  ADD CONSTRAINT `buried_individuals_ibfk_1` FOREIGN KEY (`COLUMBARIUM_ID`) REFERENCES `columbarium` (`ID`) ON DELETE SET NULL,
+  ADD CONSTRAINT `buried_individuals_ibfk_2` FOREIGN KEY (`TOMB_ID`) REFERENCES `tombs` (`ID`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `columbarium`
@@ -443,7 +454,7 @@ ALTER TABLE `columbarium`
 -- Constraints for table `columbarium_attachments`
 --
 ALTER TABLE `columbarium_attachments`
-  ADD CONSTRAINT `columbarium_attachments_ibfk_1` FOREIGN KEY (`COLUMBARIUM_ID`) REFERENCES `columbarium` (`ID`);
+  ADD CONSTRAINT `columbarium_attachments_ibfk_1` FOREIGN KEY (`COLUMBARIUM_ID`) REFERENCES `columbarium` (`ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tombs`
@@ -456,7 +467,7 @@ ALTER TABLE `tombs`
 -- Constraints for table `tomb_attachments`
 --
 ALTER TABLE `tomb_attachments`
-  ADD CONSTRAINT `tomb_attachments_ibfk_1` FOREIGN KEY (`TOMB_ID`) REFERENCES `tombs` (`ID`);
+  ADD CONSTRAINT `tomb_attachments_ibfk_1` FOREIGN KEY (`TOMB_ID`) REFERENCES `tombs` (`ID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
