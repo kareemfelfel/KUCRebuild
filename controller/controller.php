@@ -151,6 +151,9 @@ switch ($action)
     case"fetchColumbariumCards":
         fetchColumbariumCards();
         break;
+    case"addTomb":
+        addTomb();
+        break;
 }
 //-----API--------
 function fetchAllOwnersList(){
@@ -398,5 +401,154 @@ function fetchColumbariumCards(){
         }
     }
     echo json_encode(get_object_vars($mutatedResponse));
+}
+
+function addTomb(){
+    $response = new Response();
+    
+    
+   
+    // Getting all REQUEST data
+    $data = json_decode($_POST['request']);
+    $sectionLetterId = !empty($data->sectionLetterId) ? $data->sectionLetterId : null;
+    $lotNumber = !empty($data->lotNumber) ? $data->lotNumber : null;
+    $price = !empty($data->price) ? $data->price : null;
+    $forSale = !empty($data->forSale) ? $data->forSale : null;
+    $hasOpenPlots = !empty($data->hasOpenPlots) ? $data->hasOpenPlots : null;
+    $purchaseDate = !empty($data->purchaseDate) ? $data->purchaseDate : null;
+    $ownerId = !empty($data->ownerId) ? $data->ownerId : null;
+    $buriedIndividualIds = !empty($data->buriedIndividualIds) ? $data->buriedIndividualIds : null;
+    $longitude = !empty($data->longitude) ? $data->longitude : null;
+    $latitude = !empty($data->latitude) ? $data->latitude : null;
+    
+    // Validating data before calling method to add
+    
+    if(!isset($sectionLetterId)){
+        $response->addError("Section Letter must be specified.");
+    }
+    if(!isset($lotNumber) || !is_numeric($lotNumber) || (is_numeric($lotNumber) && $lotNumber < 0)){
+        $response->addError("Lot Number must be specified.");
+    }
+    // Meaning, lot Number and section Letter ID are specified
+    if(empty($response->error)){
+        $tombExistResponse = checkTombExists($sectionLetterId, $lotNumber);
+        if(empty($tombExistResponse->error) && !empty($tombExistResponse->result)){
+            // If tomb exists
+            if($tombExistResponse->result[0])
+                $response->addError("A lot already exists with the same Section Letter and lotNumber.");
+        }
+        else{
+            $response->addError($tombExistResponse->error[0]);
+        }
+    }
+
+    if(isset($price) && (!is_numeric($price) || $price < 0)){
+        $response->addError("Price must be of positive numerical value or left empty.");
+    }
+    if($forSale){
+        if(isset($purchaseDate))
+            $response->addError("A lot that is for sale can not have a purchase date.");
+        if(isset($buriedIndividualIds) && count($buriedIndividualIds) > 0)
+            $response->addError ("A lot that is for sale can not have buried individuals associated.");
+        if(isset($ownerId))
+            $response->addError ("A lot that is for sale can not have an owner associated.");
+    }
+    else{
+        if(!isset($ownerId))
+            $response->addError ("A lot that is NOT for sale MUST have an owner associated.");
+    }
+    if(!isset($longitude) || !isset($latitude)){
+        $response->addError ("All Lots must be plotted on the map.");
+    }
+    
+    //If all the data is validated, upload the attached documents
+    if(empty($response->error)){
+        // Upload the mainImage and attachedDocuments
+        $mainImagePath = processMainImageUpload($response)?: "../assets/images/Knox_Head_Stones.jpg";
+        $attachedDocumentsPaths = processAttachedDocumentsUpload($response);
+        
+        // If there are no problems with file uploading, process request
+        if(empty($response->error)){
+            //Prepare toTableTomb object
+            $obj = new ToTableTomb(
+                    $sectionLetterId,
+                    $lotNumber,
+                    $price,
+                    $mainImagePath,
+                    $forSale,
+                    $hasOpenPlots,
+                    $purchaseDate,
+                    $ownerId,
+                    $longitude,
+                    $latitude,
+                    $attachedDocumentsPaths,
+                    $buriedIndividualIds
+            );
+            $modelResponse = insertAllTombRelatedData($obj);
+            for($i = 0; $i< count($modelResponse->error); $i++){
+                $response->addError($modelResponse->error[$i]);
+            }
+            
+            if(count($response->error) == 0){ // If everything was successful, send client true in response
+                $response->addResult(true);
+            }
+            
+        }
+    }
+    echo json_encode(get_object_vars($response));
+}
+
+// Helper Function for add Tomb and add Columbarium
+function processMainImageUpload(&$response){
+    if(array_key_exists("mainImage", $_FILES)){
+        $targetDir = "../assets/images/uploadedImages/";
+        $file = $_FILES['mainImage']['name'];
+	$path = pathinfo($file);
+	$filename = $path['filename'];
+	$ext = $path['extension'];
+        $temp_name = $_FILES['mainImage']['tmp_name'];
+	$mainImagePath = $targetDir.$filename.".".$ext;
+        if (file_exists($mainImagePath)) {
+            $response ->addError("A main image already exsist with the same name. Please rename the image and upload again.");
+        }
+        else{
+            move_uploaded_file($temp_name,$mainImagePath);
+        }      
+    }
+    else{
+        // Set To null
+        $mainImagePath = null;
+    }
+    
+    return $mainImagePath;
+}
+
+// Helper Function for add Tomb and add Columbarium
+function processAttachedDocumentsUpload(&$response){
+    // Attached Documents
+    $attachedDocuments = array();
+    if(array_key_exists("attachedDocuments", $_FILES)){
+        for($i = 0; $i< count($_FILES['attachedDocuments']['name']); $i ++){
+            $targetDir = "../assets/attachedFiles/";
+            $file = $_FILES['attachedDocuments']['name'][$i];
+            $path = pathinfo($file);
+            $filename = $path['filename'];
+            $ext = $path['extension'];
+            $temp_name = $_FILES['attachedDocuments']['tmp_name'][$i];
+            $documentPath = $targetDir.$filename.".".$ext;
+            if (file_exists($documentPath)) {
+                $response ->addError($filename . " already exists. Please rename the file and upload again.");
+            }
+            else{
+                move_uploaded_file($temp_name,$documentPath);
+                array_push($attachedDocuments, $documentPath);
+            }
+        }
+    }
+    else{
+        $attachedDocuments = null;
+    }
+    
+    return $attachedDocuments;
 }
 

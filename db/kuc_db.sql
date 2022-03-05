@@ -65,6 +65,7 @@ CREATE TABLE `buried_individuals` (
   `MIDDLE_NAME` varchar(60) DEFAULT NULL,
   `LAST_NAME` varchar(60) NOT NULL,
   `MAIDEN_NAME` varchar(60) DEFAULT NULL,
+  `NICKNAME` varchar(60) DEFAULT NULL,
   `DOB` date NOT NULL,
   `DOD` date NOT NULL,
   `VETERAN` tinyint(1) NOT NULL CHECK (`VETERAN` = 1 or `VETERAN` = 0),
@@ -72,7 +73,7 @@ CREATE TABLE `buried_individuals` (
   `TOMB_ID` int(11) DEFAULT NULL,
   `COLUMBARIUM_ID` int(11) DEFAULT NULL,
     PRIMARY KEY (`ID`)
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -92,7 +93,7 @@ CREATE TABLE `columbarium` (
   `MAIN_IMAGE` varchar(255) DEFAULT NULL,
   `OWNER_ID` int(11) DEFAULT NULL,
     PRIMARY KEY (`ID`)
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -172,12 +173,12 @@ CREATE TABLE `tombs` (
   `PRICE` decimal(10,2) DEFAULT NULL,
   `SECTION_LETTER_ID` int(11) NOT NULL,
   `LOT_NUMBER` int(11) NOT NULL,
-  `LONGITUDE` decimal(9,6) NOT NULL,
-  `LATITUDE` decimal(8,6) NOT NULL,
+  `LONGITUDE` decimal(10,6) NOT NULL,
+  `LATITUDE` decimal(10,6) NOT NULL,
   `MAIN_IMAGE` varchar(255) DEFAULT NULL,
   `OWNER_ID` int(11) DEFAULT NULL,
     PRIMARY KEY (`ID`)
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -199,6 +200,18 @@ CREATE TABLE `tomb_attachments` (
 CREATE TABLE `tomb_section_letters` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `SECTION_LETTER` varchar(10) NOT NULL UNIQUE,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `protected_actions`
+--
+CREATE TABLE `protected_actions` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ACTION` varchar(200) NOT NULL UNIQUE,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -230,9 +243,9 @@ ALTER TABLE `tombs`
 --
 -- Constraints for table `buried_individuals`
 --
-ALTER TABLE `buried_individuals` ADD 
-    FOREIGN KEY (`COLUMBARIUM_ID`) REFERENCES `columbarium` (`ID`),
-ADD FOREIGN KEY (`TOMB_ID`) REFERENCES `tombs` (`ID`);
+ALTER TABLE `buried_individuals` 
+ADD FOREIGN KEY (`COLUMBARIUM_ID`) REFERENCES `columbarium` (`ID`) ON DELETE SET NULL,
+ADD FOREIGN KEY (`TOMB_ID`) REFERENCES `tombs` (`ID`) ON DELETE SET NULL;
 --
 -- Constraints for table `columbarium`
 --
@@ -243,7 +256,8 @@ Add FOREIGN KEY (`SECTION_LETTER_ID`) REFERENCES `columbarium_section_letters` (
 ADD FOREIGN KEY (`COLUMBARIUM_TYPE_ID`) REFERENCES `columbarium_types` (`ID`);
 --
 -- Constraints for table `columbarium_attachments`
-ALTER TABLE `columbarium_attachments` ADD FOREIGN KEY (`COLUMBARIUM_ID`) REFERENCES `columbarium` (`ID`);
+ALTER TABLE `columbarium_attachments` 
+ADD FOREIGN KEY (`COLUMBARIUM_ID`) REFERENCES `columbarium` (`ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tombs`
@@ -253,7 +267,8 @@ ALTER TABLE `tombs` ADD
 ADD FOREIGN KEY (`SECTION_LETTER_ID`) REFERENCES `tomb_section_letters` (`ID`);
 --
 -- Constraints for table `tomb_attachments`
-ALTER TABLE `tomb_attachments` ADD FOREIGN KEY (`TOMB_ID`) REFERENCES `tombs` (`ID`);
+ALTER TABLE `tomb_attachments` 
+ADD FOREIGN KEY (`TOMB_ID`) REFERENCES `tombs` (`ID`) ON DELETE CASCADE;
 
 
 -- CHECK CONSTRAINTS WRITTEN BY Nick ADDED BY KF
