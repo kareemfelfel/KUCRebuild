@@ -13,7 +13,8 @@ function getUnlinkedBuriedIndividuals(){
         $con = $db -> get_connection();
         $query = "SELECT * FROM BURIED_INDIVIDUALS WHERE "
                 . "(buried_individuals.TOMB_ID IS NULL && "
-                . "buried_individuals.COLUMBARIUM_ID IS NULL);";
+                . "buried_individuals.COLUMBARIUM_ID IS NULL)"
+                . " ORDER BY buried_individuals.FIRST_NAME ASC;";
         $statement = $con->prepare($query);
         $success = $statement->execute();
         $results = $statement->fetchAll();
@@ -45,7 +46,7 @@ function getAllOwners(){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM OWNERS;";
+        $query = "SELECT * FROM OWNERS ORDER BY owners.FIRST_NAME ASC;";
         $statement = $con->prepare($query);
         $success = $statement->execute();
         $results = $statement->fetchAll();
@@ -76,7 +77,8 @@ function getAllColumbariumSectionLetters(){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM columbarium_section_letters;";
+        $query = "SELECT * FROM columbarium_section_letters"
+                . " ORDER BY columbarium_section_letter.SECTION_LETTER ASC;";
         $statement = $con->prepare($query);
         $success = $statement->execute();
         $result = $statement->fetchAll();
@@ -297,7 +299,8 @@ function getAllBuriedIndividuals() {
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM buried_individuals;";
+        $query = "SELECT * FROM buried_individuals "
+                . "ORDER BY buried_individuals.FIRST_NAME ASC;";
         $statement = $con->prepare($query);        
         $success = $statement->execute();
         $result = $statement->fetchAll();
@@ -357,7 +360,8 @@ function getAllNicheTypes(){
     try {
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM NICHE_TYPES;";
+        $query = "SELECT * FROM NICHE_TYPES"
+                . " ORDER BY niche_types.TYPE ASC;";
         $statement = $con->prepare($query);          
         $success = $statement->execute();
         $result = $statement->fetchAll();
@@ -416,7 +420,8 @@ function getAllColumbariumTypes(){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM columbarium_types;";
+        $query = "SELECT * FROM columbarium_types "
+                . "ORDER BY columbarium_types.TYPE ASC;";
         $statement = $con->prepare($query);          
         $success = $statement->execute();
         $result = $statement->fetchAll();
@@ -445,7 +450,8 @@ function getAllTombSectionLetters(){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM tomb_section_letters;";
+        $query = "SELECT * FROM tomb_section_letters"
+                . " ORDER BY tomb_section_letters.SECTION_LETTER ASC;";
         $statement = $con->prepare($query);          
         $success = $statement->execute();
         $result = $statement->fetchAll();
@@ -724,6 +730,156 @@ function checkTombExists($sectionLetterId, $lotNumber){
         }
         else{
             $response -> addError("Failed to check if lot already exists.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+//UPDATE METHODS
+function updateBuriedIndividualsTombId($tombId, $buriedIndividualsIds){
+    $response = new Response();
+    if(!isset($buriedIndividualsIds) || count($buriedIndividualsIds) == 0){
+        $response->addResult(true); // Do not bother trying to add an empty array
+        return $response;
+    }
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        
+        $query = "UPDATE `buried_individuals` "
+                . "SET buried_individuals.TOMB_ID = :tombId "
+                . "WHERE "
+                . "buried_individuals.ID IN (" . implode(',', $buriedIndividualsIds) .");";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':tombId', $tombId);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response -> addResult(true);
+        }
+        else{
+            $response -> addError("Failed to link Buried Individuals with Tomb ID.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+// INSERT METHODS
+function insertTombAttachments($tombId, $attachments){
+    $response = new Response();
+    if(!isset($attachments) || count($attachments) == 0){
+        $response->addResult(true); // Do not bother trying to add an empty array
+        return $response;
+    }
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $sq = "";
+        for($i = 0; $i < count($attachments); $i++){
+            $sq .= "(" . $tombId . ", '". $attachments[$i] . "')";
+            if($i != count($attachments) - 1){
+                $sq .= ",";
+            }
+        }
+        $query = "INSERT INTO `tomb_attachments` "
+                . "(TOMB_ID, LINK) "
+                . "VALUES "
+                . $sq .";";
+        $statement = $con->prepare($query);  
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response -> addResult(true);
+        }
+        else{
+            $response -> addError("Failed to link attachments to tomb.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function insertAllTombRelatedData(ToTableTomb $tombData){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "INSERT INTO `tombs` "
+                . "(FOR_SALE, HAS_OPEN_PLOTS, LATITUDE, LONGITUDE, LOT_NUMBER, MAIN_IMAGE, OWNER_ID, PRICE, PURCHASE_DATE, SECTION_LETTER_ID) "
+                . "VALUES "
+                . "(:forSale, :hasOpenPlots, :latitude, :longitude, "
+                . ":lotNumber, :mainImage, :ownerId, :price, :purchaseDate, "
+                . ":sectionLetterId);";
+        $statement = $con->prepare($query); 
+        
+        // Binding parameters
+        // NON NULL params
+        $statement->bindParam(':forSale', $tombData->forSale);
+        
+        $statement->bindParam(':hasOpenPlots', $tombData->hasOpenPlots);
+        
+        $statement->bindParam(':latitude', $tombData->latitude);
+        
+        $statement->bindParam(':longitude', $tombData->longitude);
+        
+        $statement->bindParam(':lotNumber', $tombData->lotNumber);
+        
+        $statement->bindParam(':mainImage', $tombData->mainImage);
+        
+        $statement->bindParam(':sectionLetterId', $tombData->sectionLetterId);
+        
+        // Nullable data
+        if(!isset($tombData -> ownerId)){
+            $statement->bindValue(':ownerId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':ownerId', $tombData ->ownerId);
+        }
+        
+        if(!isset($tombData -> price)){
+            $statement->bindValue(':price', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':price', $tombData ->price);
+        }
+        
+        if(!isset($tombData -> purchaseDate)){
+            $statement->bindValue(':purchaseDate', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':purchaseDate', $tombData ->purchaseDate);
+        }
+        
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $tombId = $con->lastInsertId();
+            $tombAttachmentsPromise = insertTombAttachments($tombId, $tombData->attachedDocuments);
+            if(count($tombAttachmentsPromise->error) > 0){
+                $response->addError($tombAttachmentsPromise->error[0]);
+            }
+            $updateBIPromise = updateBuriedIndividualsTombId($tombId, $tombData ->buriedIndividualIds);
+            if(count($updateBIPromise->error) > 0){
+                $response->addError($updateBIPromise->error[0]);
+            }
+            
+            if(count($response->error) == 0){
+                $response->addResult(true);
+            }
+        }
+        else{
+            $response -> addError("Failed to Insert Tomb Data.");
         }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();

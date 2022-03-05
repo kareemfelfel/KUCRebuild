@@ -476,10 +476,18 @@ function addTomb(){
                     $attachedDocumentsPaths,
                     $buriedIndividualIds
             );
-            echo json_encode(get_object_vars($obj));
+            $modelResponse = insertAllTombRelatedData($obj);
+            for($i = 0; $i< count($modelResponse->error); $i++){
+                $response->addError($modelResponse->error[$i]);
+            }
+            
+            if(count($response->error) == 0){ // If everything was successful, send client true in response
+                $response->addResult(true);
+            }
+            
         }
     }
-    //echo json_encode(get_object_vars($response));
+    echo json_encode(get_object_vars($response));
 }
 
 // Helper Function for add Tomb and add Columbarium

@@ -366,6 +366,7 @@ App = new Vue({
                         if(result.length > 0 && result[0]){
                             this.successMessage = "Lot was Successfully Added!"
                             this.clearForm();
+                            this.fetchBuriedIndividualsList();
                         }
                     },
                     error: () =>{
