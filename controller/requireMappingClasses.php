@@ -5,6 +5,7 @@ require_once '../model/Attachment.php';
 require_once '../model/ColumbariumAttachment.php';
 require_once '../model/TombAttachment.php';
 require_once '../model/TombFilter.php';
+require_once '../model/ToTableTomb.php';
 require_once '../model/ColumbariumFilter.php';
 require_once '../model/BasicPlotInfo.php';
 require_once '../model/BuriedIndividual.php';

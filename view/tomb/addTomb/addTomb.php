@@ -71,7 +71,7 @@
                             <div class="form-group">
                                 <label for="">Main Image</label>
                                 <div class="input-group">
-                                    <input class="form-control curved-input" type="file" id="mainImage" ref="mainImage" />
+                                    <input class="form-control curved-input" type="file" accept="image/*" id="mainImage" ref="mainImage" />
                                 </div>
                             </div>
                         </div>
@@ -388,6 +388,8 @@ App = new Vue({
                 this.purchaseDate = null
                 this.ownerId = null
                 this.buriedIndividualIds = []
+                this.$refs.mainImage.value = null;
+                this.$refs.attachments.value = null;
                 
                 this.refreshSelectPicker();
                 deleteMarker();
