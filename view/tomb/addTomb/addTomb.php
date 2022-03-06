@@ -138,6 +138,7 @@
                                 >
                               <option v-for="item in ownersList" :value="item.value">{{item.name}}</option>
                             </select>
+                            <p style="padding-top: 5px;">can't find an owner? <a href="controller.php?action=directToOwnersPage">click here</a>.</p>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -153,6 +154,7 @@
                                 >
                               <option v-for="item in buriedIndividualsList" :value="item.value">{{item.name}}</option>
                             </select>
+                            <p style="padding-top: 5px;">can't find a buried individual? <a href="controller.php?action=directToBuriedIndividualsPage">click here</a>.</p>
                         </div>
                     </div>
                 </div>
