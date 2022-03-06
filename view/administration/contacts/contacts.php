@@ -117,12 +117,18 @@
                                       <option>Jody Strausser</option>
                                     </select>
                                 </div>
-                                    <div class="input-group-append">
+                                <div class="input-group-append">
                                     <btn onclick="window.location.href='controller.php?action=directToEditContactPage'"
                                         type="button" 
                                         class="btn btn-success" 
-                                        style="border-radius: 0px 5px 5px 0px"><span class="fa fa-edit"></span></btn>
-                                    </div>
+                                        style="border-radius: 0px 0px 0px 0px"><span class="fa fa-edit"></span>
+                                    </btn>
+                                    <btn
+                                        type="button" 
+                                        class="btn btn-danger" 
+                                        style="border-radius: 0px 5px 5px 0px"><span class="fa fa-trash"></span>
+                                    </btn>     
+                                </div>
                             </div>
                         </div>
                   </div>
