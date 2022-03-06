@@ -9,7 +9,6 @@ session_start();
 
 // Include all of our mapping classes
 include 'requireMappingClasses.php';
-
 // Include Test cases
 include '../tests/modelTests.php';
 
@@ -399,4 +398,3 @@ function fetchColumbariumCards(){
     }
     echo json_encode(get_object_vars($mutatedResponse));
 }
-

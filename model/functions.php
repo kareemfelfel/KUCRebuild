@@ -661,3 +661,279 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
     }
     return $response;
 }
+
+function getAllContacts(){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "select * from contacts;";
+        $statement = $con->prepare($query);       
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for($i = 0; $i<count($result); $i++)
+            {
+                $row = $result[$i];
+                $contact = new Contact($row);
+                $response ->addResult($contact);
+            }
+        }
+        if(!$success)
+        {
+            $response -> addError("Failed to fetch Contacts");
+        }
+    }    
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+
+function insertBuriedIndividual(ToBuriedIndividualTable $buriedIndividual)
+{
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "INSERT INTO buried_individuals (FIRST_NAME, MIDDLE_NAME, LAST_NAME, MAIDEN_NAME, DOB, DOD, VETERAN, OBITUARY, TOMB_ID, COLUMBARIUM_ID) 
+            VALUES (:firstName, :middleName, :lastName, :maidenName, :dob, :dod, :veteran, :obituary, :tombId, :columbariumId);";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':firstName', $firstName = $buriedIndividual->firstName);
+        if(!isset($buriedIndividual ->middleName))
+        {
+            $statement->bindValue(':middleName', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':middleName', $middleName = $buriedIndividual->middleName);
+        }
+        $statement->bindValue(':lastName', $lastName = $buriedIndividual->lastName);
+        if(!isset($buriedIndividual ->maidenName))
+        {
+            $statement->bindValue(':maidenName', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':maidenName', $maidenName = $buriedIndividual->maidenName);
+        }
+        $statement->bindValue(':dob', $dob = $buriedIndividual->dob);
+        $statement->bindValue(':dod', $dod = $buriedIndividual->dod);
+        $statement->bindValue(':veteran', $veteran = $buriedIndividual->veteran? 1 : 0);
+        if(!isset($buriedIndividual ->obituary))
+        {
+            $statement->bindValue(':obituary', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':obituary', $obituary = $buriedIndividual->obituary);
+        }
+        if(!isset($buriedIndividual ->tombId))
+        {
+            $statement->bindValue(':tombId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':tombid', $tombId = $buriedIndividual->tombId);
+        }
+        if(!isset($buriedIndividual ->columbariumId))
+        {
+            $statement->bindValue(':columbariumId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':columbariumId', $columbariumId = $buriedIndividual->columbariumId);
+        }
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response->addResult(True);
+        }
+        else{
+            $response->addError("Failed to insert Buried Individual.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+
+function insertColumbariumType(ToTypeTable $type)
+{
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "INSERT INTO columbarium_types (TYPE)
+                    VALUE (:columbariumType);";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':columbariumType', $type->type);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {            
+            $response->addResult(True);
+        }
+        else{
+            $response->addError("Failed to insert Columbarium Type.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response->addError($errorMessage);
+    }
+    return $response;
+}
+
+function insertOwner(ToOwnerTable $owner)
+{
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "INSERT INTO owners (FIRST_NAME, LAST_NAME, MIDDLE_NAME, ADDRESS, PHONE_NUMBER, EMAIL)
+                    VALUES(:firstName, :lastName, :middleName, :address, :phoneNumber, :email);";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':firstName', $owner->firstName);
+        $statement->bindValue(':lastName', $owner->lastName);
+        if(!isset($owner->middleName))
+        {
+            $statement->bindValue(':middleName', null, PDO::PARAM_NULL);
+        }
+        else
+        {
+            $statement->bindValue(':middleName', $middleName = $owner->middleName);
+        }
+        $statement->bindValue(':address', $address = $owner->address);
+        $statement->bindValue(':phoneNumber', $phoneNumber = $owner->phoneNumber);
+        $statement->bindValue(':email', $email = $owner->email);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response->addResult(True);
+        }
+        else{
+            $response->addError("Failed to insert Owner.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response->addError($errorMessage);
+    }
+    return $response;
+}
+
+function insertContact(ToContactTable $contact)
+{
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "INSERT INTO CONTACTS (FIRST_NAME, LAST_NAME, EMAIL, TITLE, PHONE_NUMBER)
+                    VALUES (:firstName, :lastName, :email, :title, :phoneNumber);";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':firstName', $contact->firstName);
+        $statement->bindValue(':lastName', $contact->lastName);
+        $statement->bindValue(':email', $contact->email);
+        if(!isset($contact->title))
+        {
+            $statement->bindValue(':title', null, PDO::PARAM_NULL);
+        }
+        else
+        {
+            $statement->bindValue(':title', $contact->title);
+        }
+        $statement->bindValue(':phoneNumber', $contact->phoneNumber);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response->addResult(True);
+        }
+        else{
+            $response->addError("Failed to insert Contact.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response->addError($errorMessage);
+    }
+    return $response;
+}
+
+function insertNicheType(ToTypeTable $nicheType)
+{
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "INSERT INTO niche_types (TYPE)
+                    VALUE (:nicheType);";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':nicheType', $nicheType->type);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response->addResult(True);
+        }
+        else
+        {
+            $response->addError("Failed to insert Niche Type");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response->addError($errorMessage);
+    }
+    return $response;
+}
+
+function insertTombSectionLetter(ToSectionLetter $sectionLetter)
+{
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "INSERT INTO tomb_section_letters (SECTION_LETTER)
+                    VALUE (:sectionLetter);";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':sectionLetter', $sectionLetter->letter);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response->addResult(True);
+        }
+        else
+        {
+            $response->addError("Failed to insert a Tomb Section Letter.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response->addError($errorMessage);
+    }
+    return $response;
+}
+
+function insertColumbariumSectionLetter(ToSectionLetter $sectionLetter)
+{
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "INSERT INTO columbarium_section_letters (SECTION_LETTER)
+                    VALUE (:sectionLetter);";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':sectionLetter', $sectionLetter->letter);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+            $response->addResult(True);
+        else
+            $response->addError("Failed to insert Columbarium Section Letter.");
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response->addError($errorMessage);
+    }
+    return $response;
+}

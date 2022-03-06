@@ -15,3 +15,9 @@ require_once '../model/Response.php';
 require_once '../model/Tomb.php';
 require_once '../model/lists.php';
 
+
+//insert classes
+require_once '../model/insertClasses/ToListTable.php';
+require_once '../model/insertClasses/ToBuriedIndividualTable.php';
+require_once '../model/insertClasses/ToOwnerTable.php';
+require_once '../model/insertClasses/ToContactTable.php';
