@@ -618,7 +618,7 @@ function addColumbarium(){
     //If all the data is validated, upload the attached documents
     if(empty($response->error)){
         // Upload the mainImage and attachedDocuments
-        $mainImagePath = processMainImageUpload($response)?: "../assets/images/Knox_Head_Stones.jpg";
+        $mainImagePath = processMainImageUpload($response)?: "../assets/images/Knox_Mausoleum.jpg";
         $attachedDocumentsPaths = processAttachedDocumentsUpload($response);
         
         // If there are no problems with file uploading, process request
