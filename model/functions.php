@@ -771,6 +771,38 @@ function updateBuriedIndividualsTombId($tombId, $buriedIndividualsIds){
     return $response;
 }
 
+function updateBuriedIndividualsColumbariumId($columbariumId, $buriedIndividualsIds){
+    $response = new Response();
+    if(!isset($buriedIndividualsIds) || count($buriedIndividualsIds) == 0){
+        $response->addResult(true); // Do not bother trying to add an empty array
+        return $response;
+    }
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        
+        $query = "UPDATE `buried_individuals` "
+                . "SET buried_individuals.COLUMBARIUM_ID = :columbariumId "
+                . "WHERE "
+                . "buried_individuals.ID IN (" . implode(',', $buriedIndividualsIds) .");";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':columbariumId', $columbariumId);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response -> addResult(true);
+        }
+        else{
+            $response -> addError("Failed to link Buried Individuals with Columbarium ID.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
 // INSERT METHODS
 function insertTombAttachments($tombId, $attachments){
     $response = new Response();
@@ -801,6 +833,43 @@ function insertTombAttachments($tombId, $attachments){
         }
         else{
             $response -> addError("Failed to link attachments to tomb.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function insertColumbariumAttachments($columbariumId, $attachments){
+    $response = new Response();
+    if(!isset($attachments) || count($attachments) == 0){
+        $response->addResult(true); // Do not bother trying to add an empty array
+        return $response;
+    }
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $sq = "";
+        for($i = 0; $i < count($attachments); $i++){
+            $sq .= "(" . $columbariumId . ", '". $attachments[$i] . "')";
+            if($i != count($attachments) - 1){
+                $sq .= ",";
+            }
+        }
+        $query = "INSERT INTO `columbarium_attachments` "
+                . "(COLUMBARIUM_ID, LINK) "
+                . "VALUES "
+                . $sq .";";
+        $statement = $con->prepare($query);  
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response -> addResult(true);
+        }
+        else{
+            $response -> addError("Failed to link attachments to Columbarium.");
         }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
@@ -880,6 +949,81 @@ function insertAllTombRelatedData(ToTableTomb $tombData){
         }
         else{
             $response -> addError("Failed to Insert Tomb Data.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function insertAllColumbariumRelatedData(ToTableColumbarium $columbariumData){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "INSERT INTO columbarium "
+                . "(FOR_SALE, PURCHASE_DATE, PRICE, SECTION_LETTER_ID, SECTION_NUMBER, NICHE_TYPE_ID, COLUMBARIUM_TYPE_ID, MAIN_IMAGE, OWNER_ID) VALUES "
+                . "(:forSale, :purchaseDate, :price, :sectionLetterId, "
+                . ":sectionNumber, :nicheTypeId, :columbariumTypeId, :mainImage, :ownerId);";
+        $statement = $con->prepare($query); 
+        
+        // Binding parameters
+        // NON NULL params
+        $statement->bindParam(':forSale', $columbariumData->forSale);
+        
+        $statement->bindParam(':sectionNumber', $columbariumData->sectionNumber);
+        
+        $statement->bindParam(':mainImage', $columbariumData->mainImage);
+        
+        $statement->bindParam(':sectionLetterId', $columbariumData->sectionLetterId);
+        
+        $statement->bindParam(':nicheTypeId', $columbariumData->nicheTypeId);
+        
+        $statement->bindParam(':columbariumTypeId', $columbariumData->columbariumTypeId);
+        
+        // Nullable data
+        if(!isset($columbariumData -> ownerId)){
+            $statement->bindValue(':ownerId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':ownerId', $columbariumData ->ownerId);
+        }
+        
+        if(!isset($columbariumData -> price)){
+            $statement->bindValue(':price', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':price', $columbariumData ->price);
+        }
+        
+        if(!isset($columbariumData -> purchaseDate)){
+            $statement->bindValue(':purchaseDate', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':purchaseDate', $columbariumData ->purchaseDate);
+        }
+        
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $columbariumId = $con->lastInsertId();
+            $columbariumAttachmentsPromise = insertColumbariumAttachments($columbariumId, $columbariumData->attachedDocuments);
+            if(count($columbariumAttachmentsPromise->error) > 0){
+                $response->addError($columbariumAttachmentsPromise->error[0]);
+            }
+            $updateBIPromise = updateBuriedIndividualsColumbariumId($columbariumId, $columbariumData ->buriedIndividualIds);
+            if(count($updateBIPromise->error) > 0){
+                $response->addError($updateBIPromise->error[0]);
+            }
+            
+            if(count($response->error) == 0){
+                $response->addResult(true);
+            }
+        }
+        else{
+            $response -> addError("Failed to Insert Columbarium Data.");
         }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();

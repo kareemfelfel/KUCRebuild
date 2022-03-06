@@ -7,50 +7,46 @@
  */
 
 /**
- * used for mapping POST and PUT tomb related data to the table
+ * Description of ToTableColumbarium
  *
  * @author kareem
  */
-class ToTableTomb {
+class ToTableColumbarium {
+    public int $columbariumTypeId;
+    public int $nicheTypeId;
     public int $sectionLetterId;
-    public int $lotNumber;
-    public $price;
+    public int $sectionNumber;
     public $mainImage;
+    public $price;
     public int $forSale;
-    public int $hasOpenPlots;
     public $purchaseDate;
     public ?int $ownerId;
-    public $longitude;
-    public $latitude;
     public ?array $attachedDocuments;
     public ?array $buriedIndividualIds;
     
     public function __construct(
+            $columbariumTypeId,
+            $nicheTypeId,
             $sectionLetterId,
-            $lotNumber,
-            $price,
+            $sectionNumber,
             $mainImage,
+            $price,
             $forSale,
-            $hasOpenPlots,
             $purchaseDate,
             $ownerId,
-            $longitude,
-            $latitude,
             $attachedDocuments,
             $buriedIndividualIds
     ) {
+        $this->columbariumTypeId = $columbariumTypeId;
+        $this->nicheTypeId = $nicheTypeId;
         $this->sectionLetterId = $sectionLetterId;
-        $this->lotNumber = $lotNumber;
+        $this->sectionNumber = $sectionNumber;
         $this->price = $price;
         $this->mainImage = $mainImage;
         $this->forSale = $forSale? 1: 0;
-        $this->hasOpenPlots = $hasOpenPlots? 1: 0;
         $this->purchaseDate = $purchaseDate;
         $this->ownerId = $ownerId;
-        $this->longitude = $longitude;
-        $this->latitude = $latitude;
         $this->attachedDocuments = $attachedDocuments;
         $this->buriedIndividualIds = $buriedIndividualIds;
-       
     }
 }

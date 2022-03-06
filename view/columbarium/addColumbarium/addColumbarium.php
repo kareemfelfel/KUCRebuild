@@ -9,7 +9,7 @@
 <br>
 <h3 class="text-center">Add Columbarium</h3>
 <hr>
-<div class="container-fluid">
+<div id="addColumbariumApp" class="container-fluid">
     <div class="panel-group">
       <div class="panel panel-default" id="accordion1">
         <div class="panel-heading">
@@ -35,9 +35,9 @@
                                 id="section-letter"
                                 data-live-search="true"
                                 data-width="100%"
+                                v-model="columbariumTypeId"
                                 >
-                              <option>Columbarium 1</option>
-                              <option>Columbarium 2</option>
+                              <option v-for="item in columbariumTypesList" :value="item.value">{{item.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -49,10 +49,9 @@
                                 id="section-letter"
                                 data-live-search="true"
                                 data-width="100%"
+                                v-model="nicheTypeId"
                                 >
-                              <option>Heart</option>
-                              <option>Eye</option>
-                              <option>Prayer</option>
+                              <option v-for="item in nicheTypesList" :value="item.value">{{item.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -64,16 +63,16 @@
                                 id="section-letter"
                                 data-live-search="true"
                                 data-width="100%"
+                                v-model="sectionLetterId"
                                 >
-                              <option>A</option>
-                              <option>B</option>
+                              <option v-for="item in sectionLettersList" :value="item.value">{{item.name}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="required">Section Number</label>
-                            <input type="number" class="form-control" id="section-number" placeholder="">
+                            <input v-model="sectionNumber" type="number" class="form-control" id="section-number" placeholder="">
                         </div>
                     </div>
                 </div>
@@ -82,21 +81,21 @@
                         <div class="form-group">
                             <label for="">Main Image</label>
                             <div class="input-group">
-                                <input class="form-control curved-input" type="file" id="mainImage" />
+                                <input class="form-control curved-input" type="file" id="mainImage" accept="image/*" ref="mainImage" />
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Price</label>
-                            <input type="number" class="form-control" id="" placeholder="">
+                            <input v-model="price" type="number" class="form-control" id="" placeholder="">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="for-sale-switch">For Sale</label>
                             <div class="custom-control custom-switch inactive-link">
-                                <input type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="for-sale-switch">
+                                <input v-model="forSale" type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="for-sale-switch">
                                 <label class="custom-control-label" for="for-sale-switch"></label>
                             </div>
                         </div>
@@ -105,7 +104,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Purchase Date</label>
-                            <input type="date" class="form-control" id="purchaseDate" placeholder="Select a Date">
+                            <input v-model="purchaseDate" type="date" class="form-control" id="purchaseDate" placeholder="Select a Date">
                         </div>
                     </div>
                 </div>
@@ -139,15 +138,10 @@
                             class="selectpicker"
                             id="owner"
                             data-live-search="true"
-                            multiple
                             data-width="100%"
-                            data-max-options="1"
+                            v-model="ownerId"
                             >
-                          <option>Peter Griffin</option>
-                          <option>Stewie Griffin</option>
-                          <option>Lewis</option>
-                          <option>John Black</option>
-                          <option>Jody Strausser</option>
+                          <option v-for="item in ownersList" :value="item.value">{{item.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -160,17 +154,9 @@
                             data-live-search="true"
                             data-width="100%"
                             multiple
+                            v-model="buriedIndividualIds"
                             >
-                          <option>Kareem Felfel</option>
-                          <option>Assembly Language</option>
-                          <option>Am I dead?</option>
-                          <option>What is this place!</option>
-                          <option>Hello World</option>
-                          <option>Peter Griffin</option>
-                          <option>Stewie Griffin</option>
-                          <option>Lewis</option>
-                          <option>John Black</option>
-                          <option>Jody Strausser</option>
+                          <option v-for="item in buriedIndividualsList" :value="item.value">{{item.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -200,7 +186,7 @@
                     <div class="form-group">
                         <label for="">All Attached Documents - Including Deed</label>
                         <div class="input-group">
-                            <input class="form-control curved-input" type="file" id="attached-documents" multiple/>
+                            <input class="form-control curved-input" type="file" id="attached-documents" multiple ref="attachments"/>
                         </div>
                     </div>
                 </div>
@@ -209,8 +195,25 @@
         </div>
       </div>
     </div>
+    
+    <!-- Error Messages -->
+    <div v-for="(error, index) in errors" 
+         :key="index" class="alert alert-danger alert-dismissible fade show message-box" 
+         >
+        <button type="button" class="close" @click="clearError(index)">&times;</button>
+        {{error}}
+    </div>
+
+    <!-- Success Message -->
+    <div v-if="successMessage != null" 
+         class="alert alert-success alert-dismissible fade show message-box" 
+         >
+        <button type="button" class="close" @click="clearSuccessMessage">&times;</button>
+        {{successMessage}}
+    </div>
+    
     <br>
-    <button type="button" class="btn btn-success" style="margin-right: 10px;">Submit</button>
+    <button type="button" class="btn btn-success" style="margin-right: 10px;" @click="addColumbarium">Submit</button>
     <button type="button" class="btn btn-default">Cancel</button>
     <br><br>
 </div>
@@ -219,7 +222,194 @@
 <!-- Used for select picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
+<style scoped>
+.message-box {
+    position: fixed;
+    bottom: 0;
+    right: 5px;
+    width: 300px;
+}
+</style>
 <script>
+App = new Vue({
+    el: "#addColumbariumApp",
+    data: () => {
+        return{
+            columbariumTypeId: null,
+            nicheTypeId: null,
+            sectionLetterId: null,
+            sectionNumber: null,
+            price: null,
+            forSale: false,
+            purchaseDate: null,
+            ownerId: null,
+            buriedIndividualIds: [],
+            
+            sectionLettersList: [],
+            nicheTypesList: [],
+            columbariumTypesList: [],
+            ownersList: [],
+            buriedIndividualsList: [],
+            errors: [],
+            successMessage: null
+        }
+    },
+    created(){
+        this.fetchSectionLettersList();
+        this.fetchNicheTypesList();
+        this.fetchColumbariumTypesList();
+        this.fetchOwnersList();
+        this.fetchBuriedIndividualsList();
+    },
+    methods:{
+        addColumbarium(){
+            let formData = new FormData();
+            let request = {
+                columbariumTypeId: this.columbariumTypeId,
+                nicheTypeId: this.nicheTypeId,
+                sectionLetterId: this.sectionLetterId,
+                sectionNumber: this.sectionNumber,
+                price: this.price,
+                forSale: this.forSale,
+                purchaseDate: this.purchaseDate,
+                ownerId: this.ownerId,
+                buriedIndividualIds: this.buriedIndividualIds
+            }
+            
+            formData.append('request', JSON.stringify(request))
+            if(this.$refs.mainImage.files[0])
+                formData.append('mainImage', this.$refs.mainImage.files[0]);
+
+            let attachments = this.$refs.attachments.files;
+            for(var i =0; i< attachments.length; i++){
+                formData.append('attachedDocuments[]', attachments[i]);
+            }
+            
+            $.ajax({
+                type: "POST",
+                url: "controller.php?action=addColumbarium",
+                data: formData,
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: (response) => {
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    let result = JSON.parse(JSON.stringify(response.result))
+                    this.errors = errors
+                    // result 0 will indicate a true or false for success or failure
+                    if(result.length > 0 && result[0]){
+                        this.successMessage = "Columbarium was Successfully Added!"
+                        this.clearForm();
+                        this.fetchBuriedIndividualsList();
+                    }
+                },
+                error: () =>{
+                    this.errors = ["Failed to Add Columbarium."]
+                }
+            });
+        },
+        clearForm(){
+            this.columbariumTypeId = null
+            this.nicheTypeId = null
+            this.sectionLetterId = null
+            this.sectionNumber = null
+            this.price = null
+            this.forSale = false
+            this.purchaseDate = null
+            this.ownerId = null
+            this.buriedIndividualIds = []
+            
+            this.$refs.mainImage.value = null;
+            this.$refs.attachments.value = null;
+
+            this.refreshSelectPicker();
+        },
+        fetchColumbariumTypesList(){
+            $.getJSON("controller.php",
+            {
+                action: "fetchColumbariumTypesList"
+            },response => {
+                let data = JSON.parse(JSON.stringify(response.result))
+                this.columbariumTypesList = data
+                this.refreshSelectPicker();
+            })
+        },
+        fetchNicheTypesList(){
+            $.getJSON("controller.php",
+            {
+                action: "fetchNicheTypesList"
+            },response => {
+                let data = JSON.parse(JSON.stringify(response.result))
+                this.nicheTypesList = data
+                this.refreshSelectPicker();
+            })
+        },
+        fetchOwnersList(){
+            $.getJSON("controller.php",
+            {
+                action: "fetchAllOwnersList"
+            },response => {
+                let data = JSON.parse(JSON.stringify(response.result))
+                this.ownersList = data
+                this.refreshSelectPicker();
+            })
+        },
+        fetchSectionLettersList(){
+            $.getJSON("controller.php",
+            {
+                action: "fetchColumbariumSectionLettersList"
+            },response => {
+                let data = JSON.parse(JSON.stringify(response.result))
+                this.sectionLettersList = data
+                this.refreshSelectPicker();
+            })
+        },
+        fetchBuriedIndividualsList(){
+            $.getJSON("controller.php",
+            {
+                action: "fetchUnlinkedBuriedIndividualsList"
+            },response => {
+                let data = JSON.parse(JSON.stringify(response.result))
+                this.buriedIndividualsList = data
+                this.refreshSelectPicker();
+            })
+        },
+        refreshSelectPicker(){
+            this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
+        },
+        clearError(index){
+            this.errors.splice(index, 1);
+        },
+        clearSuccessMessage(){
+            this.successMessage = null;
+        }
+    }
+})
+
+function disableForOpen(x){
+    if(x.checked){
+        //Clear the owner selected data, remove required, and disable it
+        document.getElementById("owner-label").classList.remove("required");
+        document.getElementById("owner").setAttribute("disabled", true);
+        App.$data.ownerId = null;
+        $('#owner').selectpicker('val', App.$data.ownerId);
+        document.getElementById("buried-individuals").setAttribute("disabled", true);
+        App.$data.buriedIndividualIds = [];
+        $('#buried-individuals').selectpicker('val', App.$data.buriedIndividualIds);
+        // disable purchase date and clear it
+        document.getElementById("purchaseDate").setAttribute("disabled", true);
+        App.$data.purchaseDate = null;
+        
+    }
+    else{
+        document.getElementById("owner-label").classList.add("required");
+        document.getElementById("owner").removeAttribute("disabled");
+        document.getElementById("buried-individuals").removeAttribute("disabled");
+        document.getElementById("purchaseDate").removeAttribute("disabled");
+    }
+    $('.selectpicker').selectpicker('refresh');
+}
+
 $('.selectpicker').selectpicker({
     size: 4
 });
