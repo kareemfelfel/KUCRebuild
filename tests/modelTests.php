@@ -145,3 +145,111 @@ function getAllColumbariumRelatedDataWithFilterTest()
     if(count($response -> error) > 0)
         echo $response -> error[0];
 }
+
+function getAllContactsTest()
+{
+    $response = getAllContacts();
+    if(count($response->result) > 0)
+        echo json_encode(get_object_vars($response ->result[0]));
+    if(count($response -> error) > 0)
+        echo $response -> error[0];
+}
+
+function insertColumbariumTypeTest()
+{ 
+    $intype = "lastTest";
+    $toType = new ToTypeTable($intype);
+    $response = insertColumbariumType($toType);
+    if(count($response->result) > 0)
+        echo $response ->result[0];
+    if(count($response -> error) > 0)
+        echo $response -> error[0];
+}
+
+function insertBuriedIndividualTest()
+{
+    //test values
+    $firstName = "Z";
+    $lastName = "Z";
+    $middleName = "Z";
+    $maidenName = "Z";
+    $dob = "2010-12-12";
+    $dod = "2022-12-12";
+    $obituary = "Z";
+    $veteran = 1;
+    $tombId = NULL;
+    $columbariumId = 1;
+    $buriedIndividual = new ToBuriedIndividualTable($firstName, $middleName, $maidenName, $lastName, $dob, $dod, $veteran, $obituary, $tombId, $columbariumId);
+    $response = insertBuriedIndividual($buriedIndividual);
+    if(count($response->result) > 0)
+        echo $response ->result[0];
+    if(count($response -> error) > 0)
+        echo $response -> error[0];
+}
+
+function insertOwnerTest()
+{
+    //test values
+    $firstName = "test";
+    $lastName ="test";
+    $middleName = null;
+    $address = "address";
+    $phoneNumber = "phoneNumber";
+    $email = "Email";
+    $owner = new ToOwnerTable($firstName, $lastName, $middleName, $address, $phoneNumber, $email);
+    $response = insertOwner($owner);
+    if(count($response->result) > 0)
+        echo $response ->result[0];
+    if(count($response -> error) > 0)
+        echo $response -> error[0];
+}
+
+function insertContactTest()
+{
+    //test values
+    $firstName = "test";
+    $lastName = "test";
+    $email = "test";
+    $title = "test";
+    $phoneNumber = "123456789";
+    $contact  = new ToContactTable($firstName, $lastName, $email, $title, $phoneNumber);
+    $response = insertContact($contact);
+    if(count($response->result)>0)
+        echo $response->result[0];
+    if(count($response->error)>0)
+        echo $response->error[0];
+}
+
+function insertNicheTypeTest()
+{
+    //test value
+    $type = "TestType";
+    $nicheType = new ToTypeTable($type);
+    $response = insertNicheType($nicheType);
+    if(count($response->result)>0)
+        echo $response->result[0];
+    if(count($response->error)>0)
+        echo $response->error[0];
+}
+
+function insertTombSectionLetterTest()
+{
+    $letter = "Z";
+    $sectionLetter = new ToSectionLetter($letter);
+    $response = insertTombSectionLetter($sectionLetter);
+    if(count($response->result)>0)
+        echo $response->result[0];
+    if(count($response->error)>0)
+        echo $response->error[0];
+}
+
+function insertColumbariumSectionLetterTest()
+{
+    $letter = "Z";
+    $sectionLetter = new ToSectionLetter($letter);
+    $response = insertColumbariumSectionLetter($sectionLetter);
+    if(count($response->result)>0)
+        echo $response->result[0];
+    if(count($response->error)>0)
+        echo $response->error[0];
+} 

@@ -14,9 +14,7 @@ include 'requireMappingClasses.php';
 include '../tests/modelTests.php';
 
 // OUR MAIN CONTACT WITH DATABASE
-require_once '../model/connection.php';
-require_once '../model/functions.php';
-
+include 'requireModel.php';
 
 if (isset ($_POST['action']))
 {

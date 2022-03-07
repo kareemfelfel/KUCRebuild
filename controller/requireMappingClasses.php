@@ -1,19 +1,28 @@
 <?php
 // MAPPING CLASSES
-require_once '../model/Admin.php';
-require_once '../model/Attachment.php';
-require_once '../model/ColumbariumAttachment.php';
-require_once '../model/TombAttachment.php';
-require_once '../model/TombFilter.php';
-require_once '../model/ToTableTomb.php';
-require_once '../model/ToTableColumbarium.php';
-require_once '../model/ColumbariumFilter.php';
-require_once '../model/BasicPlotInfo.php';
-require_once '../model/BuriedIndividual.php';
-require_once '../model/Columbarium.php';
-require_once '../model/Contact.php';
-require_once '../model/Owner.php';
+require_once '../model/mappingClasses/Admin.php';
+require_once '../model/mappingClasses/Attachment.php';
+require_once '../model/mappingClasses/ColumbariumAttachment.php';
+require_once '../model/mappingClasses/TombAttachment.php';
+require_once '../model/mappingClasses/TombFilter.php';
+require_once '../model/mappingClasses/ColumbariumFilter.php';
+require_once '../model/mappingClasses/BasicPlotInfo.php';
+require_once '../model/mappingClasses/BuriedIndividual.php';
+require_once '../model/mappingClasses/Columbarium.php';
+require_once '../model/mappingClasses/Contact.php';
+require_once '../model/mappingClasses/Owner.php';
+require_once '../model/mappingClasses/Tomb.php';
+require_once '../model/mappingClasses/lists.php';
+
+// INSERT CLASSES
+require_once '../model/insertClasses/ToAdminTable.php';
+require_once '../model/insertClasses/ToTableTomb.php';
+require_once '../model/insertClasses/ToTableColumbarium.php';
+require_once '../model/insertClasses/ToListTable.php';
+require_once '../model/insertClasses/ToBuriedIndividualTable.php';
+require_once '../model/insertClasses/ToOwnerTable.php';
+require_once '../model/insertClasses/ToContactTable.php';
+
+// RESPONSE CLASS
 require_once '../model/Response.php';
-require_once '../model/Tomb.php';
-require_once '../model/lists.php';
 
