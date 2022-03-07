@@ -700,48 +700,34 @@ function insertBuriedIndividual(ToBuriedIndividualTable $buriedIndividual)
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "INSERT INTO buried_individuals (FIRST_NAME, MIDDLE_NAME, LAST_NAME, MAIDEN_NAME, DOB, DOD, VETERAN, OBITUARY, TOMB_ID, COLUMBARIUM_ID) 
-            VALUES (:firstName, :middleName, :lastName, :maidenName, :dob, :dod, :veteran, :obituary, :tombId, :columbariumId);";
+        $query = "INSERT INTO buried_individuals (FIRST_NAME, MIDDLE_NAME, LAST_NAME, MAIDEN_NAME, DOB, DOD, VETERAN, OBITUARY) 
+            VALUES (:firstName, :middleName, :lastName, :maidenName, :dob, :dod, :veteran, :obituary);";
         $statement = $con->prepare($query);
-        $statement->bindValue(':firstName', $firstName = $buriedIndividual->firstName);
+        $statement->bindValue(':firstName', $buriedIndividual->firstName);
         if(!isset($buriedIndividual ->middleName))
         {
             $statement->bindValue(':middleName', null, PDO::PARAM_NULL);
         }
         else{
-            $statement->bindValue(':middleName', $middleName = $buriedIndividual->middleName);
+            $statement->bindValue(':middleName', $buriedIndividual->middleName);
         }
-        $statement->bindValue(':lastName', $lastName = $buriedIndividual->lastName);
+        $statement->bindValue(':lastName', $buriedIndividual->lastName);
         if(!isset($buriedIndividual ->maidenName))
         {
             $statement->bindValue(':maidenName', null, PDO::PARAM_NULL);
         }
         else{
-            $statement->bindValue(':maidenName', $maidenName = $buriedIndividual->maidenName);
+            $statement->bindValue(':maidenName', $buriedIndividual->maidenName);
         }
-        $statement->bindValue(':dob', $dob = $buriedIndividual->dob);
-        $statement->bindValue(':dod', $dod = $buriedIndividual->dod);
-        $statement->bindValue(':veteran', $veteran = $buriedIndividual->veteran? 1 : 0);
+        $statement->bindValue(':dob', $buriedIndividual->dob);
+        $statement->bindValue(':dod', $buriedIndividual->dod);
+        $statement->bindValue(':veteran', $buriedIndividual->veteran);
         if(!isset($buriedIndividual ->obituary))
         {
             $statement->bindValue(':obituary', null, PDO::PARAM_NULL);
         }
         else{
-            $statement->bindValue(':obituary', $obituary = $buriedIndividual->obituary);
-        }
-        if(!isset($buriedIndividual ->tombId))
-        {
-            $statement->bindValue(':tombId', null, PDO::PARAM_NULL);
-        }
-        else{
-            $statement->bindValue(':tombid', $tombId = $buriedIndividual->tombId);
-        }
-        if(!isset($buriedIndividual ->columbariumId))
-        {
-            $statement->bindValue(':columbariumId', null, PDO::PARAM_NULL);
-        }
-        else{
-            $statement->bindValue(':columbariumId', $columbariumId = $buriedIndividual->columbariumId);
+            $statement->bindValue(':obituary', $buriedIndividual->obituary);
         }
         $success = $statement->execute();
         $statement->closeCursor();
@@ -803,11 +789,32 @@ function insertOwner(ToOwnerTable $owner)
         }
         else
         {
-            $statement->bindValue(':middleName', $middleName = $owner->middleName);
+            $statement->bindValue(':middleName', $owner->middleName);
         }
-        $statement->bindValue(':address', $address = $owner->address);
-        $statement->bindValue(':phoneNumber', $phoneNumber = $owner->phoneNumber);
-        $statement->bindValue(':email', $email = $owner->email);
+        if(!isset($owner->address))
+        {
+            $statement->bindValue(':address', null, PDO::PARAM_NULL);
+        }
+        else
+        {
+            $statement->bindValue(':address', $owner->address);
+        }
+        if(!isset($owner->phoneNumber))
+        {
+            $statement->bindValue(':phoneNumber', null, PDO::PARAM_NULL);
+        }
+        else
+        {
+            $statement->bindValue(':phoneNumber', $owner->phoneNumber);
+        }
+        if(!isset($owner->email))
+        {
+            $statement->bindValue(':email', null, PDO::PARAM_NULL);
+        }
+        else
+        {
+            $statement->bindValue(':email', $owner->email);
+        }
         $success = $statement->execute();
         $statement->closeCursor();
         if($success)
@@ -928,9 +935,13 @@ function insertColumbariumSectionLetter(ToSectionLetter $sectionLetter)
         $success = $statement->execute();
         $statement->closeCursor();
         if($success)
+        {
             $response->addResult(True);
+        }
         else
+        {
             $response->addError("Failed to insert Columbarium Section Letter.");
+        }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
         $response->addError($errorMessage);

@@ -6,8 +6,7 @@
             <file>file:/O:/Xampp/htdocs/KUCRebuild/controller/controller.php</file>
             <file>file:/O:/Xampp/htdocs/KUCRebuild/model/functions.php</file>
             <file>file:/O:/Xampp/htdocs/KUCRebuild/tests/modelTests.php</file>
-            <file>file:/O:/Xampp/htdocs/KUCRebuild/controller/requireMappingClasses.php</file>
-            <file>file:/O:/Xampp/htdocs/KUCRebuild/model/insertClasses/ToListTable.php</file>
+            <file>file:/O:/Xampp/htdocs/KUCRebuild/model/insertClasses/ToBuriedIndividualTable.php</file>
         </group>
     </open-files>
 </project-private>
