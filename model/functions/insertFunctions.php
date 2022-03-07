@@ -449,7 +449,7 @@ function insertTombSectionLetter(ToSectionLetter $sectionLetter)
         }
         else
         {
-            $response->addError("Failed to insert a Tomb Section Letter.");
+            $response->addError("Failed to insert a Lot Section Letter.");
         }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
