@@ -155,6 +155,9 @@ switch ($action)
     case"addColumbarium":
         addColumbarium();
         break;
+    case"addBuriedIndividual":
+        addBuriedIndividual();
+        break;
 }
 //-----API--------
 function fetchAllOwnersList(){
@@ -649,3 +652,52 @@ function addColumbarium(){
     echo json_encode(get_object_vars($response));
 }
 
+function addBuriedIndividual(){
+    $response = new Response();
+   
+    // Getting all REQUEST data
+    $data = json_decode($_POST['request']);
+    $firstName = !empty($data->firstName) ? $data->firstName : null;
+    $middleName = !empty($data->middleName) ? $data->middleName : null;
+    $maidenName = !empty($data->maidenName) ? $data->maidenName : null;
+    $lastName = !empty($data->lastName) ? $data->lastName : null;
+    $dob = !empty($data->dob) ? $data->dob : null;
+    $dod = !empty($data->dod) ? $data->dod : null;
+    $veteran = !empty($data->veteran) ? $data->veteran : null;
+    $obituary = !empty($data->obituary) ? $data->obituary : null;
+    
+    if(!isset($firstName) || strlen($firstName) < 1){
+        $response->addError("First Name must be set.");
+    }
+    if(!isset($lastName) || strlen($lastName) < 1){
+        $response->addError("Last Name must be set.");
+    }
+    if(!isset($dob)){
+        $response->addError("Date of Birth must be set.");
+    }
+    if(!isset($dod)){
+        $response->addError("Date of Death must be set.");
+    }
+    
+    if(empty($response->error)){
+        $obj = new ToBuriedIndividualTable(
+            $firstName, 
+            $middleName, 
+            $maidenName, 
+            $lastName, 
+            $dob, 
+            $dod, 
+            $veteran, 
+            $obituary
+        );
+        $modelResponse = insertBuriedIndividual($obj);
+        for($i = 0; $i< count($modelResponse->error); $i++){
+            $response->addError($modelResponse->error[$i]);
+        }
+
+        if(count($response->error) == 0){ // If everything was successful, send client true in response
+            $response->addResult(true);
+        }
+    }
+    echo json_encode(get_object_vars($response));
+}
