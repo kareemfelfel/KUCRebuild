@@ -28,5 +28,6 @@ class ToBuriedIndividualTable {
         $this->dob = $dob;
         $this->dod = $dod;
         $this->veteran = $veteran? 1: 0;
+        $this->obituary = $obituary;
     }
 }
