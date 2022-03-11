@@ -39,6 +39,7 @@
             <!-- GMAP API -->
         </div>
     </div>
+    <br><br>
 </div>
 <link rel="stylesheet" type="text/css" href="../view/tomb/viewTomb/viewTomb.css">
 <!-- GMAP Async script executes immediately and must be after any DOM elements used in callback. -->
@@ -105,20 +106,6 @@
            }
         }
     });
-    
-    var marker;
-    var map;
-    var infowindow;
-    var openMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-
-    function myMap() {
-        const cemetery = { lat: 41.239094, lng: -79.542186 };
-        var mapProp= {
-          center:new google.maps.LatLng(cemetery.lat, cemetery.lng),
-          zoom:18,
-          mapTypeId: 'satellite'
-        };
-        map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-    }
+   
 </script>
 
