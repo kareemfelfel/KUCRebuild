@@ -14,8 +14,8 @@ class BuriedIndividual{
     function __construct($row){
         $this -> id = $row['ID'];
         $this -> firstName = $row['FIRST_NAME'];
-        $this -> dob = $row['DOB'];
-        $this -> dod = $row['DOD'];
+        $this -> dob = isset($row['DOB']) ? date("m-d-Y", strtotime($row['DOB'])) : null;
+        $this -> dod = isset($row['DOD']) ? date("m-d-Y", strtotime($row['DOD'])) : null;
         $this -> lastName = $row['LAST_NAME'];
         $this -> maidenName = $row['MAIDEN_NAME'];
         $this -> middleName = $row['MIDDLE_NAME'];

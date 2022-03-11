@@ -14,7 +14,7 @@ class BasicPlotInfo{
     function __construct($row){
         $this -> id = $row['ID'];
         $this -> forSale = ($row['FOR_SALE'] == 1? true : false);
-        $this -> purchaseDate = $row['PURCHASE_DATE'];
+        $this -> purchaseDate = isset($row['PURCHASE_DATE']) ? date("m-d-Y", strtotime($row['PURCHASE_DATE'])) : null;
         $this -> price = $row['PRICE'];
         $this -> mainImage = $row['MAIN_IMAGE'];
     }

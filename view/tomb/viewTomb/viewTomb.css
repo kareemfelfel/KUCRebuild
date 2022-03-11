@@ -12,6 +12,11 @@ and open the template in the editor.
     width: 375px;
     padding-bottom: 10px;
 }
+.bi-hr{
+    display: inline-block;
+    width: 300px;
+    padding-bottom: 10px;
+}
 .map {
     margin: auto;
     width: 80%;

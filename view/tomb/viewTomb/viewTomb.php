@@ -41,10 +41,12 @@
                     <strong class="tag">For Sale:</strong> {{lotInfo.forSale ? "Yes" : "No"}}
                 </p>
                 <p>
-                    <strong class="tag">Purchase Date:</strong> {{lotInfo.purchaseDate}}
+                    <strong class="tag">Purchase Date:</strong> {{lotInfo.purchaseDate != null ? lotInfo.purchaseDate : "N/A"}}
                 </p>
                 <p>
-                    <strong class="tag">Price:</strong> ${{lotInfo.price}}
+                    <strong class="tag">Price:</strong> 
+                    <span v-if="lotInfo.price != null"> ${{lotInfo.price}}</span>
+                    <span v-else> N/A </span>
                 </p>
             </div>
             <div class="col-md-6">
@@ -55,25 +57,100 @@
         <br>
         <hr>
 
-        <div class="owner-info">
+        <div class="owner-info container">
             <h3 class="text-center"> Owner Information </h3>
             <hr class="hr">
+            <br>
+            <div v-if="lotInfo.owner != null">
+                <p>
+                    <strong class="tag">First Name:</strong> {{lotInfo.owner.firstName}}
+                </p>
+                <p>
+                    <strong class="tag">Middle Name:</strong> {{lotInfo.owner.middleName != null? lotInfo.owner.middleName : "N/A"}}
+                </p>
+                <p>
+                    <strong class="tag">Last Name:</strong> {{lotInfo.owner.lastName}}
+                </p>
+                <p>
+                    <strong class="tag">Email:</strong> 
+                    <a v-if="lotInfo.owner.email != null" :href="`mailto:${lotInfo.owner.email}`"> {{lotInfo.owner.email}}</a>
+                    <span v-else> N/A </span>
+                </p>
+                <p>
+                    <strong class="tag">Phone Number:</strong> 
+                    <a v-if="lotInfo.owner.phoneNumber" :href="`tel:${lotInfo.owner.phoneNumber}`"> {{lotInfo.owner.phoneNumber}}</a>
+                    <span v-else> N/A </span>
+                </p>
+                <p>
+                    <strong class="tag">Address:</strong> {{lotInfo.owner.address != null? lotInfo.owner.address : "N/A"}}</a>
+                </p>
+                
+                
+            </div>
+            <div v-else>
+                <p class="text-center"> No Owner Associated </p>
+            </div>
         </div>
 
         <br>
         <hr>
 
-        <div class="buried-individuals-info">
+        <div class="buried-individuals-info container">
             <h3 class="text-center"> Buried Individuals Information </h3>
             <hr class="hr">
+            <br>
+            <div v-if="lotInfo.buriedIndividuals.length == 0">
+                <p class="text-center"> No Buried Individuals Associated </p>
+            </div>
+            <div v-else 
+                 v-for="(result, index) in lotInfo.buriedIndividuals"
+                 :key="index">
+                <h4>Buried Individual #{{index +1}} </h4>
+                <hr class="bi-hr">
+                <p>
+                    <strong class="tag">First Name:</strong> {{result.firstName}}
+                </p>
+                <p>
+                    <strong class="tag">Middle Name:</strong> {{result.middleName != null ? result.middleName : "N/A"}}
+                </p>
+                <p>
+                    <strong class="tag">Last Name:</strong> {{result.lastName != null ? result.lastName : "N/A"}}
+                </p>
+                <p>
+                    <strong class="tag">Maiden Name:</strong> {{result.maidenName != null ? result.maidenName : "N/A"}}
+                </p>
+                <p>
+                    <strong class="tag">Date of Birth:</strong> {{result.dob != null ? result.dob : "N/A"}}
+                </p>
+                <p>
+                    <strong class="tag">Date of Death:</strong> {{result.dod != null ? result.dod : "N/A"}}
+                </p>
+                <p>
+                    <strong class="tag">Veteran Status:</strong> {{result.veteran ? "Yes" : "No"}}
+                </p>
+                <p>
+                    <strong class="tag" style="float: left;">Obituary:</strong> 
+                    <p style="padding-left: 90px;">{{result.obituary != null ? result.obituary : "N/A"}}</p>
+                </p>
+                
+                <hr v-if="index != lotInfo.buriedIndividuals.length - 1" class="bi-hr">
+            </div>
         </div>
 
         <br>
         <hr>
 
-        <div class="attachments-info">
+        <div class="attachments-info container">
             <h3 class="text-center"> Attachments </h3>
             <hr class="hr">
+            <div v-if="lotInfo.attachments.length == 0">
+                <p class="text-center"> No Attachments Associated </p>
+            </div>
+            <ul v-else>
+                <li v-for="(item, index) in lotInfo.attachments" :key="index">
+                    <a :href="item.link" download>{{item.name}}</a>
+                </li>
+            </ul>
         </div>
 
         <br>
