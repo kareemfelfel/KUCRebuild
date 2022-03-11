@@ -435,7 +435,7 @@ function fetchTombById(){
             "location" =>$result->sectionLetter->letter . " " .$result->lotNumber,
             "hasOpenPlots" =>$result->hasOpenPlots,
             "forSale" => $result->forSale,
-            "purchaseDate" => $result->purchaseDate,
+            "purchaseDate" => date("m-d-Y", strtotime($result->purchaseDate)),
             "price" => $result->price,
             "mainImage" => $result->mainImage,
             "attachments" => isset($result->attachments) ?

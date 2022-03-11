@@ -20,26 +20,74 @@
  * 3. deleting an owner is only possible if the plot is changed to open
  */
 ?>
-<div id="viewTombApp">
-    <br>
-    <hr>
-    
-    <div class="lot-info">
-        <h3 class="text-center"> Lot Information </h3>
-        <hr class="hr">
+<div id="viewTombApp" class="container-fluid">
+    <div v-if="!loading">
+        <br>
+        <hr>
+
+        <div class="lot-info container">
+            <h3 class="text-center"> Lot Information </h3>
+            <hr class="hr">
+            <br>
+            <div class="col-md-6">
+                <br><br>
+                <p>
+                    <strong class="tag">Location:</strong>  {{lotInfo.location}}
+                </p>
+                <p>
+                    <strong class="tag">Has Open Plots:</strong> {{lotInfo.hasOpenPlots ? "Yes" : "No"}}
+                </p>
+                <p>
+                    <strong class="tag">For Sale:</strong> {{lotInfo.forSale ? "Yes" : "No"}}
+                </p>
+                <p>
+                    <strong class="tag">Purchase Date:</strong> {{lotInfo.purchaseDate}}
+                </p>
+                <p>
+                    <strong class="tag">Price:</strong> ${{lotInfo.price}}
+                </p>
+            </div>
+            <div class="col-md-6">
+                <img class="image" :src="lotInfo.mainImage" alt="lotImage"/>
+            </div>
+        </div>
+
+        <br>
+        <hr>
+
+        <div class="owner-info">
+            <h3 class="text-center"> Owner Information </h3>
+            <hr class="hr">
+        </div>
+
+        <br>
+        <hr>
+
+        <div class="buried-individuals-info">
+            <h3 class="text-center"> Buried Individuals Information </h3>
+            <hr class="hr">
+        </div>
+
+        <br>
+        <hr>
+
+        <div class="attachments-info">
+            <h3 class="text-center"> Attachments </h3>
+            <hr class="hr">
+        </div>
+
+        <br>
+        <hr>
     </div>
-    
-    <br>
-    <hr>
-    
+
     <div class="map">
         <h3 class="text-center"><span class="fa fa-map-marker"></span> Location on Map </h3>
         <hr class="hr">
         <div id="googleMap" class="map">
             <!-- GMAP API -->
         </div>
+        <br><br>
     </div>
-    <br><br>
 </div>
 <link rel="stylesheet" type="text/css" href="../view/tomb/viewTomb/viewTomb.css">
 <!-- GMAP Async script executes immediately and must be after any DOM elements used in callback. -->
@@ -53,9 +101,11 @@
             lotInfo: null,
             map: null,
             marker: null,
+            loading: false,
             openMarkerIcon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
         },
         created(){
+            this.loading = true
             this.getId();
             this.getLotInfo();
         },
@@ -75,6 +125,7 @@
                 }
            },
            getLotInfo(){
+               this.loading = true
                $.getJSON("controller.php",
                 {
                     action: "fetchTombById",
@@ -84,7 +135,9 @@
                     this.lotInfo = data
                     this.loadMap();
                     this.setMapMarker();
-                })
+                }).always( () => {
+                    this.loading = false
+                });
            },
            setMapMarker(){
                this.marker = new google.maps.Marker({
