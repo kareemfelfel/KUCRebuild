@@ -10,7 +10,7 @@ class Tomb extends BasicPlotInfo{
         parent::__construct($row);
         $this -> lotNumber = $row['LOT_NUMBER'];
         $this -> hasOpenPlots = ($row['HAS_OPEN_PLOTS'] == 1? true : false);
-        $this -> longitude = $row['LONGITUDE'];
-        $this -> latitude = $row['LATITUDE'];
+        $this -> longitude = floatVal($row['LONGITUDE']);
+        $this -> latitude = floatVal($row['LATITUDE']);
     }
 }

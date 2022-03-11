@@ -48,7 +48,7 @@
                     </div>
                     <p> Owner: {{result.ownerName}}</p>
                 </div>
-                <a style= "" class="btn btn-block btn-success" href = "#">View</a>
+                <a style= "" class="btn btn-block btn-success" :href = "`controller.php?action=directToViewTombPage&id=${result.id}`">View</a>
             </div>
         </div>
     </div>

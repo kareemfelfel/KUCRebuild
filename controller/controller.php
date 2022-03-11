@@ -121,6 +121,11 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/administration/buriedIndividuals/editBuriedIndividual/editBuriedIndividual.php';
         break;
+    case"directToViewTombPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/tomb/viewTomb/viewTomb.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();
@@ -423,6 +428,7 @@ function fetchTombById(){
         $response->addError($error);
     }
     
+    // There should only be one result so that loop should actually execute once
     foreach($modelResponse->result as $result){
         $mutatedResult = array(
             "id" => $result->id,
