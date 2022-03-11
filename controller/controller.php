@@ -149,6 +149,9 @@ switch ($action)
     case"fetchColumbariumCards":
         fetchColumbariumCards();
         break;
+    case"fetchTombById":
+        fetchTombById();
+        break;
     case"addTomb":
         addTomb();
         break;
@@ -405,6 +408,49 @@ function fetchColumbariumCards(){
         }
     }
     echo json_encode(get_object_vars($mutatedResponse));
+}
+
+function fetchTombById(){
+    $id = $_GET['id'];
+    
+    $filter = new TombFilter();
+    $filter->setTombId($id);
+    $response = new Response();
+    
+    $modelResponse = getAllTombRelatedDataWithFilter($filter);
+    
+    foreach($modelResponse->error as $error){
+        $response->addError($error);
+    }
+    
+    foreach($modelResponse->result as $result){
+        $mutatedResult = array(
+            "id" => $result->id,
+            "location" =>$result->sectionLetter->letter . " " .$result->lotNumber,
+            "hasOpenPlots" =>$result->hasOpenPlots,
+            "forSale" => $result->forSale,
+            "purchaseDate" => $result->purchaseDate,
+            "price" => $result->price,
+            "mainImage" => $result->mainImage,
+            "attachments" => isset($result->attachments) ?
+                array_map(function($attachment) { 
+                    $attachmentArr = explode('/', $attachment->link);
+                    return array(
+                        "id" => $attachment->id,
+                        "link" => $attachment->link,
+                        "name" => end($attachmentArr)
+                    );
+                }, $result->attachments) 
+                : array(),
+            "owner" => isset($result->owner->id) ? $result->owner : null,
+            "buriedIndividuals" => isset($result->buriedIndividuals)? $result->buriedIndividuals : [],
+            "longitude" => $result->longitude,
+            "latitude" => $result->latitude            
+        );
+        $response->addResult($mutatedResult);
+    }
+    
+    echo json_encode(get_object_vars($response));
 }
 
 function addTomb(){
