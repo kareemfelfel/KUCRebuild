@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg navbar-toggleable-md navbar-dark" style="background-color: #800080">
+<nav class="navbar navbar-expand-lg navbar-toggleable-md navbar-dark" style="background-color: lightslategray">
     
     
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
