@@ -146,7 +146,7 @@ CREATE TABLE `contacts` (
   `LAST_NAME` varchar(25) NOT NULL,
   `EMAIL` varchar(60) NOT NULL,
   `TITLE` varchar(25) DEFAULT NULL,
-  `PHONE_NUMBER` varchar(10) NOT NULL
+  `PHONE_NUMBER` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -181,7 +181,7 @@ CREATE TABLE `owners` (
   `LAST_NAME` varchar(60) NOT NULL,
   `MIDDLE_NAME` varchar(60) DEFAULT NULL,
   `ADDRESS` longtext DEFAULT NULL,
-  `PHONE_NUMBER` varchar(10) DEFAULT NULL,
+  `PHONE_NUMBER` varchar(12) DEFAULT NULL,
   `EMAIL` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -365,7 +365,7 @@ App = new Vue({
                         let result = JSON.parse(JSON.stringify(response.result))
                         this.errors = errors
                         // result 0 will indicate a true or false for success or failure
-                        if(result.length > 0 && result[0]){
+                        if(result.length == 1 && result[0]){
                             this.successMessage = "Lot was Successfully Added!"
                             this.clearForm();
                             this.fetchBuriedIndividualsList();
