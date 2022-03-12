@@ -84,3 +84,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     margin: 0px;
     padding-left: 18px;
 }
+
+.tag{
+    background: royalblue;
+    border-radius: 4px;
+    color: #f5f5f5;
+    font-weight: bold;
+    padding: 2px 4px;
+}

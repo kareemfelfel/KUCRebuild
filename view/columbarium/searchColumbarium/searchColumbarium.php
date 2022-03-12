@@ -23,17 +23,20 @@
                 <div class= "card-body">
                     <h4 id = "usercardname" class="usercardname"> {{result.columbarium}} </h4>
                     <h5>{{result.title}}</h5>
-                    <div class="wrapper">
-                        <a id = "cardmidsection" class="trigger"> Buried Individuals ({{result.buriedIndividualsCount}})</a>
-                        <div v-if="result.buriedIndividualsCount > 0" class="content">
-                            <div class="body">
-                                <ul class="popover-list">
-                                    <li v-for="(name, index) in result.buriedIndividualNames" :key="index">{{name}}</li>
-                                </ul>
+                    <div v-if="!result.forSale">
+                        <div class="wrapper">
+                            <a id = "cardmidsection" class="trigger"> Buried Individuals ({{result.buriedIndividualsCount}})</a>
+                            <div v-if="result.buriedIndividualsCount > 0" class="content">
+                                <div class="body">
+                                    <ul class="popover-list">
+                                        <li v-for="(name, index) in result.buriedIndividualNames" :key="index">{{name}}</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                        <p> Owner: {{result.ownerName}}</p>
                     </div>
-                    <p> Owner: {{result.ownerName}}</p>
+                    <p v-else class="for-sale-section"><strong class="tag">For Sale</strong>
                 </div>
                 <a style= "" class="btn btn-block btn-success" href = "#">View</a>
             </div>
@@ -186,6 +189,9 @@
     bottom: 0;
     right: 5px;
     width: 300px;
+}
+.for-sale-section{
+    margin-top: 20px;
 }
 </style>
 <Script>

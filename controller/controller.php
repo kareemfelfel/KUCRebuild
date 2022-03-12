@@ -340,6 +340,7 @@ function fetchTombCards(){
                 "countBuriedIndividuals" => 
                     isset($response->result[$i]->buriedIndividuals)? 
                     count($response->result[$i]->buriedIndividuals): 0,
+                "forSale" => $response->result[$i]->forSale,
                 "ownerName" => 
                     isset($response->result[$i]->owner->id)? 
                     $response->result[$i]->owner->firstName . " " . $response->result[$i]->owner->lastName : "N/A",
@@ -393,6 +394,7 @@ function fetchColumbariumCards(){
                 "title" => $response->result[$i]->nicheType->type . " - " . 
                            $response->result[$i]->sectionLetter->letter . " " . 
                            $response->result[$i]->sectionNumber,
+                "forSale" => $response->result[$i]->forSale,
                 "buriedIndividualsCount" => 
                     isset($response->result[$i]->buriedIndividuals)? 
                     count($response->result[$i]->buriedIndividuals): 0,
