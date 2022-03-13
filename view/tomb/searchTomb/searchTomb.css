@@ -94,3 +94,10 @@ and open the template in the editor.
 .card-owner-section{
     margin-bottom: 8px;
 }
+.back-btn{
+    float: left; 
+    border-radius: 25%; 
+    padding: 2px 10px; 
+    background-color: darkgray; 
+    margin-left: 20px;
+}

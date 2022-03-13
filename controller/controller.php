@@ -341,6 +341,8 @@ function fetchTombCards(){
                     isset($response->result[$i]->buriedIndividuals)? 
                     count($response->result[$i]->buriedIndividuals): 0,
                 "forSale" => $response->result[$i]->forSale,
+                "latitude" => $response->result[$i]->latitude,
+                "longitude" => $response->result[$i]->longitude,
                 "ownerName" => 
                     isset($response->result[$i]->owner->id)? 
                     $response->result[$i]->owner->firstName . " " . $response->result[$i]->owner->lastName : "N/A",

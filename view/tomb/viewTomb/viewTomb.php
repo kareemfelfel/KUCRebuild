@@ -158,8 +158,6 @@
     </div>
 
     <div class="map">
-        <h3 class="text-center"><span class="fa fa-map-marker"></span> Location on Map </h3>
-        <hr class="hr">
         <div id="googleMap" class="map">
             <!-- GMAP API -->
         </div>

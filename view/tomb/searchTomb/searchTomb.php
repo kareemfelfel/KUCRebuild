@@ -22,14 +22,22 @@
 ?>
 <div id="searchTombApp">
     <br>
+    <button v-if="mapSearching" class="btn back-btn"
+            @click="mapSearching = false"><i class="fa fa-angle-left"></i></button>
     <div class="text-center">
         <h3 class="page-title">Search Lots </h3>
-        <button type="button" class="btn btn-primary filter-btn" data-toggle="modal" data-target="#filterModal">
-            <i class="fa fa-filter"></i></button>
     </div>
-    <hr>
+    <div class="text-center">
+        <button type="button" class="btn btn-primary filter-btn" data-toggle="modal" data-target="#filterModal">
+            <i class="fa fa-filter"></i> Filter</button>
+        <button type="button" 
+                class="btn btn-primary filter-btn" 
+                @click="viewMap">
+            <i class="fa fa-map-location-dot"></i> Map View</button>
+    </div>
+    <hr :class="{smallMargin: mapSearching}">
 
-    <div v-if="!loading && results.length > 0" class="container-fluid">
+    <div v-if="!loading && results.length > 0 && !mapSearching" class="container-fluid">
         <div v-for="(result, index) in results" :key="index" id="cell" class="cell text-center col-md-4 col-sm-6 col-lg-3">
             <div class="card" style="width: 18em;">
                 
@@ -53,12 +61,17 @@
             </div>
         </div>
     </div>
-    <div v-if=" !loading && results.length == 0">
+    <div v-if=" !loading && results.length == 0 && !mapSearching">
         <p class="text-center"> No results were found.</p>
     </div>
     <div v-if="loading">
         <div class="loader"></div>
     </div>
+    
+    <div id="googleMap" :class="{map: mapSearching}">
+        <!-- GMAP API -->
+    </div>
+
     <!-- Error Messages -->
     <div v-for="(error, index) in errors" 
          :key="index" class="alert alert-danger alert-dismissible fade show error-message" 
@@ -170,6 +183,11 @@
 
 <link rel="stylesheet" type="text/css" href="../view/tomb/searchTomb/searchTomb.css">
 <link rel="stylesheet" type="text/css" href="../view/tomb/searchTomb/loadingSpinner.css">
+
+<!-- GMAP Async script executes immediately and must be after any DOM elements used in callback. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXbb-v0RvEbY5PYpp1HsPgRxDjVH8oAsM&v=weekly"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
 <style scoped>
 .error-message {
     position: fixed;
@@ -177,12 +195,25 @@
     right: 5px;
     width: 300px;
 }
+.smallMargin{
+    margin-bottom: 1px;
+}
+.map{
+    margin: auto;
+    width: 100%;
+    height: 600px;
+}
 </style>
 <script>
     new Vue({
         el: "#searchTombApp",
         data: {
           results: [],
+          mapSearching: false,
+          map: null,
+          markers: [],
+          openMarkerIcon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+          normalMarkerIcon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
           loading: false,
           filter:{
               lotNumber: null,
@@ -232,6 +263,8 @@
                     this.results = []
                 }).always( () => {
                     this.loading = false
+                    this.clearMarkers();
+                    this.setMarkers();
                 });
             },
             fetchOwnersList(){
@@ -281,6 +314,78 @@
             },
             clearErrors(){
                 this.errors = [];
+            },
+            viewMap(){
+                this.mapSearching = true
+                this.loadMap();
+                this.clearMarkers();
+                this.setMarkers();
+            },
+            loadMap(){
+                if(this.map == null) {
+                    const cemetery = { lat: 41.239094, lng: -79.542186 };
+                    var mapProp= {
+                      center:new google.maps.LatLng(cemetery.lat, cemetery.lng),
+                      zoom:19,
+                      mapTypeId: 'satellite'
+                    };
+                    this.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+                }
+            },
+            clearMarkers(){
+                this.markers.forEach((marker) => {
+                    marker.setMap(null);
+                })
+                this.markers = [];
+            },
+            setMarkers(){
+                if(this.map != null){
+                    this.results.forEach((result)=>{
+                        let position = {lat: result.latitude, lng: result.longitude}
+                        let contentString = 
+                                `<h4><a href='controller.php?action=directToViewTombPage&id=${result.id}'>${result.title}</a></h4>`;
+                        if(result.buriedIndividualNames.length == 0){
+                            contentString += "<p style='margin-bottom: 5px;'><strong>Buried Individuals: </strong> N/A</p>";
+                        }
+                        else{
+                            contentString += "<p style='margin-bottom: 5px;'><strong>Buried Individuals: </strong></p>";
+                            contentString += "<ul>"
+                            result.buriedIndividualNames.forEach((name)=>{
+                                contentString += `<li>${name}</li>`
+                            })
+                            contentString += "</ul>"
+                        }
+                        if(result.ownerName != "N/A"){
+                            contentString += "<p style='margin-bottom: 5px;'><strong>Owner: </strong></p>";
+                            contentString += `<ul><li>${result.ownerName}</li></ul>`
+                        }
+                        else{
+                            contentString += "<p style='margin-bottom: 20px;'><strong>Owner: </strong> N/A</p>";
+                        }
+                        let infowindow = new google.maps.InfoWindow({
+                            content: contentString,
+                        });
+                        let marker = new google.maps.Marker({
+                            position: position,
+                            map: this.map
+                        });
+                        if(result.forSale){
+                            marker.setIcon(this.openMarkerIcon);
+                        }
+                        else{
+                            marker.setIcon(this.normalMarkerIcon);
+                        }
+                        marker.addListener("click", () => {
+                            infowindow.open({
+                                anchor: marker,
+                                map: this.map,
+                                shouldFocus: false,
+                            });
+                        });
+                        
+                        this.markers.push(marker);
+                    });
+                }
             }
         }
       })
