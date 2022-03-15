@@ -12,7 +12,7 @@
 <h3 class="text-center">Owners</h3>
 <hr>
 
-<div class="container-fluid">
+<div id="ownersApp" class="container-fluid">
         <div class="panel-group">
           <div class="panel panel-default" id="accordion1">
             <div class="panel-heading">
@@ -145,6 +145,93 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
 <link type="text/css" rel="stylesheet" href="../view/administration/owners/owners.css">
 <script>
+    /*vue script */
+    new Vue({
+        el: "#ownersApp",
+        data: {
+            firstName: null,
+            middleName: null,
+            lastName: null,
+            email: null,
+            phoneNumber: null,
+            address: null,
+
+            ownersList: [],
+            selectedOwnerId: null,
+            errors: [],
+            successMessage: null,
+        },
+        created(){ },
+        methods: {
+            /* fetch data for owners list */
+            fetchOwnersList(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchAllOwnersList"
+                },response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    this.ownersList = data
+                    this.refreshSelectPicker();
+                })
+            },
+            directToEditOwnerPage(){
+                if(this.selectedOwnerId != null){
+                    window.location.href=`controller.php?action=directToEditOwnerPage&id=${this.selectedOwnerId}`
+                }
+            }
+            /* set all data to null */
+            clearForm(){
+                this.firstName=null
+                this.middleName=null
+                this.lastName=null
+                this.email=null
+                this.phoneNumber=null
+                this.address=null
+            }
+            
+            addOwner(){
+                let request = {
+                    firstName: this.firstName,
+                    middleName: this.middleName,
+                    lastName: this.lastName,
+                    email: this.email,
+                    phoneNumber: this.phoneNumber,
+                    address: this.address
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "controller.php?action=addOwner",
+                    data: {request: JSON.stringify(request)},
+                    dataType: "json",
+                    success: (response) => {
+                        let errors = JSON.parse(JSON.stringify(response.error))
+                        let result = JSON.parse(JSON.stringify(response.result))
+                        this.errors = errors
+                        // result 0 will indicate a true or false for success or failure
+                        if(result.length == 1 && result[0]){
+                            this.successMessage = "Owner was Successfully Added!"
+                            this.clearForm();
+                            this.fetchOwnersList();
+                        }
+                    },
+                    error: () =>{
+                        this.errors = ["Failed to Add Owner."]
+                    }
+                })
+            }
+                                
+            refreshSelectPicker(){
+                this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
+            },
+            clearError(index){
+                this.errors.splice(index, 1);
+            },
+            clearSuccessMessage(){
+                this.successMessage = null;
+            }}
+    })
+    
+    /* for selectPicker class */
     $('.selectpicker').selectpicker({
       size: 4
     });
