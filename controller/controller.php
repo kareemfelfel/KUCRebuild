@@ -206,7 +206,10 @@ function fetchUnlinkedBuriedIndividualsList(){
         for($i=0; $i<count($response->result); $i++){
             $mutatedResult = array(
                 "value" => $response->result[$i]->id,
-                "name" => $response->result[$i]->firstName . " " . $response->result[$i]->lastName
+                "name" => $response->result[$i]->firstName 
+                    . " " . 
+                    $response->result[$i]->lastName 
+                    . (isset($response->result[$i]->nickname)? " (" . $response->result[$i]->nickname . ")" : "")
             );
             $mutatedResponse->addResult($mutatedResult);
         }
@@ -306,7 +309,10 @@ function fetchAllBuriedIndividualsList(){
         for($i=0; $i<count($response->result); $i++){
             $mutatedResult = array(
                 "value" => $response->result[$i]->id,
-                "name" => $response->result[$i]->firstName . " " . $response->result[$i]->lastName
+                "name" => $response->result[$i]->firstName 
+                    . " " . 
+                    $response->result[$i]->lastName
+                    . (isset($response->result[$i]->nickname)? " (" . $response->result[$i]->nickname . ")" : "")
             );
             $mutatedResponse->addResult($mutatedResult);
         }
@@ -769,6 +775,7 @@ function addBuriedIndividual(){
     $middleName = !empty($data->middleName) ? $data->middleName : null;
     $maidenName = !empty($data->maidenName) ? $data->maidenName : null;
     $lastName = !empty($data->lastName) ? $data->lastName : null;
+    $nickname = !empty($data->nickname) ? $data->nickname : null;
     $dob = !empty($data->dob) ? $data->dob : null;
     $dod = !empty($data->dod) ? $data->dod : null;
     $veteran = !empty($data->veteran) ? $data->veteran : null;
@@ -792,11 +799,12 @@ function addBuriedIndividual(){
             $firstName, 
             $middleName, 
             $maidenName, 
-            $lastName, 
+            $lastName,
             $dob, 
             $dod, 
             $veteran, 
-            $obituary
+            $obituary,
+            $nickname
         );
         $modelResponse = insertBuriedIndividual($obj);
         for($i = 0; $i< count($modelResponse->error); $i++){

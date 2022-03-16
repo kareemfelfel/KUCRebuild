@@ -52,12 +52,19 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                        <label for="maidenName">Maiden Name:</label>
-                            <input v-model="maidenName" type="text" class="form-control" id="maidenName">
+                        <label for="nickname">Nickname:</label>
+                            <input v-model="nickname" type="text" class="form-control" id="nickname">
                         </div>
                     </div>
                 </div><br>
                 <div class ="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label for="maidenName">Maiden Name:</label>
+                            <input v-model="maidenName" type="text" class="form-control" id="maidenName">
+                        </div>
+                    </div>
+                    
                     <div class="col-md-3">
                         <div class="form-group">
                         <!-- DOB section -->
@@ -190,6 +197,7 @@
             firstName: null,
             middleName: null,
             lastName: null,
+            nickname: null,
             maidenName: null,
             dob: null,
             dod: null,
@@ -210,6 +218,7 @@
                     firstName: this.firstName,
                     middleName: this.middleName,
                     lastName: this.lastName,
+                    nickname: this.nickname,
                     maidenName: this.maidenName,
                     dob: this.dob,
                     dod: this.dod,
@@ -242,6 +251,7 @@
                 this.firstName = null
                 this.middleName = null
                 this.lastName = null
+                this.nickname = null
                 this.maidenName = null
                 this.dob = null
                 this.dod = null

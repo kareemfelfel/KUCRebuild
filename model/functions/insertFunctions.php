@@ -237,8 +237,8 @@ function insertBuriedIndividual(ToBuriedIndividualTable $buriedIndividual)
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "INSERT INTO buried_individuals (FIRST_NAME, MIDDLE_NAME, LAST_NAME, MAIDEN_NAME, DOB, DOD, VETERAN, OBITUARY) 
-            VALUES (:firstName, :middleName, :lastName, :maidenName, :dob, :dod, :veteran, :obituary);";
+        $query = "INSERT INTO buried_individuals (FIRST_NAME, MIDDLE_NAME, LAST_NAME, MAIDEN_NAME, DOB, DOD, VETERAN, OBITUARY, NICKNAME) 
+            VALUES (:firstName, :middleName, :lastName, :maidenName, :dob, :dod, :veteran, :obituary, :nickname);";
         $statement = $con->prepare($query);
         $statement->bindValue(':firstName', $buriedIndividual->firstName);
         if(!isset($buriedIndividual ->middleName))
@@ -265,6 +265,13 @@ function insertBuriedIndividual(ToBuriedIndividualTable $buriedIndividual)
         }
         else{
             $statement->bindValue(':obituary', $buriedIndividual->obituary);
+        }
+        if(!isset($buriedIndividual ->nickname))
+        {
+            $statement->bindValue(':nickname', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':nickname', $buriedIndividual->nickname);
         }
         $success = $statement->execute();
         $statement->closeCursor();

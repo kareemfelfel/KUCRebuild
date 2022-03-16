@@ -9,6 +9,7 @@ class ToBuriedIndividualTable {
     public $dod;
     public ?int $veteran;
     public $obituary;
+    public $nickname;
     
     function __construct(
             $firstName,
@@ -18,7 +19,8 @@ class ToBuriedIndividualTable {
             $dob,
             $dod,
             $veteran,
-            $obituary
+            $obituary,
+            $nickname
     )
     {
         $this->firstName = $firstName;
@@ -29,5 +31,6 @@ class ToBuriedIndividualTable {
         $this->dod = $dod;
         $this->veteran = $veteran? 1: 0;
         $this->obituary = $obituary;
+        $this->nickname = $nickname;
     }
 }

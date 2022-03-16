@@ -100,6 +100,9 @@
                     <strong class="tag">Last Name:</strong> {{result.lastName != null ? result.lastName : "N/A"}}
                 </p>
                 <p>
+                    <strong class="tag">Nickname:</strong> {{result.nickname != null ? result.nickname : "N/A"}}
+                </p>
+                <p>
                     <strong class="tag">Maiden Name:</strong> {{result.maidenName != null ? result.maidenName : "N/A"}}
                 </p>
                 <p>

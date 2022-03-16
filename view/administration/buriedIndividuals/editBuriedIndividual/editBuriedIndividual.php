@@ -38,12 +38,19 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                        <label for="maidenName">Maiden Name:</label>
-                            <input type="text" class="form-control" id="maidenName">
+                        <label for="nickname">Nickname:</label>
+                            <input type="text" class="form-control" id="nickname">
                         </div>
                     </div>
                 </div><br>
                 <div class ="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label for="maidenName">Maiden Name:</label>
+                            <input type="text" class="form-control" id="maidenName">
+                        </div>
+                    </div>
+                    
                     <div class="col-md-3">
                         <div class="form-group">
                         <!-- DOB section -->

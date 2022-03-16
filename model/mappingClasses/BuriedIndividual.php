@@ -6,6 +6,7 @@ class BuriedIndividual{
     public $middleName;
     public $maidenName;
     public $lastName;
+    public $nickname;
     public $dob;
     public $dod;
     public ?bool $veteran;
@@ -19,6 +20,7 @@ class BuriedIndividual{
         $this -> lastName = $row['LAST_NAME'];
         $this -> maidenName = $row['MAIDEN_NAME'];
         $this -> middleName = $row['MIDDLE_NAME'];
+        $this -> nickname = $row['NICKNAME'];
         $this -> obituary = $row['OBITUARY'];
         if($row['VETERAN'] != null)
             $this -> veteran = ($row['VETERAN'] == 1 ? true : false);
