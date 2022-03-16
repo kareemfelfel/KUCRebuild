@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2022 at 09:55 PM
+-- Generation Time: Mar 16, 2022 at 11:57 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -251,8 +251,7 @@ INSERT INTO `tombs` (`ID`, `FOR_SALE`, `HAS_OPEN_PLOTS`, `PURCHASE_DATE`, `PRICE
 (7, 0, 0, NULL, NULL, 6, 999, '-79.542070', '41.239074', '../assets/images/Knox_Head_Stones.jpg', 4),
 (9, 1, 0, NULL, NULL, 8, 333, '-79.542290', '41.238824', '../assets/images/Knox_Head_Stones.jpg', NULL),
 (10, 0, 0, NULL, NULL, 8, 33, '-79.543470', '41.238758', '../assets/images/Knox_Head_Stones.jpg', 4),
-(12, 0, 0, '2022-03-02', '444.22', 6, 43, '-79.542489', '41.238486', '../assets/images/Knox_Head_Stones.jpg', 2),
-(13, 1, 0, NULL, NULL, 2, 333, '-79.541700', '41.238538', '../assets/images/uploadedImages/clerk-with-tie.png', NULL);
+(12, 0, 0, '2022-03-02', '444.22', 6, 43, '-79.542489', '41.238486', '../assets/images/Knox_Head_Stones.jpg', 2);
 
 -- --------------------------------------------------------
 
