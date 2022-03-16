@@ -157,6 +157,9 @@ switch ($action)
     case"fetchTombById":
         fetchTombById();
         break;
+    case"fetchColumbariumById":
+        fetchColumbariumById();
+        break;
     case"addTomb":
         addTomb();
         break;
@@ -459,6 +462,47 @@ function fetchTombById(){
             "buriedIndividuals" => isset($result->buriedIndividuals)? $result->buriedIndividuals : [],
             "longitude" => $result->longitude,
             "latitude" => $result->latitude            
+        );
+        $response->addResult($mutatedResult);
+    }
+    
+    echo json_encode(get_object_vars($response));
+}
+
+function fetchColumbariumById(){
+    $id = $_GET['id'];
+    
+    $filter = new ColumbariumFilter();
+    $filter->setColumbariumId($id);
+    $response = new Response();
+    
+    $modelResponse = getAllColumbariumRelatedDataWithFilter($filter);
+    
+    foreach($modelResponse->error as $error){
+        $response->addError($error);
+    }
+    
+    // There should only be one result so that loop should actually execute once
+    foreach($modelResponse->result as $result){
+        $mutatedResult = array(
+            "id" => $result->id,
+            "location" =>$result->columbariumType->type . " - " .$result->nicheType->type . " - " . $result->sectionLetter->letter . " " . $result->sectionNumber,
+            "forSale" => $result->forSale,
+            "purchaseDate" => $result->purchaseDate,
+            "price" => $result->price,
+            "mainImage" => $result->mainImage,
+            "attachments" => isset($result->attachments) ?
+                array_map(function($attachment) { 
+                    $attachmentArr = explode('/', $attachment->link);
+                    return array(
+                        "id" => $attachment->id,
+                        "link" => $attachment->link,
+                        "name" => end($attachmentArr)
+                    );
+                }, $result->attachments) 
+                : array(),
+            "owner" => isset($result->owner->id) ? $result->owner : null,
+            "buriedIndividuals" => isset($result->buriedIndividuals)? $result->buriedIndividuals : []           
         );
         $response->addResult($mutatedResult);
     }
