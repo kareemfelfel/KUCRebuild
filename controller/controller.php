@@ -840,7 +840,7 @@ function addOwner(){
         if(!is_numeric($phoneNumber)){
             $response->addError("Phone number must consist of numbers only.");
         }
-        if(count($phoneNumber) != 10){
+        if(strlen($phoneNumber) != 10){
             $response->addError("Only US phone numbers of 10 digits are accepted.");
         }
         // If phone number is valid, add +1 to the beginning of the string.
