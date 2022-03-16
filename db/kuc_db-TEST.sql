@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2022 at 09:33 PM
+-- Generation Time: Mar 16, 2022 at 09:55 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -62,9 +62,14 @@ CREATE TABLE `buried_individuals` (
 
 INSERT INTO `buried_individuals` (`ID`, `FIRST_NAME`, `MIDDLE_NAME`, `LAST_NAME`, `MAIDEN_NAME`, `NICKNAME`, `DOB`, `DOD`, `VETERAN`, `OBITUARY`, `TOMB_ID`, `COLUMBARIUM_ID`) VALUES
 (3, 'Jody', NULL, 'Strausser', NULL, NULL, '2022-03-01', '2022-03-09', 0, NULL, NULL, NULL),
-(4, 'John', NULL, 'Doe', NULL, 'Legend', '2022-03-01', '2022-03-03', 1, 'He was a good man', NULL, NULL),
-(5, 'Someone', NULL, 'Dead', NULL, 'Mickey', '2022-03-02', '2022-03-12', 0, NULL, NULL, NULL),
-(6, 'Sarah', NULL, 'Lizard', NULL, NULL, '2022-03-02', '2022-03-17', 1, NULL, NULL, NULL);
+(4, 'John', NULL, 'Doe', NULL, 'Legend', '2022-03-01', '2022-03-03', 1, 'He was a good man', 7, NULL),
+(5, 'Someone', NULL, 'Dead', NULL, 'Mickey', '2022-03-02', '2022-03-12', 0, NULL, 3, NULL),
+(6, 'Sarah', NULL, 'Lizard', NULL, NULL, '2022-03-02', '2022-03-17', 1, NULL, NULL, 5),
+(7, 'William', NULL, 'Penn', NULL, NULL, '2022-03-01', '2022-03-08', 0, NULL, NULL, NULL),
+(8, 'Oliver', 'very', 'twist', 'very', NULL, '2022-03-01', '2022-03-01', 1, NULL, NULL, NULL),
+(10, 'Hi', 'My name is', 'Slim', 'Shady', NULL, '2022-03-04', '2022-03-04', 1, 'Helooooooooooooooooo', 5, NULL),
+(11, 'Shawn', NULL, 'Moore', NULL, 'Boss', '2022-03-10', '2022-03-10', 0, NULL, NULL, NULL),
+(13, 'harry', NULL, 'Doe', NULL, NULL, '2022-03-02', '2022-03-16', 0, NULL, 12, NULL);
 
 -- --------------------------------------------------------
 
@@ -84,6 +89,14 @@ CREATE TABLE `columbarium` (
   `MAIN_IMAGE` varchar(255) DEFAULT NULL,
   `OWNER_ID` int(11) DEFAULT NULL
 ) ;
+
+--
+-- Dumping data for table `columbarium`
+--
+
+INSERT INTO `columbarium` (`ID`, `FOR_SALE`, `PURCHASE_DATE`, `PRICE`, `SECTION_LETTER_ID`, `SECTION_NUMBER`, `NICHE_TYPE_ID`, `COLUMBARIUM_TYPE_ID`, `MAIN_IMAGE`, `OWNER_ID`) VALUES
+(5, 0, NULL, '2211.00', 2, 10, 1, 4, '../assets/images/Knox_Mausoleum.jpg', 1),
+(6, 1, NULL, NULL, 2, 8, 1, 5, '../assets/images/Knox_Mausoleum.jpg', NULL);
 
 -- --------------------------------------------------------
 
@@ -190,7 +203,7 @@ CREATE TABLE `owners` (
 --
 
 INSERT INTO `owners` (`ID`, `FIRST_NAME`, `LAST_NAME`, `MIDDLE_NAME`, `ADDRESS`, `PHONE_NUMBER`, `EMAIL`) VALUES
-(1, 'Kareem', 'Felfel', NULL, '108 Greenville Avenue', NULL, NULL),
+(1, 'Kareem', 'Felfel', NULL, '108 Greenville Avenue', '+18142450283', NULL),
 (2, 'Slade', 'Knepp', NULL, NULL, NULL, NULL),
 (3, 'Nick', 'Shiner', NULL, NULL, NULL, NULL),
 (4, 'Brett', 'Morgan', NULL, NULL, NULL, NULL);
@@ -226,6 +239,21 @@ CREATE TABLE `tombs` (
   `OWNER_ID` int(11) DEFAULT NULL
 ) ;
 
+--
+-- Dumping data for table `tombs`
+--
+
+INSERT INTO `tombs` (`ID`, `FOR_SALE`, `HAS_OPEN_PLOTS`, `PURCHASE_DATE`, `PRICE`, `SECTION_LETTER_ID`, `LOT_NUMBER`, `LONGITUDE`, `LATITUDE`, `MAIN_IMAGE`, `OWNER_ID`) VALUES
+(3, 0, 0, '2022-03-17', '222.44', 8, 1234, '-79.542285', '41.238818', '../assets/images/Knox_Head_Stones.jpg', 4),
+(4, 1, 1, NULL, '2212.00', 5, 3333, '-79.542226', '41.238777', '../assets/images/Knox_Head_Stones.jpg', NULL),
+(5, 0, 0, NULL, '555.00', 3, 44, '-79.543261', '41.239545', '../assets/images/Knox_Head_Stones.jpg', 1),
+(6, 1, 0, NULL, '4343.00', 2, 999, '-79.541550', '41.238642', '../assets/images/Knox_Head_Stones.jpg', NULL),
+(7, 0, 0, NULL, NULL, 6, 999, '-79.542070', '41.239074', '../assets/images/Knox_Head_Stones.jpg', 4),
+(9, 1, 0, NULL, NULL, 8, 333, '-79.542290', '41.238824', '../assets/images/Knox_Head_Stones.jpg', NULL),
+(10, 0, 0, NULL, NULL, 8, 33, '-79.543470', '41.238758', '../assets/images/Knox_Head_Stones.jpg', 4),
+(12, 0, 0, '2022-03-02', '444.22', 6, 43, '-79.542489', '41.238486', '../assets/images/Knox_Head_Stones.jpg', 2),
+(13, 1, 0, NULL, NULL, 2, 333, '-79.541700', '41.238538', '../assets/images/uploadedImages/clerk-with-tie.png', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -236,6 +264,17 @@ CREATE TABLE `tomb_attachments` (
   `TOMB_ID` int(11) NOT NULL,
   `LINK` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tomb_attachments`
+--
+
+INSERT INTO `tomb_attachments` (`TOMB_ID`, `LINK`) VALUES
+(4, '../assets/attachedFiles/Introduction.pptx'),
+(4, '../assets/attachedFiles/Personnell security.pptx'),
+(4, '../assets/attachedFiles/risk control Assignment.docx'),
+(6, '../assets/attachedFiles/Secuirty Planning1.pptx'),
+(6, '../assets/attachedFiles/Week3-Security Planning Assignment.docx');
 
 -- --------------------------------------------------------
 
