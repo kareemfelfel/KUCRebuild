@@ -38,7 +38,7 @@
                     </div>
                     <p v-else class="for-sale-section"><strong class="tag">For Sale</strong>
                 </div>
-                <a style= "" class="btn btn-block btn-success" href = "#">View</a>
+                <a style= "" class="btn btn-block btn-success" :href = "`controller.php?action=directToViewColumbariumPage&id=${result.id}`">View</a>
             </div>
         </div>
     </div>

@@ -126,6 +126,11 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/tomb/viewTomb/viewTomb.php';
         break;
+    case"directToViewColumbariumPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/columbarium/viewColumbarium/viewColumbarium.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();
