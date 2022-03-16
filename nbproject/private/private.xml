@@ -3,45 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/insertClasses/ToContactTable.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/columbarium/searchColumbarium/searchColumbarium.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/login/login.css</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/insertClasses/ToAdminTable.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/includes/navbar.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/mappingClasses/Tomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/controller/requireModel.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/viewTomb/viewTomb.css</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/functions/deleteFunctions.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/db/kuc_db.sql</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/controller/controller.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/functions/insertFunctions.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/addTomb/addTomb.css</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/mappingClasses/Columbarium.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/viewTomb/viewTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.css</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/addTomb/addTomb.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/owners/owners.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/insertClasses/ToBuriedIndividualTable.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/columbarium/addColumbarium/addColumbarium.js</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/editTomb/editTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/columbarium/addColumbarium/addColumbarium.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/searchTomb/searchTomb.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/functions/getFunctions.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/mappingClasses/Owner.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/contacts/contacts.php</file>
             <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/buriedIndividuals/buriedIndividuals.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/mappingClasses/BuriedIndividual.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/functions/updateFunctions.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/mappingClasses/BasicPlotInfo.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/tomb/searchTomb/searchTomb.css</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/administration/owners/owners.js</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/insertClasses/ToTableColumbarium.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/controller/requireMappingClasses.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/mappingClasses/Attachment.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/insertClasses/ToListTable.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/model/insertClasses/ToOwnerTable.php</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/db/kuc_db-TEST.sql</file>
-            <file>file:/C:/xampp/htdocs/KUCRebuild/view/columbarium/searchColumbarium/searchColumbarium.css</file>
         </group>
     </open-files>
 </project-private>
