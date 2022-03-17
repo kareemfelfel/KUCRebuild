@@ -7,13 +7,11 @@ class ToAdminTable {
     public $password;
     
     function __construct(
-            $id,
             $firstName,
             $lastName,
             $username,
             $password
     ){
-        $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->username = $username;
