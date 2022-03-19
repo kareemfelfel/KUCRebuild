@@ -1029,6 +1029,9 @@ function addContact(){
     else{
         $response->addError("Phone Number must be set.");
     }
+    if(!isset($email)){
+        $response->addError("Email address must be set.");
+    }
     if (isset($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $response->addError("Invalid email address.");
     }

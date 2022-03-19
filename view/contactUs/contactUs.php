@@ -8,43 +8,72 @@
  */
 ?>
 <br>
-<div class="container">
-    <div class="col-md-4">
+<div id="contactUsApp" class="container">
+    <div v-for="(result, index) in results" 
+         class="col-md-4"
+         :key="index">
         <div class="contact-box center-version">
             <div class="my-wrapper">
                 <img alt="image" class="img-circle contact-img" src="../assets/images/contactImage.png">
-                <h3 class="m-b-xs"><strong>Jodi K. Rhea</strong></h3>
+                <h3 class="m-b-xs"><strong>{{result.name}}</strong></h3>
 
-                <div class="font-bold">Board Member</div>
+                <div class="font-bold">{{result.title}}</div>
 
                 <div class="contact-box-footer">
                     <div class="contact_btns">
-                        <a class="btn-link my-anchor" href="tel:555-555-5555"><i class="fa fa-phone"></i> (814) 221-3046 </a>                            
-                        <a class="btn-link my-anchor" href="mailto:someone@yoursite.com"><i class="fa fa-envelope"></i> JKRhea@kriebelgas.com</a>                        
+                        <a class="btn-link my-anchor" :href="`tel:${result.phoneNumber}`"><i class="fa fa-phone"></i> {{result.phoneNumber}} </a>                            
+                        <a class="btn-link my-anchor" :href="`mailto:${result.email}`"><i class="fa fa-envelope"></i> {{result.email}}</a>                        
                     </div> <!-- m-t-xs btn group -->
                 </div> <!-- contact-box-footer -->
             </div>
         </div>
-    </div>     
-    
-    <div class="col-md-4">
-        <div class="contact-box center-version">
-            <div class="my-wrapper">
-                <img alt="image" class="img-circle contact-img" src="../assets/images/contactImage.png">
-                <h3 class="m-b-xs"><strong>Joseph W. Rupert</strong></h3>
-
-                <div class="font-bold">President</div>
-
-                <div class="contact-box-footer">
-                    <div class="contact_btns">
-                        <a class="btn-link my-anchor" href="tel:555-555-5555"><i class="fa fa-phone"></i> (814) 221-3046 </a>                           
-                        <a class="btn-link my-anchor" href="mailto:someone@yoursite.com"><i class="fa fa-envelope"></i> president@kuc.com</a>                        
-                    </div> <!-- m-t-xs btn group -->
-                </div> <!-- contact-box-footer -->
-            </div>
-        </div>
-    </div>                        
+    </div>  
+    <!-- Error Messages -->
+    <div v-for="(error, index) in errors" 
+         :key="index" class="alert alert-danger alert-dismissible fade show message-box" 
+         >
+        <button type="button" class="close" @click="clearError(index)">&times;</button>
+        {{error}}
+    </div>
 </div><!-- class container -->
 <link rel="stylesheet" type="text/css" href="../view/contactUs/contactUs.css">
+<style scoped>
+.message-box {
+    position: fixed;
+    bottom: 0;
+    right: 5px;
+    width: 300px;
+}
+</style>
+<script>
+    new Vue({
+        el: "#contactUsApp",
+        data:{
+            results: [],
+            errors: []
+        },
+        created(){
+            this.fetchContacts()
+        },
+        methods:{
+            fetchContacts(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchContacts"
+                },response => {
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    let result = JSON.parse(JSON.stringify(response.result))
+                    this.errors = errors
+                    this.results = result
+                }).fail( () => {
+                    this.errors = ["Failed to fetch KUC Contacts. Please try to refresh."]
+                })
+            },
+            clearError(index){
+                this.errors.splice(index, 1);
+            }
+        }
+    })
+</script>
 </body>
 </html>
