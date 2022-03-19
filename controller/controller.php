@@ -180,7 +180,9 @@ switch ($action)
     case"addColumbariumType":
         addColumbariumType();
         break;
-   
+    case"addNicheType":
+        addNicheType();
+        break;
 }
 //-----API--------
 function fetchAllOwnersList(){
@@ -891,6 +893,31 @@ function addColumbariumType(){
     if(empty($response->error)){
         $obj = new ToTypeTable($type);
         $modelResponse = insertColumbariumType($obj);
+        for($i = 0; $i< count($modelResponse->error); $i++){
+            $response->addError($modelResponse->error[$i]);
+        }
+
+        if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
+            $response->addResult($modelResponse->result[0]);
+        }
+    }
+    echo json_encode(get_object_vars($response));
+}
+
+function addNicheType(){
+    $response = new Response();
+   
+    // Getting REQUEST data
+    $data = json_decode($_POST['request']);
+    $type = !empty($data->nicheType) ? $data->nicheType : null;
+    
+    if(!isset($type) || strlen($type) < 1){
+        $response->addError("Niche Type must be of a valid value.");
+    }
+    
+    if(empty($response->error)){
+        $obj = new ToTypeTable($type);
+        $modelResponse = insertNicheType($obj);
         for($i = 0; $i< count($modelResponse->error); $i++){
             $response->addError($modelResponse->error[$i]);
         }
