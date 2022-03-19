@@ -165,6 +165,12 @@ switch ($action)
     case"fetchColumbariumById":
         fetchColumbariumById();
         break;
+    case"fetchContacts":
+        fetchContacts();
+        break;
+    case"fetchContactsList":
+        fetchContactsList();
+        break;
     case"addTomb":
         addTomb();
         break;
@@ -191,6 +197,9 @@ switch ($action)
         break;
     case"addContact":
         addContact();
+        break;
+    case"deleteContact":
+        deleteContact();
         break;
 }
 //-----API--------
@@ -1036,4 +1045,34 @@ function addContact(){
         }
     }
     echo json_encode(get_object_vars($response));
+}
+
+function fetchContacts(){
+    $response = getAllContacts();
+    echo json_encode(get_object_vars($response));
+}
+
+function fetchContactsList(){
+    
+    $mutatedResponse = new Response();
+    $response = getAllContacts();
+    if(count($response->result) > 0){
+        for($i=0; $i<count($response->result); $i++){
+            $mutatedResult = array(
+                "value" => $response->result[$i]->id,
+                "name" => $response->result[$i]->firstName . " " . $response->result[$i]->lastName
+            );
+            $mutatedResponse->addResult($mutatedResult);
+        }
+    }
+    if(count($response->error) > 0){
+        for($i=0; $i<count($response->error); $i++){
+            $mutatedResponse->addError($response->error[$i]);
+        }
+    }
+    echo json_encode(get_object_vars($mutatedResponse));
+}
+
+function deleteContact(){
+    //TODO
 }
