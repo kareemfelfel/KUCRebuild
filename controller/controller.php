@@ -183,6 +183,9 @@ switch ($action)
     case"addNicheType":
         addNicheType();
         break;
+    case"addColumbariumSectionLetter":
+        addColumbariumSectionLetter();
+        break;
 }
 //-----API--------
 function fetchAllOwnersList(){
@@ -918,6 +921,31 @@ function addNicheType(){
     if(empty($response->error)){
         $obj = new ToTypeTable($type);
         $modelResponse = insertNicheType($obj);
+        for($i = 0; $i< count($modelResponse->error); $i++){
+            $response->addError($modelResponse->error[$i]);
+        }
+
+        if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
+            $response->addResult($modelResponse->result[0]);
+        }
+    }
+    echo json_encode(get_object_vars($response));
+}
+
+function addColumbariumSectionLetter(){
+    $response = new Response();
+   
+    // Getting REQUEST data
+    $data = json_decode($_POST['request']);
+    $sectionLetter = !empty($data->sectionLetter) ? $data->sectionLetter : null;
+    
+    if(!isset($sectionLetter) || strlen($sectionLetter) < 1){
+        $response->addError("Columbarium Section Letter must be of a valid value.");
+    }
+    
+    if(empty($response->error)){
+        $obj = new ToSectionLetter($sectionLetter);
+        $modelResponse = insertColumbariumSectionLetter($obj);
         for($i = 0; $i< count($modelResponse->error); $i++){
             $response->addError($modelResponse->error[$i]);
         }
