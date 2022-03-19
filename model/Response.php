@@ -15,4 +15,12 @@ Class Response{
     function addResult($singleResult){
         array_push($this -> result, $singleResult);
     }
+    
+    function setResult(Array $results){
+        $this -> result = $results;
+    }
+    
+    function setError(Array $errors){
+        $this -> error = $errors;
+    }
 }

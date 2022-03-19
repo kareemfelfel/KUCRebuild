@@ -1049,6 +1049,17 @@ function addContact(){
 
 function fetchContacts(){
     $response = getAllContacts();
+    $response ->setResult(
+        array_map(function($o) { 
+            return array(
+                "name" => $o->firstName . " " . $o->lastName,
+                "title" => $o->title,
+                "phoneNumber" => $o->phoneNumber,
+                "email" => $o->email
+                );
+
+        }, $response->result)    
+    );
     echo json_encode(get_object_vars($response));
 }
 
