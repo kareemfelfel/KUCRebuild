@@ -177,6 +177,10 @@ switch ($action)
     case"addOwner":
         addOwner();
         break;
+    case"addColumbariumType":
+        addColumbariumType();
+        break;
+   
 }
 //-----API--------
 function fetchAllOwnersList(){
@@ -862,6 +866,31 @@ function addOwner(){
             $email
         );
         $modelResponse = insertOwner($obj);
+        for($i = 0; $i< count($modelResponse->error); $i++){
+            $response->addError($modelResponse->error[$i]);
+        }
+
+        if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
+            $response->addResult($modelResponse->result[0]);
+        }
+    }
+    echo json_encode(get_object_vars($response));
+}
+
+function addColumbariumType(){
+    $response = new Response();
+   
+    // Getting REQUEST data
+    $data = json_decode($_POST['request']);
+    $type = !empty($data->columbariumType) ? $data->columbariumType : null;
+    
+    if(!isset($type) || strlen($type) < 1){
+        $response->addError("Columbarium Type must be of a valid value.");
+    }
+    
+    if(empty($response->error)){
+        $obj = new ToTypeTable($type);
+        $modelResponse = insertColumbariumType($obj);
         for($i = 0; $i< count($modelResponse->error); $i++){
             $response->addError($modelResponse->error[$i]);
         }
