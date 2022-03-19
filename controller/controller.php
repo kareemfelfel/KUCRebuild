@@ -186,6 +186,9 @@ switch ($action)
     case"addColumbariumSectionLetter":
         addColumbariumSectionLetter();
         break;
+    case"addTombSectionLetter":
+        addTombSectionLetter();
+        break;
 }
 //-----API--------
 function fetchAllOwnersList(){
@@ -946,6 +949,31 @@ function addColumbariumSectionLetter(){
     if(empty($response->error)){
         $obj = new ToSectionLetter($sectionLetter);
         $modelResponse = insertColumbariumSectionLetter($obj);
+        for($i = 0; $i< count($modelResponse->error); $i++){
+            $response->addError($modelResponse->error[$i]);
+        }
+
+        if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
+            $response->addResult($modelResponse->result[0]);
+        }
+    }
+    echo json_encode(get_object_vars($response));
+}
+
+function addTombSectionLetter(){
+    $response = new Response();
+   
+    // Getting REQUEST data
+    $data = json_decode($_POST['request']);
+    $sectionLetter = !empty($data->sectionLetter) ? $data->sectionLetter : null;
+    
+    if(!isset($sectionLetter) || strlen($sectionLetter) < 1){
+        $response->addError("Lot Section Letter must be of a valid value.");
+    }
+    
+    if(empty($response->error)){
+        $obj = new ToSectionLetter($sectionLetter);
+        $modelResponse = insertTombSectionLetter($obj);
         for($i = 0; $i< count($modelResponse->error); $i++){
             $response->addError($modelResponse->error[$i]);
         }
