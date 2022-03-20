@@ -795,7 +795,7 @@ function getBuriedIndividualById($id){
     return $response;
 }
 
-function fetchOwnerById($id){
+function getOwnerById($id){
     $response = new Response();
     try{
         $db = connection::getInstance();
@@ -823,7 +823,7 @@ function fetchOwnerById($id){
     return $response;
 }
 
-function fetchContactById($id){
+function getContactById($id){
     $response = new Response();
     try{
         $db = connection::getInstance();
