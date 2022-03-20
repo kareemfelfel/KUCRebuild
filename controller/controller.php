@@ -219,4 +219,7 @@ switch ($action)
     case"editOwner":
         editOwner();
         break;
+    case"editContact":
+        editContact();
+        break;
 }
