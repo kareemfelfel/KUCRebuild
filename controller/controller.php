@@ -221,11 +221,7 @@ function fetchAllOwnersList(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
@@ -244,11 +240,7 @@ function fetchUnlinkedBuriedIndividualsList(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
@@ -264,11 +256,7 @@ function fetchColumbariumSectionLettersList(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
@@ -284,11 +272,7 @@ function fetchNicheTypesList(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
@@ -304,11 +288,7 @@ function fetchColumbariumTypesList(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
@@ -324,11 +304,7 @@ function fetchTombSectionLettersList(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
@@ -347,11 +323,7 @@ function fetchAllBuriedIndividualsList(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
@@ -401,11 +373,7 @@ function fetchTombCards(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
@@ -458,11 +426,7 @@ function fetchColumbariumCards(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
@@ -475,9 +439,7 @@ function fetchTombById(){
     
     $modelResponse = getAllTombRelatedDataWithFilter($filter);
     
-    foreach($modelResponse->error as $error){
-        $response->addError($error);
-    }
+    $response->setError($modelResponse->error);
     
     // There should only be one result so that loop should actually execute once
     foreach($modelResponse->result as $result){
@@ -519,9 +481,7 @@ function fetchColumbariumById(){
     
     $modelResponse = getAllColumbariumRelatedDataWithFilter($filter);
     
-    foreach($modelResponse->error as $error){
-        $response->addError($error);
-    }
+    $response->setError($modelResponse->error);
     
     // There should only be one result so that loop should actually execute once
     foreach($modelResponse->result as $result){
@@ -633,9 +593,7 @@ function addTomb(){
                     $buriedIndividualIds
             );
             $modelResponse = insertAllTombRelatedData($obj);
-            for($i = 0; $i< count($modelResponse->error); $i++){
-                $response->addError($modelResponse->error[$i]);
-            }
+            $response->setError($modelResponse->error);
             
             if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
                 $response->addResult($modelResponse->result[0]);
@@ -783,9 +741,7 @@ function addColumbarium(){
                     $buriedIndividualIds
             );
             $modelResponse = insertAllColumbariumRelatedData($obj);
-            for($i = 0; $i< count($modelResponse->error); $i++){
-                $response->addError($modelResponse->error[$i]);
-            }
+            $response->setError($modelResponse->error);
             
             if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
                 $response->addResult($modelResponse->result[0]);
@@ -837,9 +793,7 @@ function addBuriedIndividual(){
             $nickname
         );
         $modelResponse = insertBuriedIndividual($obj);
-        for($i = 0; $i< count($modelResponse->error); $i++){
-            $response->addError($modelResponse->error[$i]);
-        }
+        $response->setError($modelResponse->error);
 
         if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
             $response->addResult($modelResponse->result[0]);
@@ -892,9 +846,7 @@ function addOwner(){
             $email
         );
         $modelResponse = insertOwner($obj);
-        for($i = 0; $i< count($modelResponse->error); $i++){
-            $response->addError($modelResponse->error[$i]);
-        }
+        $response->setError($modelResponse->error);
 
         if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
             $response->addResult($modelResponse->result[0]);
@@ -917,9 +869,7 @@ function addColumbariumType(){
     if(empty($response->error)){
         $obj = new ToTypeTable($type);
         $modelResponse = insertColumbariumType($obj);
-        for($i = 0; $i< count($modelResponse->error); $i++){
-            $response->addError($modelResponse->error[$i]);
-        }
+        $response->setError($modelResponse->error);
 
         if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
             $response->addResult($modelResponse->result[0]);
@@ -942,9 +892,7 @@ function addNicheType(){
     if(empty($response->error)){
         $obj = new ToTypeTable($type);
         $modelResponse = insertNicheType($obj);
-        for($i = 0; $i< count($modelResponse->error); $i++){
-            $response->addError($modelResponse->error[$i]);
-        }
+        $response->setError($modelResponse->error);
 
         if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
             $response->addResult($modelResponse->result[0]);
@@ -967,9 +915,7 @@ function addColumbariumSectionLetter(){
     if(empty($response->error)){
         $obj = new ToSectionLetter($sectionLetter);
         $modelResponse = insertColumbariumSectionLetter($obj);
-        for($i = 0; $i< count($modelResponse->error); $i++){
-            $response->addError($modelResponse->error[$i]);
-        }
+        $response->setError($modelResponse->error);
 
         if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
             $response->addResult($modelResponse->result[0]);
@@ -992,9 +938,7 @@ function addTombSectionLetter(){
     if(empty($response->error)){
         $obj = new ToSectionLetter($sectionLetter);
         $modelResponse = insertTombSectionLetter($obj);
-        for($i = 0; $i< count($modelResponse->error); $i++){
-            $response->addError($modelResponse->error[$i]);
-        }
+        $response->setError($modelResponse->error);
 
         if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
             $response->addResult($modelResponse->result[0]);
@@ -1045,9 +989,7 @@ function addContact(){
     if(empty($response->error)){
         $obj = new ToContactTable($firstName, $lastName, $email, $title, $phoneNumber);
         $modelResponse = insertContact($obj);
-        for($i = 0; $i< count($modelResponse->error); $i++){
-            $response->addError($modelResponse->error[$i]);
-        }
+        $response->setError($modelResponse->error);
 
         if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
             $response->addResult($modelResponse->result[0]);
@@ -1085,16 +1027,14 @@ function fetchContactsList(){
             $mutatedResponse->addResult($mutatedResult);
         }
     }
-    if(count($response->error) > 0){
-        for($i=0; $i<count($response->error); $i++){
-            $mutatedResponse->addError($response->error[$i]);
-        }
-    }
+    $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
 function processDeleteContact(){
-    //TODO
+    $id = $_GET['id'];
+    $response = deleteContact($id);
+    echo json_encode(get_object_vars($response));
 }
 
 function fetchBuriedIndividualById(){
