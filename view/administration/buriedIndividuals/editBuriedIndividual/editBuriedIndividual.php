@@ -10,7 +10,7 @@
 <h3 class="text-center">Edit Buried Individual</h3>
 <hr>
 
-<div class="container-fluid">
+<div id="editBuriedIndividualApp" class="container-fluid">
      <div class="panel panel-default" id="accordion1">
         <div class="panel-heading">
             <h4 class="panel-title">Edit Buried Individual</h4>
@@ -93,4 +93,48 @@
 </div>
 
 <link rel="stylesheet" href="../view/administration/buriedIndividuals/editBuriedIndividual/editBuriedIndividual.css">
-
+<script>
+    new Vue({
+        el: "#editBuriedIndividualApp",
+        data: {
+            id: null,
+            buriedIndividual: {
+                firstName: null,
+                middleName: null,
+                lastName: null,
+                nickname: null,
+                maidenName: null,
+                dob: null,
+                dod: null,
+                veteran: false,
+                obituary: null
+            },
+            
+            errors: [],
+            successMessage: null
+        },
+        created(){
+            this.getId();
+            this.getBuriedIndividual();
+        },
+        methods: {
+            getId(){
+                let uri = window.location.href.split('?');
+                if(uri.length == 2) {
+                  let vars = uri[1].split('&');
+                  let getVars = {};
+                  let tmp = '';
+                  vars.forEach(function(v) {
+                    tmp = v.split('=');
+                    if(tmp.length == 2)
+                      getVars[tmp[0]] = tmp[1];
+                  });
+                  this.id = getVars['id'];
+                }
+            },
+            getBuriedIndividual(){
+                
+            }
+        }
+    })
+</script>

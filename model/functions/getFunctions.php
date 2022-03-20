@@ -766,3 +766,87 @@ function getAllContacts(){
     }
     return $response;
 }
+
+function getBuriedIndividualById($id){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM BURIED_INDIVIDUALS WHERE buried_individuals.id = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':id', $id);
+        $success = $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        if($success && !empty($result))
+        {
+            $buriedIndivudal = new BuriedIndividual($result);
+            $response ->addResult($buriedIndivudal);
+        }
+        else
+        {
+            $response -> addError("Failed to fetch Buried Individual");
+        }
+    }    
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function fetchOwnerById($id){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM OWNERS WHERE owners.id = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':id', $id);
+        $success = $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        if($success && !empty($result))
+        {
+            $owner = new Owner($result);
+            $response ->addResult($owner);
+        }
+        else
+        {
+            $response -> addError("Failed to fetch Owner.");
+        }
+    }    
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function fetchContactById($id){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM CONTACTS WHERE contacts.id = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':id', $id);
+        $success = $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        if($success && !empty($result))
+        {
+            $contact = new Contact($result);
+            $response ->addResult($contact);
+        }
+        else
+        {
+            $response -> addError("Failed to fetch Contact.");
+        }
+    }    
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}

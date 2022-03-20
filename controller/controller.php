@@ -171,6 +171,9 @@ switch ($action)
     case"fetchContactsList":
         fetchContactsList();
         break;
+    case"fetchBuriedIndividualById":
+        fetchBuriedIndividualById();
+        break;
     case"addTomb":
         addTomb();
         break;
@@ -1089,4 +1092,9 @@ function fetchContactsList(){
 
 function processDeleteContact(){
     //TODO
+}
+
+function fetchBuriedIndividualById(){
+    $id = $_GET['id'];
+    
 }
