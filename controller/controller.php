@@ -199,7 +199,7 @@ switch ($action)
         addContact();
         break;
     case"deleteContact":
-        deleteContact();
+        processDeleteContact();
         break;
 }
 //-----API--------
@@ -1087,6 +1087,6 @@ function fetchContactsList(){
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
-function deleteContact(){
+function processDeleteContact(){
     //TODO
 }
