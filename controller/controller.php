@@ -177,6 +177,9 @@ switch ($action)
     case"fetchOwnerById":
         fetchOwnerById();
         break;
+    case"fetchContactById":
+        fetchContactById();
+        break;
     case"addTomb":
         addTomb();
         break;
@@ -1106,10 +1109,11 @@ function editBuriedIndividual(){
 function fetchOwnerById(){
     $id = $_GET['id'];
     $response = getOwnerById($id);
-    // Setting the Date of birth and date of death to match the date component
-    if(!empty($response->result)){
-        $response->result[0]->setDodForDateComponent();
-        $response->result[0]->setDobForDateComponent();
-    }
+    echo json_encode(get_object_vars($response));
+}
+
+function fetchContactById(){
+    $id = $_GET['id'];
+    $response = getContactById($id);
     echo json_encode(get_object_vars($response));
 }
