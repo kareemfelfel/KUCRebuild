@@ -25,5 +25,20 @@ class BuriedIndividual{
         if($row['VETERAN'] != null)
             $this -> veteran = ($row['VETERAN'] == 1 ? true : false);
     }
+    
+    // These functions will be used to map the date to yyyy-mm-dd
+    function setDobForDateComponent(){
+        if($this->dob != null){
+            $date = DateTime::createFromFormat('m-d-Y', $this->dob);
+            $this->dob = $date->format('Y-m-d');
+        }
+    }
+    
+    function setDodForDateComponent(){
+        if($this->dod != null){
+            $date = DateTime::createFromFormat('m-d-Y', $this->dod);
+            $this->dod = $date->format('Y-m-d');
+        }
+    }
 }
 
