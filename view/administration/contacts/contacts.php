@@ -230,10 +230,17 @@
                 {
                     action: "deleteContact",
                     id: this.selectedContactId
-                },() => {
-                    this.successMessage = "Contact was Successfully deleted!"
-                    this.selectedContactId = null;
-                    this.refreshSelectPicker();
+                },response => {
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    let result = JSON.parse(JSON.stringify(response.result))
+                    this.errors = errors
+                    // result 0 will indicate a true or false for success or failure
+                    if(result.length == 1 && result[0]){
+                        this.successMessage = "Contact was Successfully deleted!"
+                        this.selectedContactId = null;
+                        this.fetchContactsList();
+                        this.refreshSelectPicker();
+                    }
                 }).fail( () => {
                     this.errors = ["Failed to delete contact."]
                 })
