@@ -3,24 +3,6 @@
 /* 
  * All Buried Individuals related fetchers
  */
-function fetchUnlinkedBuriedIndividualsList(){
-    $mutatedResponse = new Response();
-    $response = getUnlinkedBuriedIndividuals();
-    if(count($response->result) > 0){
-        for($i=0; $i<count($response->result); $i++){
-            $mutatedResult = array(
-                "value" => $response->result[$i]->id,
-                "name" => $response->result[$i]->firstName 
-                    . " " . 
-                    $response->result[$i]->lastName 
-                    . (isset($response->result[$i]->nickname)? " (" . $response->result[$i]->nickname . ")" : "")
-            );
-            $mutatedResponse->addResult($mutatedResult);
-        }
-    }
-    $mutatedResponse->setError($response->error);
-    echo json_encode(get_object_vars($mutatedResponse));
-}
 
 function addBuriedIndividual(){
     $response = new Response();
