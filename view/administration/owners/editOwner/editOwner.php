@@ -111,7 +111,7 @@
                 errors: [],
                 successMessage: null
             },
-            Created() {
+            created() {
                 this.getId();
                 this.getOwner();
             },
@@ -133,7 +133,7 @@
                 getOwner(){
                     $.getJSON("controller.php",
                     {
-                        action: "getOwnerById",
+                        action: "fetchOwnerById",
                         id: this.id
                     },response => {
                         let errors = JSON.parse(JSON.stringify(response.error));

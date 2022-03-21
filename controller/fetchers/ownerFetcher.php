@@ -76,6 +76,9 @@ function addOwner(){
 function fetchOwnerById(){
     $id = $_GET['id'];
     $response = getOwnerById($id);
+    if(!empty($response->result)){
+        $response->result[0]->stripCountryCodeFromPhoneNumber();
+    }
     echo json_encode(get_object_vars($response));
 }
 
