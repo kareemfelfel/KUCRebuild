@@ -13,7 +13,7 @@
 <h3 class="text-center">Edit Lists</h3>
 <hr>
 
-<div class="container-fluid">
+<div class="container-fluid" id="editListsApp">
     <div class="panel-group">
      <div class="panel panel-default" id="accordion1">
         <div class="panel-heading">
@@ -36,11 +36,11 @@
                             <!-- attaches plus icon with btn function to textbox -->
                             <label for="">Columbarium Name</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="columbariumName" placeholder="">
+                                <input v-model="selectedColumbariumType" type="text" class="form-control" id="columbariumName" placeholder="">
                                 <div class="input-group-append">
-                                   <div class="btn btn-success">
+                                   <button @click="addColumbariumType" class="btn btn-success">
                                     <span class="fa fa-plus"></span>
-                                   </div>
+                                   </button>
                                 </div>
                             </div>
                         </div>
@@ -56,11 +56,10 @@
                                 id="checkForExistence"
                                 data-live-search="true"
                                 multiple
-                                data-max-options="1"
+                                :data-max-options="1"
                                 data-width="100%"
                                 >
-                              <option>Columbarium 1</option>
-                              <option>Columbarium 2</option>
+                                <option v-for="item in columbariumTypesList" :value="item.value">{{item.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -68,7 +67,6 @@
         </div>
       </div>
      </div>
-    </div>
     
            <!-- Second panel -->
       <div class="panel panel-default" id="accordion2">
@@ -92,11 +90,11 @@
                             <!-- attaches plus icon with btn function to textbox -->
                             <label for="">Section Letter</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="sectionLetter" placeholder="">
+                                <input v-model="selectedColumbariumSectionLetter" type="text" class="form-control" id="sectionLetter" placeholder="">
                                 <div class="input-group-append">
-                                   <div class="btn btn-success">
+                                   <button @click="addColumbariumSectionLetter" class="btn btn-success">
                                     <span class="fa fa-plus"></span>
-                                   </div>
+                                   </button>
                                 </div>
                             </div>
                         </div>
@@ -112,11 +110,10 @@
                                 id="checkForExistence2"
                                 data-live-search="true"
                                 multiple
-                                data-max-options="1"
+                                :data-max-options="1"
                                 data-width="100%"
                                 >
-                              <option>A</option>
-                              <option>B</option>
+                              <option v-for="item in columbariumSectionLettersList" :value="item.value">{{item.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -147,11 +144,11 @@
                             <!-- attaches plus icon with btn function to textbox -->
                             <label for="">Niche Name</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="nicheName" placeholder="">
+                                <input v-model="selectedNicheType" type="text" class="form-control" id="nicheName" placeholder="">
                                 <div class="input-group-append">
-                                   <div class="btn btn-success">
+                                   <button @click="addNicheType" class="btn btn-success">
                                     <span class="fa fa-plus"></span>
-                                   </div>
+                                   </button>
                                 </div>
                             </div>
                         </div>
@@ -167,12 +164,10 @@
                                 id="checkForExistence3"
                                 data-live-search="true"
                                 multiple
-                                data-max-options="1"
+                                :data-max-options="1"
                                 data-width="100%"
                                 >
-                              <option>Eye</option>
-                              <option>Heart</option>
-                              <option>Prayer</option>
+                              <option v-for="item in nicheTypesList" :value="item.value">{{item.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -203,9 +198,9 @@
                             <!-- attaches plus icon with btn function to textbox -->
                             <label for="">Section Letter</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="tombLetter" placeholder="">
+                                <input v-model="selectedTombSectionLetter" type="text" class="form-control" id="tombLetter" placeholder="">
                                 <div class="input-group-append">
-                                   <button class="btn btn-success">
+                                   <button @click="addTombSectionLetter" class="btn btn-success">
                                     <span class="fa fa-plus"></span>
                                    </button>
                                 </div>
@@ -223,19 +218,10 @@
                                 id="checkForExistence4"
                                 data-live-search="true"
                                 multiple
-                                data-max-options="1"
+                                :data-max-options="1"
                                 data-width="100%"
                                 >
-                              <option>A</option>
-                              <option>B</option>
-                              <option>C</option>
-                              <option>D</option>
-                              <option>YC</option>
-                              <option>YB</option>
-                              <option>XC</option>
-                              <option>XB</option>
-                              <option>XD</option>
-                              <option>XA</option>
+                              <option v-for="item in tombSectionLettersList" :value="item.value">{{item.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -243,13 +229,212 @@
           </div>  
         </div>
       </div>
+    </div>
+    
+    <!-- Error Messages -->
+    <div v-for="(error, index) in errors" 
+         :key="index" class="alert alert-danger alert-dismissible fade show message-box" 
+         >
+        <button type="button" class="close" @click="clearError(index)">&times;</button>
+        {{error}}
+    </div>
+
+    <!-- Success Message -->
+    <div v-if="successMessage != null" 
+         class="alert alert-success alert-dismissible fade show message-box" 
+         >
+        <button type="button" class="close" @click="clearSuccessMessage">&times;</button>
+        {{successMessage}}
+    </div>
 </div>
 <br><br>
 <!-- Used for select picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
 <link type="text/css" rel="stylesheet" href="../view/administration/editLists/editLists.css">
+<style scoped>
+.message-box {
+    position: fixed;
+    bottom: 0;
+    right: 5px;
+    width: 300px;
+}
+</style>
 <script>
+    new Vue({
+        el: "#editListsApp",
+        data: {
+            value: null,
+            columbariumTypesList: [],
+            selectedColumbariumType: null,
+            nicheTypesList: [],
+            selectedNicheType: null,
+            columbariumSectionLettersList: [],
+            selectedColumbariumSectionLetter: null,
+            tombSectionLettersList: [],
+            selectedTombSectionLetter: null,
+            
+            successMessage: null,
+            errors: []
+        },
+        created(){
+            this.fetchColumbariumTypesList();
+            this.fetchNicheTypesList();
+            this.fetchColumbariumSectionLettersList();
+            this.fetchTombSectionLettersList();
+        },
+        methods:{
+            fetchColumbariumTypesList(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchColumbariumTypesList"
+                },response => {
+                    let data = JSON.parse(JSON.stringify(response.result));
+                    this.columbariumTypesList = data;
+                    this.refreshSelectPicker();
+                });
+            },
+            fetchNicheTypesList(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchNicheTypesList"
+                },response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    this.nicheTypesList = data
+                    this.refreshSelectPicker();
+                });
+            },
+            fetchColumbariumSectionLettersList(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchColumbariumSectionLettersList"
+                },response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    this.columbariumSectionLettersList = data
+                    this.refreshSelectPicker();
+                });
+            },
+            fetchTombSectionLettersList(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchTombSectionLettersList"
+                },response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    this.tombSectionLettersList = data
+                    this.refreshSelectPicker();
+                })
+            },
+            addColumbariumType(){
+                let request = {
+                    columbariumType: this.selectedColumbariumType
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "controller.php?action=addColumbariumType",
+                    data: {request: JSON.stringify(request)},
+                    dataType: "json",
+                    success: (response) => {
+                        let errors = JSON.parse(JSON.stringify(response.error))
+                        let result = JSON.parse(JSON.stringify(response.result))
+                        this.errors = errors
+                        // result 0 will indicate a true or false for success or failure
+                        if(result.length == 1 && result[0]){
+                            this.successMessage = "Columbarium Name was Successfully Added!"
+                            this.selectedColumbariumType = null;
+                            this.fetchColumbariumTypesList();
+                        }
+                    },
+                    error: () =>{
+                        this.errors = ["Failed to Add Columbarium Name."]
+                    }
+                });
+            },
+            addNicheType(){
+                let request = {
+                    nicheType: this.selectedNicheType
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "controller.php?action=addNicheType",
+                    data: {request: JSON.stringify(request)},
+                    dataType: "json",
+                    success: (response) => {
+                        let errors = JSON.parse(JSON.stringify(response.error))
+                        let result = JSON.parse(JSON.stringify(response.result))
+                        this.errors = errors
+                        // result 0 will indicate a true or false for success or failure
+                        if(result.length == 1 && result[0]){
+                            this.successMessage = "Niche Type was Successfully Added!"
+                            this.selectedNicheType = null;
+                            this.fetchNicheTypesList();
+                        }
+                    },
+                    error: () =>{
+                        this.errors = ["Failed to Add Niche Type."]
+                    }
+                });
+            },
+            addColumbariumSectionLetter(){
+                let request = {
+                    sectionLetter: this.selectedColumbariumSectionLetter
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "controller.php?action=addColumbariumSectionLetter",
+                    data: {request: JSON.stringify(request)},
+                    dataType: "json",
+                    success: (response) => {
+                        let errors = JSON.parse(JSON.stringify(response.error))
+                        let result = JSON.parse(JSON.stringify(response.result))
+                        this.errors = errors
+                        // result 0 will indicate a true or false for success or failure
+                        if(result.length == 1 && result[0]){
+                            this.successMessage = "Section Letter was Successfully Added!"
+                            this.selectedColumbariumSectionLetter = null;
+                            this.fetchColumbariumSectionLettersList();
+                        }
+                    },
+                    error: () =>{
+                        this.errors = ["Failed to Add Columbarium Section Letter."]
+                    }
+                });
+            },
+            addTombSectionLetter(){
+                let request = {
+                    sectionLetter: this.selectedTombSectionLetter
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "controller.php?action=addTombSectionLetter",
+                    data: {request: JSON.stringify(request)},
+                    dataType: "json",
+                    success: (response) => {
+                        let errors = JSON.parse(JSON.stringify(response.error))
+                        let result = JSON.parse(JSON.stringify(response.result))
+                        this.errors = errors
+                        // result 0 will indicate a true or false for success or failure
+                        if(result.length == 1 && result[0]){
+                            this.successMessage = "Section Letter was Successfully Added!"
+                            this.selectedTombSectionLetter = null;
+                            this.fetchTombSectionLettersList();
+                        }
+                    },
+                    error: () =>{
+                        this.errors = ["Failed to Add Tomb Section Letter."]
+                    }
+                });
+            },
+            clearError(index){
+                this.errors.splice(index, 1);
+            },
+            clearSuccessMessage(){
+                this.successMessage = null;
+            },
+            refreshSelectPicker(){
+                this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
+            }
+        }
+    })
     $('.selectpicker').selectpicker({
       size: 4
     });
