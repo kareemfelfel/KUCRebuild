@@ -129,58 +129,58 @@
                   });
                   this.id = getVars['id'];
                 }
-                },
-                getOwner(){
-                    $.getJSON("controller.php",
-                    {
-                        action: "fetchOwnerById",
-                        id: this.id
-                    },response => {
-                        let errors = JSON.parse(JSON.stringify(response.error));
-                        this.errors = errors;
-                        let result = JSON.parse(JSON.stringify(response.result[0]));
-                        this.owner = result;
-                    }).fail( () => {
-                        this.errors = ["Failed to fetch selected Owner."];
-                    });
-                },
-                editOwner(){ 
-                    let request = {
-                        firstName: this.owner.firstName,
-                        middleName: this.owner.middleName,
-                        lastName: this.owner.lastName,
-                        phoneNumber: this.owner.phoneNumber,
-                        address: this.owner.address,
-                        email: this.owner.email
-                    };
+            },
+            getOwner(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchOwnerById",
+                    id: this.id
+                },response => {
+                    let errors = JSON.parse(JSON.stringify(response.error));
+                    this.errors = errors;
+                    let result = JSON.parse(JSON.stringify(response.result[0]));
+                    this.owner = result;
+                }).fail( () => {
+                    this.errors = ["Failed to fetch selected Owner."];
+                });
+            },
+            editOwner(){ 
+                let request = {
+                    firstName: this.owner.firstName,
+                    middleName: this.owner.middleName,
+                    lastName: this.owner.lastName,
+                    phoneNumber: this.owner.phoneNumber,
+                    address: this.owner.address,
+                    email: this.owner.email
+                };
 
-                    $.ajax({
-                        type: "POST",
-                        url: `controller.php?action=editOwner&id=${this.id}`,
-                        data: {request: JSON.stringify(request)},
-                        dataType: "json",
-                        success: (response) => {
-                            let errors = JSON.parse(JSON.stringify(response.error));
-                            let result = JSON.parse(JSON.stringify(response.result));
-                            this.errors = errors;
-                            // result 0 will indicate a true or false for success or failure
-                            if(result.length === 1 && result[0]){
-                                this.successMessage = "Owner was Successfully Edited!";
-                            }
-                        },
-                        error: () =>{
-                            this.errors = ["Failed to edit Owner."];
+                $.ajax({
+                    type: "POST",
+                    url: `controller.php?action=editOwner&id=${this.id}`,
+                    data: {request: JSON.stringify(request)},
+                    dataType: "json",
+                    success: (response) => {
+                        let errors = JSON.parse(JSON.stringify(response.error));
+                        let result = JSON.parse(JSON.stringify(response.result));
+                        this.errors = errors;
+                        // result 0 will indicate a true or false for success or failure
+                        if(result.length === 1 && result[0]){
+                            this.successMessage = "Owner was Successfully Edited!";
                         }
-                    });
-                }, 
-                clearError(index){
-                    this.errors.splice(index, 1);
-                },
-                clearSuccessMessage(){
-                    this.successMessage = null;
-                }
+                    },
+                    error: () =>{
+                        this.errors = ["Failed to edit Owner."];
+                    }
+                });
+            }, 
+            clearError(index){
+                this.errors.splice(index, 1);
+            },
+            clearSuccessMessage(){
+                this.successMessage = null;
             }
-        });
+        }
+    });
     
         
 
