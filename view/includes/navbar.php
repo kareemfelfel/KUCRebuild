@@ -40,8 +40,10 @@
                 Admin</a>
             <ul class="dropdown-menu">
                 <li class="dropdown-item">
-                    <a href="controller.php?action=directToLoginPage"><span class="glyphicon glyphicon-log-in"></span> Log in</a>
-                   
+                    <a href="controller.php?action=directToLoginPage"><span class="glyphicon glyphicon-log-in"></span> Log in</a>    
+                </li>
+                <li class="dropdown-item">
+                    <a href="controller.php?action=directToPublicAccessPage"><span class="fa fa-lock"></span> Public Access</a>    
                 </li>
             </ul>
 

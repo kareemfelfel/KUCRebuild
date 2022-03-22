@@ -134,6 +134,11 @@ switch ($action)
         include '../View/includes/navbar.php';
         include '../view/columbarium/viewColumbarium/viewColumbarium.php';
         break;
+    case"directToPublicAccessPage":
+        include '../View/includes/head.php';
+        include '../View/includes/navbar.php';
+        include '../view/administration/publicAccess/publicAccess.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();
