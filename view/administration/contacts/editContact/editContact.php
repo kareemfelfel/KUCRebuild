@@ -80,12 +80,12 @@
 
 <link rel="stylesheet" href="../view/administration/contacts/contacts.css">
 <style scoped>
-.message-box {
-    position: fixed;
-    bottom: 0;
-    right: 5px;
-    width: 300px;
-}
+    .message-box {
+        position: fixed;
+        bottom: 0;
+        right: 5px;
+        width: 300px;
+    }
 </style>
 <script>
     new Vue ({
@@ -120,55 +120,55 @@
                   });
                   this.id = getVars['id'];
                 }
-                },
-                getContact(){
-                    $.getJSON("controller.php",
-                    {
-                        action: "fetchContactById",
-                        id: this.id
-                    },response => {
-                        let errors = JSON.parse(JSON.stringify(response.error));
-                        this.errors = errors;
-                        let result = JSON.parse(JSON.stringify(response.result[0]));
-                        this.contact = result;
-                    }).fail( () => {
-                        this.errors = ["Failed to fetch selected Contact."];
-                    });
-                },
-                editContact(){ 
-                    let request = {
-                        firstName: this.contact.firstName,
-                        lastName: this.contact.lastName,
-                        phoneNumber: this.contact.phoneNumber,
-                        email: this.contact.email,
-                        title: this.contact.title
-                    };
+            },
+            getContact(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchContactById",
+                    id: this.id
+                },response => {
+                    let errors = JSON.parse(JSON.stringify(response.error));
+                    this.errors = errors;
+                    let result = JSON.parse(JSON.stringify(response.result[0]));
+                    this.contact = result;
+                }).fail( () => {
+                    this.errors = ["Failed to fetch selected Contact."];
+                });
+            },
+            editContact(){ 
+                let request = {
+                    firstName: this.contact.firstName,
+                    lastName: this.contact.lastName,
+                    phoneNumber: this.contact.phoneNumber,
+                    email: this.contact.email,
+                    title: this.contact.title
+                };
 
-                    $.ajax({
-                        type: "POST",
-                        url: `controller.php?action=editContact&id=${this.id}`,
-                        data: {request: JSON.stringify(request)},
-                        dataType: "json",
-                        success: (response) => {
-                            let errors = JSON.parse(JSON.stringify(response.error));
-                            let result = JSON.parse(JSON.stringify(response.result));
-                            this.errors = errors;
-                            // result 0 will indicate a true or false for success or failure
-                            if(result.length === 1 && result[0]){
-                                this.successMessage = "Contact was Successfully Edited!";
-                            }
-                        },
-                        error: () =>{
-                            this.errors = ["Failed to edit Contact."];
+                $.ajax({
+                    type: "POST",
+                    url: `controller.php?action=editContact&id=${this.id}`,
+                    data: {request: JSON.stringify(request)},
+                    dataType: "json",
+                    success: (response) => {
+                        let errors = JSON.parse(JSON.stringify(response.error));
+                        let result = JSON.parse(JSON.stringify(response.result));
+                        this.errors = errors;
+                        // result 0 will indicate a true or false for success or failure
+                        if(result.length === 1 && result[0]){
+                            this.successMessage = "Contact was Successfully Edited!";
                         }
-                    });
-                }, 
-                clearError(index){
-                    this.errors.splice(index, 1);
-                },
-                clearSuccessMessage(){
-                    this.successMessage = null;
-                }
+                    },
+                    error: () =>{
+                        this.errors = ["Failed to edit Contact."];
+                    }
+                });
+            }, 
+            clearError(index){
+                this.errors.splice(index, 1);
+            },
+            clearSuccessMessage(){
+                this.successMessage = null;
+            }
         }
                 
     })
