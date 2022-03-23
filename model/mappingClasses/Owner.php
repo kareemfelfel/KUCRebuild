@@ -18,5 +18,9 @@ class Owner{
         $this -> middleName = $row['MIDDLE_NAME'];
         $this -> phoneNumber = $row['PHONE_NUMBER'];
     }
+    
+    function stripCountryCodeFromPhoneNumber(){
+        $this-> phoneNumber = substr($this->phoneNumber, 2);
+    }
 }
 
