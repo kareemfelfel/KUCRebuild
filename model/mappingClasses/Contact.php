@@ -16,5 +16,9 @@ Class Contact{
         $this -> title = $row['TITLE'];
         $this -> phoneNumber = $row['PHONE_NUMBER'];
     }
+    
+    function stripCountryCodeFromPhoneNumber(){
+        $this-> phoneNumber = substr($this->phoneNumber, 2);
+    }
 }
 

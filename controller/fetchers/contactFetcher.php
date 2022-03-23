@@ -80,6 +80,9 @@ function processDeleteContact(){
 function fetchContactById(){
     $id = $_GET['id'];
     $response = getContactById($id);
+    if(!empty($response->result)){
+        $response->result[0]->stripCountryCodeFromPhoneNumber();
+    }
     echo json_encode(get_object_vars($response));
 }
 
