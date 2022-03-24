@@ -282,7 +282,7 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
             }
         }
         if(!$success){
-            $response -> addError("Failed to fetch Buried Individuals.");
+            $response -> addError("Failed to fetch Lots.");
         }
     } 
     catch (PDOException $e) {
