@@ -201,7 +201,7 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
                 . "O.ID = T.OWNER_ID "
                 . "WHERE " // All Filters are added here
                 . "(:tombId IS NULL or T.ID = :tombId) and"
-                . "(:sectionLetterId IS NULL or t.SECTION_LETTER_ID = :sectionLetterId) and"
+                . "(:sectionLetterId IS NULL or T.SECTION_LETTER_ID = :sectionLetterId) and"
                 . "(:lotNumber IS NULL or T.LOT_NUMBER = :lotNumber) and"
                 . "(:hasOpenPlots IS NULL or T.HAS_OPEN_PLOTS = :hasOpenPlots) and"
                 . "(:forSale IS NULL or T.FOR_SALE = :forSale) and"
