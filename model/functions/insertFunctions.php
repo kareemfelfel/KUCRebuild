@@ -380,7 +380,7 @@ function insertContact(ToContactTable $contact)
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "INSERT INTO CONTACTS (FIRST_NAME, LAST_NAME, EMAIL, TITLE, PHONE_NUMBER)
+        $query = "INSERT INTO contacts (FIRST_NAME, LAST_NAME, EMAIL, TITLE, PHONE_NUMBER)
                     VALUES (:firstName, :lastName, :email, :title, :phoneNumber);";
         $statement = $con->prepare($query);
         $statement->bindValue(':firstName', $contact->firstName);
