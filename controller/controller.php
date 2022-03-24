@@ -31,8 +31,8 @@ else
 {
     // variable to set active status in navbar
     $homeActive = true;
-    include '../View/includes/head.php';
-    include '../View/includes/navbar.php';
+    include '../view/includes/head.php';
+    include '../view/includes/navbar.php';
     include '../view/home/home.php';
     exit();
 }
@@ -42,101 +42,101 @@ switch ($action)
     case"directToHomePage":
         // variable to set active status in navbar
         $homeActive = true;
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/home/home.php';
         break;
     case"directToAdministrationPage":
         // variable to set active status in navbar
         $administrationActive = true;
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/administration/administration.php';
         break;
     case"directToContactUsPage":
         $contactUsActive = true;
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/contactUs/contactUs.php';
         break;
     case"directToAddTombPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
-        include '../View/tomb/addTomb/addTomb.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/tomb/addTomb/addTomb.php';
         break;
     case"directToOwnersPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/administration/owners/owners.php';
         break;
     case"directToBuriedIndividualsPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
-        include '../View/administration/buriedIndividuals/buriedIndividuals.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/administration/buriedIndividuals/buriedIndividuals.php';
         break;
     case"directToListControlsPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/administration/editLists/editLists.php';
         break;
     case"directToAddNewAdminPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/administration/addNewAdmin/addNewAdmin.php';
         break;
     case"directToLoginPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/login/login.php';
         break;
     case"directToSearchTombPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/tomb/searchTomb/searchTomb.php';
         break;
     case"directToContactsPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/administration/contacts/contacts.php';
         break;
     case"directToEditContactPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/administration/contacts/editContact/editContact.php';
         break;
     case"directToEditOwnerPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/administration/owners/editOwner/editOwner.php';
         break;
     case"directToAddColumbariumPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/columbarium/addColumbarium/addColumbarium.php';
         break;
     case"directToSearchColumbariumPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/columbarium/searchColumbarium/searchColumbarium.php';
         break;
     case"directToEditBuriedIndividualPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/administration/buriedIndividuals/editBuriedIndividual/editBuriedIndividual.php';
         break;
     case"directToViewTombPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/tomb/viewTomb/viewTomb.php';
         break;
     case"directToViewColumbariumPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/columbarium/viewColumbarium/viewColumbarium.php';
         break;
     case"directToPublicAccessPage":
-        include '../View/includes/head.php';
-        include '../View/includes/navbar.php';
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
         include '../view/administration/publicAccess/publicAccess.php';
         break;
     //API
