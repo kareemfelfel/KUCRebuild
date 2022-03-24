@@ -190,7 +190,7 @@ function updateContact(int $id, ToContactTable $contact)
     try{
         $db = connection::getInstance();
         $con = $db->get_connection();
-        $query = "UPDATE CONTACTS
+        $query = "UPDATE contacts
                   SET FIRST_NAME = :firstName, LAST_NAME = :lastName, EMAIL = :email, TITLE = :title, PHONE_NUMBER = :phoneNumber
                   WHERE ID = :id;";
         $statement = $con->prepare($query);
@@ -261,7 +261,7 @@ function updateAdminPassword(int $id, $password)
     try{
         $db = connection::getinstance();
         $con = $db->get_connection();
-        $query = "UPDATE ADMINS
+        $query = "UPDATE admins
                   SET PASSWORD = :password
                   WHERE ID = :id;";
         $statement = $con->prepare($query);
