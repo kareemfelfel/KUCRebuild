@@ -10,7 +10,7 @@ function deleteContact(int $id)
     try{
         $db = connection::getInstance();
         $con = $db->get_connection();
-        $query = "DELETE FROM CONTACTS WHERE ID=:id;";
+        $query = "DELETE FROM contacts WHERE ID=:id;";
         $statement = $con->prepare($query);
         $statement->bindValue(':id', $id);
         $success = $statement->execute();

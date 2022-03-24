@@ -9,7 +9,7 @@ function getUnlinkedBuriedIndividuals(){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM BURIED_INDIVIDUALS WHERE "
+        $query = "SELECT * FROM buried_individuals WHERE "
                 . "(buried_individuals.TOMB_ID IS NULL && "
                 . "buried_individuals.COLUMBARIUM_ID IS NULL)"
                 . " ORDER BY buried_individuals.FIRST_NAME ASC;";
@@ -44,7 +44,7 @@ function getAllOwners(){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM OWNERS ORDER BY owners.FIRST_NAME ASC;";
+        $query = "SELECT * FROM owners ORDER BY owners.FIRST_NAME ASC;";
         $statement = $con->prepare($query);
         $success = $statement->execute();
         $results = $statement->fetchAll();
@@ -143,7 +143,7 @@ function getAttachmentsForTomb($tombId){
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM "
-                . "TOMB_ATTACHMENTS "
+                . "tomb_attachments "
                 . "WHERE TOMB_ID = :tombId;";
         $statement = $con->prepare($query);
         $statement->bindParam(':tombId', $tombId);
@@ -196,8 +196,8 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
                 . "O.MIDDLE_NAME AS OWNR_MIDDLE_NAME, O.ADDRESS AS OWNR_ADDRESS, "
                 . "O.PHONE_NUMBER AS OWNR_PHONE_NUMBER, O.EMAIL AS OWNR_EMAIL, "
                 . "TSL.ID AS SL_ID, TSL.SECTION_LETTER AS SL_SECTION_LETTER "
-                . "FROM TOMBS T INNER JOIN tomb_section_letters TSL ON "
-                . "T.SECTION_LETTER_ID = TSL.ID LEFT JOIN OWNERS O ON "
+                . "FROM tombs T INNER JOIN tomb_section_letters TSL ON "
+                . "T.SECTION_LETTER_ID = TSL.ID LEFT JOIN owners O ON "
                 . "O.ID = T.OWNER_ID "
                 . "WHERE " // All Filters are added here
                 . "(:tombId IS NULL or T.ID = :tombId) and"
@@ -327,7 +327,7 @@ function getAdmin($username,$password){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM ADMINS WHERE (USERNAME = :username && PASSWORD = :password );";
+        $query = "SELECT * FROM admins WHERE (USERNAME = :username && PASSWORD = :password );";
         $statement = $con->prepare($query);  
         $statement->bindParam(':username', $username);
         $statement->bindParam(':password', $password);
@@ -358,7 +358,7 @@ function getAllNicheTypes(){
     try {
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM NICHE_TYPES"
+        $query = "SELECT * FROM niche_types"
                 . " ORDER BY niche_types.TYPE ASC;";
         $statement = $con->prepare($query);          
         $success = $statement->execute();
@@ -388,7 +388,7 @@ function checkUsernameExist($username){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM ADMINS WHERE (USERNAME = :username);";
+        $query = "SELECT * FROM admins WHERE (USERNAME = :username);";
         $statement = $con->prepare($query);  
         $statement->bindParam(':username', $username);
         $success = $statement->execute();
@@ -517,7 +517,7 @@ function getColumbariumAttachments($columbariumId){
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT * FROM "
-                . "COLUMBARIUM_ATTACHMENTS "
+                . "columbarium_attachments "
                 . "WHERE COLUMBARIUM_ID = :columbariumId;";
         $statement = $con->prepare($query);
         $statement->bindParam(':columbariumId', $columbariumId);
@@ -565,7 +565,7 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
             . "O.ADDRESS AS OWNR_ADDRESS, O.PHONE_NUMBER AS OWNR_PHONE_NUMBER, "
             . "O.EMAIL AS OWNR_EMAIL, CSL.ID AS SL_ID, CSL.SECTION_LETTER AS SL_SECTION_LETTER, "
             . "NT.ID AS NT_ID, NT.TYPE AS NT_TYPE, CT.ID AS CT_ID, CT.TYPE AS CT_TYPE "
-            . "FROM COLUMBARIUM C LEFT JOIN owners O ON C.OWNER_ID = O.ID "
+            . "FROM columbarium C LEFT JOIN owners O ON C.OWNER_ID = O.ID "
             . "INNER JOIN columbarium_section_letters CSL ON CSL.ID = C.SECTION_LETTER_ID "
             . "INNER JOIN niche_types NT ON NT.ID = C.NICHE_TYPE_ID "
             . "INNER JOIN columbarium_types CT ON CT.ID=C.COLUMBARIUM_TYPE_ID "
@@ -772,7 +772,7 @@ function getBuriedIndividualById($id){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM BURIED_INDIVIDUALS WHERE buried_individuals.id = :id;";
+        $query = "SELECT * FROM buried_individuals WHERE buried_individuals.id = :id;";
         $statement = $con->prepare($query);
         $statement->bindParam(':id', $id);
         $success = $statement->execute();
@@ -800,7 +800,7 @@ function getOwnerById($id){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM OWNERS WHERE owners.id = :id;";
+        $query = "SELECT * FROM owners WHERE owners.id = :id;";
         $statement = $con->prepare($query);
         $statement->bindParam(':id', $id);
         $success = $statement->execute();
@@ -828,7 +828,7 @@ function getContactById($id){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM CONTACTS WHERE contacts.id = :id;";
+        $query = "SELECT * FROM contacts WHERE contacts.id = :id;";
         $statement = $con->prepare($query);
         $statement->bindParam(':id', $id);
         $success = $statement->execute();
