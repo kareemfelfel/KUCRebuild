@@ -47,7 +47,7 @@
 
     <!-- Add title with a picture -->
     <title>KUC</title>
-    <link rel="shortcut icon" href="../Assets/Images/favicon.png" />
+    <link rel="shortcut icon" href="../assets/images/favicon.png" />
 
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="72" class="position-relative">

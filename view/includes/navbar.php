@@ -7,7 +7,7 @@
     </button>
    
     <div class="text-white d-none d-xl-inline text-white" id="logo">
-        <img alt="KUC-logo" src="../Assets/Images/Knox_Front_Sign_Logo.png" id="Icon" style="float: left">
+        <img alt="KUC-logo" src="../assets/images/Knox_Front_Sign_Logo.png" id="Icon" style="float: left">
          &nbsp;Knox Union Cemetery
     </div>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
