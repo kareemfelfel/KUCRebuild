@@ -1,6 +1,6 @@
 <?php
 
 class Attachment{
-    public int $id;
+    public $id;
     public $link;
 }

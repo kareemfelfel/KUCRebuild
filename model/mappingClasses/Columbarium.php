@@ -1,9 +1,9 @@
 <?php
 
 class Columbarium extends BasicPlotInfo{
-    public int $sectionNumber;
-    public Type $nicheType;
-    public Type $columbariumType; 
+    public $sectionNumber;
+    public $nicheType;
+    public $columbariumType; 
     
     
     function __construct($row){

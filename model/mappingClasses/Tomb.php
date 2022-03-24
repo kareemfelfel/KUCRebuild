@@ -1,8 +1,8 @@
 <?php
 
 class Tomb extends BasicPlotInfo{
-    public int $lotNumber;
-    public bool $hasOpenPlots;
+    public $lotNumber;
+    public $hasOpenPlots;
     public $longitude;
     public $latitude;
     

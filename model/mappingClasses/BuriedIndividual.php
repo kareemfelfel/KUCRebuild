@@ -1,7 +1,7 @@
 <?php
 
 class BuriedIndividual{
-    public ?int $id;
+    public $id;
     public $firstName;
     public $middleName;
     public $maidenName;
@@ -9,7 +9,7 @@ class BuriedIndividual{
     public $nickname;
     public $dob;
     public $dod;
-    public ?bool $veteran;
+    public $veteran;
     public $obituary;
     
     function __construct($row){

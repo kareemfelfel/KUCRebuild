@@ -1,14 +1,14 @@
 <?php
 
 class ColumbariumFilter{
-    public ?int $columbariumId = null;
-    public ?int $columbariumTypeId = null;
-    public ?int $forSale = null;
-    public ?int $nicheTypeId = null;
-    public ?int $sectionLetterId = null;
-    public ?int $sectionNumber = null;
-    public ?int $ownerId = null;
-    public ?array $buriedIndividualIds = null;
+    public $columbariumId = null;
+    public $columbariumTypeId = null;
+    public $forSale = null;
+    public $nicheTypeId = null;
+    public $sectionLetterId = null;
+    public $sectionNumber = null;
+    public $ownerId = null;
+    public $buriedIndividualIds = null;
     
     public function setColumbariumId($id){
         $this -> columbariumId = $id;

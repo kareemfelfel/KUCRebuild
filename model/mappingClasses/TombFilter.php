@@ -2,13 +2,13 @@
 
 
 class TombFilter{
-    public ?int $tombId = null;
-    public ?int $sectionLetterId = null;
-    public ?int $lotNumber = null;
-    public ?int $hasOpenPlots = null;
-    public ?int $forSale = null;
-    public ?int $ownerId = null;
-    public ?array $buriedIndividualIds = null;
+    public $tombId = null;
+    public $sectionLetterId = null;
+    public $lotNumber = null;
+    public $hasOpenPlots = null;
+    public $forSale = null;
+    public $ownerId = null;
+    public $buriedIndividualIds = null;
     
     public function setTombId($id){
         $this -> tombId = $id;

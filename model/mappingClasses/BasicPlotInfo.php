@@ -1,15 +1,15 @@
 <?php
 
 class BasicPlotInfo{
-    public int $id;
-    public SectionLetter $sectionLetter;
-    public bool $forSale;
+    public $id;
+    public $sectionLetter;
+    public $forSale;
     public $purchaseDate;
-    public ?float $price;
+    public $price;
     public $mainImage;
-    public ?array $attachments; // will need to call setAttachments with an array of the appropriate attachment class
-    public ?Owner $owner;
-    public ?array $buriedIndividuals; // Will need to call setBuriedIndividuals with an array of Buried Individuals data from table 'buried_individuals'
+    public $attachments; // will need to call setAttachments with an array of the appropriate attachment class
+    public $owner;
+    public $buriedIndividuals; // Will need to call setBuriedIndividuals with an array of Buried Individuals data from table 'buried_individuals'
     
     function __construct($row){
         $this -> id = $row['ID'];

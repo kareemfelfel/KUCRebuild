@@ -7,7 +7,7 @@ class ToBuriedIndividualTable {
     public $lastName;
     public $dob;
     public $dod;
-    public ?int $veteran;
+    public $veteran;
     public $obituary;
     public $nickname;
     

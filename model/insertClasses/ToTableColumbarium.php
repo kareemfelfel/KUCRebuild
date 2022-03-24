@@ -12,17 +12,17 @@
  * @author kareem
  */
 class ToTableColumbarium {
-    public int $columbariumTypeId;
-    public int $nicheTypeId;
-    public int $sectionLetterId;
-    public int $sectionNumber;
+    public $columbariumTypeId;
+    public $nicheTypeId;
+    public $sectionLetterId;
+    public $sectionNumber;
     public $mainImage;
     public $price;
-    public int $forSale;
+    public $forSale;
     public $purchaseDate;
-    public ?int $ownerId;
-    public ?array $attachedDocuments;
-    public ?array $buriedIndividualIds;
+    public $ownerId;
+    public $attachedDocuments;
+    public $buriedIndividualIds;
     
     public function __construct(
             $columbariumTypeId,

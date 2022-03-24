@@ -1,7 +1,7 @@
 <?php
 
 Class Admin {
-    public int $id;
+    public $id;
     public $firstName;
     public $lastName;
     public $username;

@@ -1,8 +1,8 @@
 <?php
 
 Class Response{
-    public array $result;
-    public array $error; // Array of Strings
+    public $result;
+    public $error; // Array of Strings
     
     function __construct() {
         $this -> result = array();

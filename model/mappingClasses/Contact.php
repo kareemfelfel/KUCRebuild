@@ -1,7 +1,7 @@
 <?php
 
 Class Contact{
-    public int $id;
+    public $id;
     public $firstName;
     public $lastName;
     public $email;

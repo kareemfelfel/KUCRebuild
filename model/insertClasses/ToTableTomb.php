@@ -12,18 +12,18 @@
  * @author kareem
  */
 class ToTableTomb {
-    public int $sectionLetterId;
-    public int $lotNumber;
+    public $sectionLetterId;
+    public $lotNumber;
     public $price;
     public $mainImage;
-    public int $forSale;
-    public int $hasOpenPlots;
+    public $forSale;
+    public $hasOpenPlots;
     public $purchaseDate;
-    public ?int $ownerId;
+    public $ownerId;
     public $longitude;
     public $latitude;
-    public ?array $attachedDocuments;
-    public ?array $buriedIndividualIds;
+    public $attachedDocuments;
+    public $buriedIndividualIds;
     
     public function __construct(
             $sectionLetterId,
