@@ -206,7 +206,8 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
                 . "(:hasOpenPlots IS NULL or T.HAS_OPEN_PLOTS = :hasOpenPlots) and"
                 . "(:forSale IS NULL or T.FOR_SALE = :forSale) and"
                 . "(:ownerId IS NULL or T.OWNER_ID = :ownerId)"
-                . $qw .";";
+                . $qw 
+                . " ORDER BY TSL.section_Letter ASC;";
         
         $statement = $con->prepare($query);
         
@@ -577,7 +578,8 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
             . "(:columbariumTypeId IS NULL or C.COLUMBARIUM_TYPE_ID = :columbariumTypeId) and "
             . "(:forSale IS NULL or C.FOR_SALE = :forSale) and "
             . "(:ownerId IS NULL or C.OWNER_ID = :ownerId)"
-            . $qw. ";";
+            . $qw 
+            . " ORDER BY CT.type ASC;";
         $statement = $con->prepare($query);
         
         //binding paramters        

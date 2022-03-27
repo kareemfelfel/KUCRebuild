@@ -149,6 +149,16 @@ switch ($action)
         include '../view/includes/navbar.php';
         include '../view/tomb/editTomb/selector.php';
         break;
+    case"directToEditTombPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/tomb/editTomb/editTomb.php';
+        break;
+    case"directToEditColumbariumPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/columbarium/editColumbarium/editColumbarium.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();

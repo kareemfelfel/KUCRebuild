@@ -223,7 +223,7 @@ function fetchAllColumbariumsList(){
             array_map(function($o) {
                 return array(
                     "value" => $o->id,
-                    "label" => $o->columbariumType->type . " - " .
+                    "name" => $o->columbariumType->type . " - " .
                                $o->nicheType->type . " - " . 
                                $o->sectionLetter->letter . " " . 
                                $o->sectionNumber
@@ -242,7 +242,7 @@ function fetchAllTombsList(){
             array_map(function($o) {
                 return array(
                     "value" => $o->id,
-                    "label" => $o->sectionLetter->letter . " " .
+                    "name" => $o->sectionLetter->letter . " " .
                                $o->lotNumber
                 ); 
             }, $response->result)
