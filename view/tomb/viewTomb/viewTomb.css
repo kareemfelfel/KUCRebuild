@@ -34,7 +34,13 @@ and open the template in the editor.
     width: 350px;
     height: 300px;
     border-radius: 10px;
-    float: right;
+}
+.padded-row{
+    padding-bottom: 10px;
+}
+.empty-block{
+    padding: 20px;
+    background-color: lightblue;
 }
 
 /* For small size screen */

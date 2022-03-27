@@ -31,25 +31,50 @@
             <br>
             <div class="col-md-6">
                 <br><br>
-                <p>
-                    <strong class="tag">Location:</strong>  {{lotInfo.location}}
-                </p>
-                <p>
-                    <strong class="tag">Has Open Plots:</strong> {{lotInfo.hasOpenPlots ? "Yes" : "No"}}
-                </p>
-                <p>
-                    <strong class="tag">For Sale:</strong> {{lotInfo.forSale ? "Yes" : "No"}}
-                </p>
-                <p>
-                    <strong class="tag">Purchase Date:</strong> {{lotInfo.purchaseDate != null ? lotInfo.purchaseDate : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Price:</strong> 
-                    <span v-if="lotInfo.price != null"> ${{lotInfo.price}}</span>
-                    <span v-else> N/A </span>
-                </p>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Location:</strong>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <b>{{lotInfo.location}}</b>
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Has Open Plots:</strong>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        {{lotInfo.hasOpenPlots ? "Yes" : "No"}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">For Sale:</strong> 
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        {{lotInfo.forSale ? "Yes" : "No"}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Purchase Date:</strong> 
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        {{lotInfo.purchaseDate != null ? lotInfo.purchaseDate : "N/A"}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Price:</strong>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <span v-if="lotInfo.price != null"> ${{lotInfo.price}}</span>
+                        <span v-else> N/A </span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
+            <br>
+            <div class="col-md-6 text-center">
                 <img class="image" :src="lotInfo.mainImage" alt="lotImage"/>
             </div>
         </div>
@@ -60,34 +85,62 @@
         <div class="owner-info container">
             <h3 class="text-center"> Owner Information </h3>
             <hr class="hr">
-            <br>
             <div v-if="lotInfo.owner != null">
-                <p>
-                    <strong class="tag">First Name:</strong> {{lotInfo.owner.firstName}}
-                </p>
-                <p>
-                    <strong class="tag">Middle Name:</strong> {{lotInfo.owner.middleName != null? lotInfo.owner.middleName : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Last Name:</strong> {{lotInfo.owner.lastName}}
-                </p>
-                <p>
-                    <strong class="tag">Email:</strong> 
-                    <a v-if="lotInfo.owner.email != null" :href="`mailto:${lotInfo.owner.email}`"> {{lotInfo.owner.email}}</a>
-                    <span v-else> N/A </span>
-                </p>
-                <p>
-                    <strong class="tag">Phone Number:</strong> 
-                    <a v-if="lotInfo.owner.phoneNumber" :href="`tel:${lotInfo.owner.phoneNumber}`"> {{lotInfo.owner.phoneNumber}}</a>
-                    <span v-else> N/A </span>
-                </p>
-                <p>
-                    <strong class="tag">Address:</strong> {{lotInfo.owner.address != null? lotInfo.owner.address : "N/A"}}</a>
-                </p>
+                <br>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">First Name:</strong>
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        {{lotInfo.owner.firstName}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Middle Name:</strong> 
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        {{lotInfo.owner.middleName != null? lotInfo.owner.middleName : "N/A"}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Last Name:</strong>
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        {{lotInfo.owner.lastName}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Email:</strong> 
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        <a v-if="lotInfo.owner.email != null" :href="`mailto:${lotInfo.owner.email}`"> {{lotInfo.owner.email}}</a>
+                        <span v-else> N/A </span>
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Phone Number:</strong> 
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        <a v-if="lotInfo.owner.phoneNumber" :href="`tel:${lotInfo.owner.phoneNumber}`"> {{lotInfo.owner.phoneNumber}}</a>
+                        <span v-else> N/A </span>
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Address:</strong>
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        <pre>{{lotInfo.owner.address != null? lotInfo.owner.address : "N/A"}}</pre>
+                    </div>
+                </div>
                 
                 
             </div>
-            <div v-else>
+            <div v-else class="empty-block">
                 <p class="text-center"> No Owner Associated </p>
             </div>
         </div>
@@ -98,45 +151,91 @@
         <div class="buried-individuals-info container">
             <h3 class="text-center"> Buried Individuals Information </h3>
             <hr class="hr">
-            <br>
-            <div v-if="lotInfo.buriedIndividuals.length == 0">
+            <div v-if="lotInfo.buriedIndividuals.length == 0" class="empty-block">
                 <p class="text-center"> No Buried Individuals Associated </p>
             </div>
-            <div v-else 
-                 v-for="(result, index) in lotInfo.buriedIndividuals"
-                 :key="index">
-                <h4>Buried Individual #{{index +1}} </h4>
-                <hr class="bi-hr">
-                <p>
-                    <strong class="tag">First Name:</strong> {{result.firstName}}
-                </p>
-                <p>
-                    <strong class="tag">Middle Name:</strong> {{result.middleName != null ? result.middleName : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Last Name:</strong> {{result.lastName != null ? result.lastName : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Nickname:</strong> {{result.nickname != null ? result.nickname : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Maiden Name:</strong> {{result.maidenName != null ? result.maidenName : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Date of Birth:</strong> {{result.dob != null ? result.dob : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Date of Death:</strong> {{result.dod != null ? result.dod : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Veteran Status:</strong> {{result.veteran ? "Yes" : "No"}}
-                </p>
-                <p>
-                    <strong class="tag" style="float: left;">Obituary:</strong> 
-                    <p style="padding-left: 90px;">{{result.obituary != null ? result.obituary : "N/A"}}</p>
-                </p>
-                
-                <hr v-if="index != lotInfo.buriedIndividuals.length - 1" class="bi-hr">
+            <div v-else>
+                <br>
+                <div
+                     v-for="(result, index) in lotInfo.buriedIndividuals"
+                     :key="index">
+                    <h4>Buried Individual #{{index +1}} </h4>
+                    <hr class="bi-hr">
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">First Name:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.firstName}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Middle Name:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.middleName != null ? result.middleName : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Last Name:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.lastName != null ? result.lastName : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Nickname:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.nickname != null ? result.nickname : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Maiden Name:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.maidenName != null ? result.maidenName : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Date of Birth:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.dob != null ? result.dob : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Date of Death:</strong>
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.dod != null ? result.dod : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Veteran Status:</strong>
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.veteran ? "Yes" : "No"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Obituary:</strong>
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            <pre>{{result.obituary != null ? result.obituary : "N/A"}}</pre>
+                        </div>
+                    </div>
+
+                    <hr v-if="index != lotInfo.buriedIndividuals.length - 1" class="bi-hr">
+                </div>
             </div>
         </div>
 
@@ -146,7 +245,7 @@
         <div class="attachments-info container">
             <h3 class="text-center"> Attachments </h3>
             <hr class="hr">
-            <div v-if="lotInfo.attachments.length == 0">
+            <div v-if="lotInfo.attachments.length == 0" class="empty-block">
                 <p class="text-center"> No Attachments Associated </p>
             </div>
             <ul v-else>
