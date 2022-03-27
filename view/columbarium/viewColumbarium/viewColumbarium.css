@@ -17,12 +17,6 @@ and open the template in the editor.
     width: 300px;
     padding-bottom: 10px;
 }
-.map {
-    margin: auto;
-    width: 80%;
-    height: 500px;
-    border-radius: 10px;
-}
 .tag{
     background: #1abc9c;
     border-radius: 4px;
@@ -31,9 +25,14 @@ and open the template in the editor.
     padding: 2px 4px;
 }
 .image{
-    width: 350px;
+    width: 330px;
     height: 300px;
     border-radius: 10px;
-    float: right;
 }
-
+.padded-row{
+    padding-bottom: 10px;
+}
+.empty-block{
+    padding: 20px;
+    background-color: lightblue;
+}
