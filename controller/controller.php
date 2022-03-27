@@ -139,6 +139,16 @@ switch ($action)
         include '../view/includes/navbar.php';
         include '../view/administration/publicAccess/publicAccess.php';
         break;
+    case"directToEditColumbariumSelectorPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/columbarium/editColumbarium/selector.php';
+        break;
+    case"directToEditTombSelectorPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/tomb/editTomb/selector.php';
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();
@@ -187,6 +197,12 @@ switch ($action)
         break;
     case"fetchContactById":
         fetchContactById();
+        break;
+    case"fetchAllTombsList":
+        fetchAllTombsList();
+        break;
+    case"fetchAllColumbariumsList":
+        fetchAllColumbariumsList();
         break;
     case"addTomb":
         addTomb();
