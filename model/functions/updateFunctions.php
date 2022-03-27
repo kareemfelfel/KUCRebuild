@@ -75,7 +75,8 @@ function updateBuriedIndividual(int $id, ToBuriedIndividualTable $buriedIndividu
         $con = $db -> get_connection();
         $query = "UPDATE buried_individuals
                   SET FIRST_NAME=:firstName, MIDDLE_NAME= :middleName, LAST_NAME=:lastName, 
-                  MAIDEN_NAME= :maidenName, DOB= :dob,VETERAN = :veteran, DOD= :dod, OBITUARY= :obituary
+                  MAIDEN_NAME= :maidenName, DOB= :dob,VETERAN = :veteran, DOD= :dod, OBITUARY= :obituary, 
+                  NICKNAME = :nickname
                   WHERE ID = :id;";
         $statement = $con->prepare($query);
         $statement->bindValue(':firstName', $buriedIndividual->firstName);
@@ -93,6 +94,13 @@ function updateBuriedIndividual(int $id, ToBuriedIndividualTable $buriedIndividu
         }
         else{
             $statement->bindValue(':maidenName', $buriedIndividual->maidenName);
+        }
+        if(!isset($buriedIndividual ->nickname))
+        {
+            $statement->bindValue(':nickname', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':nickname', $buriedIndividual->nickname);
         }
         $statement->bindValue(':dob', $buriedIndividual->dob);
         $statement->bindValue(':dod', $buriedIndividual->dod);
