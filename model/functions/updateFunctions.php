@@ -312,30 +312,30 @@ function updateColumbarium($id, ToTableColumbarium $columbarium){
                   OWNER_ID = :ownerId
                   WHERE ID = :id;";
         $statement = $con->prepare($query);
-        $statement->bindValue(':forSale', $tomb->forSale);
-        if(!isset($tomb->purchaseDate)){
+        $statement->bindValue(':forSale', $columbarium->forSale);
+        if(!isset($columbarium->purchaseDate)){
             $statement->bindValue(':purchaseDate', null, PDO::PARAM_NULL);
         }
         else{
-            $statement->bindValue(':purchaseDate', $tomb->purchaseDate);
+            $statement->bindValue(':purchaseDate', $columbarium->purchaseDate);
         }
-        if(!isset($tomb->mainImage)){
+        if(!isset($columbarium->mainImage)){
             $statement->bindValue(':mainImage', null, PDO::PARAM_NULL);
         }
         else{
-            $statement->bindValue(':mainImage', $tomb->mainImage);
+            $statement->bindValue(':mainImage', $columbarium->mainImage);
         }
-        if(!isset($tomb->price)){
+        if(!isset($columbarium->price)){
             $statement->bindValue(':price', null, PDO::PARAM_NULL);
         }
         else{
-            $statement->bindValue(':price', $tomb->price);
+            $statement->bindValue(':price', $columbarium->price);
         }
-        if(!isset($tomb->ownerId)){
+        if(!isset($columbarium->ownerId)){
             $statement->bindValue(':ownerId', null, PDO::PARAM_NULL);
         }
         else{
-            $statement->bindValue(':ownerId', $tomb->ownerId);
+            $statement->bindValue(':ownerId', $columbarium->ownerId);
         }
         $statement->bindValue(':id', $id);
         $success = $statement->execute();
