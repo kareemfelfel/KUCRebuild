@@ -188,3 +188,43 @@ function addTomb(){
     }
     echo json_encode(get_object_vars($response));
 }
+function editTomb(){
+    $id = $_GET['id'];
+    $response = new Response();
+ 
+    // Getting all REQUEST data
+    $data = json_decode($_POST['request']);
+    $price = !empty($data->price) ? $data->price : null;
+    $forSale = !empty($data->forSale) ? $data->forSale : null;
+    $hasOpenPlots = !empty($data->hasOpenPlots) ? $data->hasOpenPlots : null;
+    $purchaseDate = !empty($data->purchaseDate) ? $data->purchaseDate : null;
+    $ownerId = !empty($data->ownerId) ? $data->ownerId : null;
+    $buriedIndividualIds = !empty($data->buriedIndividualIds) ? $data->buriedIndividualIds : null;
+    $longitude = !empty($data->longitude) ? $data->longitude : null;
+    $latitude = !empty($data->latitude) ? $data->latitude : null;
+    
+    if(isset($price) && (!is_numeric($price) || $price < 0)){
+        $response->addError("Price must be of positive numerical value or left empty.");
+    }
+    if($forSale){
+        $idFilter = new TombFilter();
+        $idFilter->setTombId($id);
+        $existingTomb = getAllTombRelatedDataWithFilter($id)->result;
+        if(!empty(existingTomb) && !$existingTomb[0]->forSale){ // If the tomb was originally not for sale and was changed to be for sale
+            $response->addError("A lot can not be changed from not for sale to for sale.");
+        }
+        if(isset($purchaseDate))
+            $response->addError("A lot that is for sale can not have a purchase date.");
+        if(isset($buriedIndividualIds) && count($buriedIndividualIds) > 0)
+            $response->addError ("A lot that is for sale can not have buried individuals associated.");
+        if(isset($ownerId))
+            $response->addError ("A lot that is for sale can not have an owner associated.");
+    }
+    else{
+        if(!isset($ownerId))
+            $response->addError ("A lot that is NOT for sale MUST have an owner associated.");
+    }
+    if(!isset($longitude) || !isset($latitude)){
+        $response->addError ("All Lots must be plotted on the map.");
+    }
+}
