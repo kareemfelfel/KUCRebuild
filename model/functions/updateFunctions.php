@@ -232,6 +232,74 @@ function updateContact(int $id, ToContactTable $contact)
     return $response;
 }
 
+function updateTomb($id, ToTableTomb $tomb){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "UPDATE tombs
+                  SET FOR_SALE = :forSale, HAS_OPEN_PLOTS = :hasOpenPlots, 
+                  PURCHASE_DATE = :purchaseDate, PRICE = :price, 
+                  LONGITUDE = :longitude, LATITUDE = :latitude,
+                  MAIN_IMAGE = IsNull(:mainImage, MAIN_IMAGE),
+                  OWNER_ID = :ownerId
+                  WHERE ID = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':forSale', $tomb->forSale);
+        $statement->bindValue(':hasOpenPlots', $tomb->hasOpenPlots);
+        $statement->bindValue(':longitude', $tomb->longitude);
+        $statement->bindValue(':latitude', $tomb->latitude);
+        if(!isset($tomb->purchaseDate)){
+            $statement->bindValue(':purchaseDate', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':purchaseDate', $tomb->purchaseDate);
+        }
+        if(!isset($tomb->mainImage)){
+            $statement->bindValue(':mainImage', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':mainImage', $tomb->mainImage);
+        }
+        if(!isset($tomb->price)){
+            $statement->bindValue(':price', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':price', $tomb->price);
+        }
+        if(!isset($tomb->ownerId)){
+            $statement->bindValue(':ownerId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':ownerId', $tomb->ownerId);
+        }
+        $statement->bindValue(':id', $id);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success){
+            $tombAttachmentsPromise = insertTombAttachments($id, $tomb->attachedDocuments);
+            if(count($tombAttachmentsPromise->error) > 0){
+                $response->addError($tombAttachmentsPromise->error[0]);
+            }
+            $updateBIPromise = updateBuriedIndividualsTombId($id, $tomb ->buriedIndividualIds);
+            if(count($updateBIPromise->error) > 0){
+                $response->addError($updateBIPromise->error[0]);
+            }
+            
+            if(count($response->error) == 0){
+                $response->addResult(true);
+            }
+        }
+        else{
+            $response->addError("Failed to update Lot.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
 function updateAdmin(int $id, ToAdminTable $admin)
 {
     $response = new Response();

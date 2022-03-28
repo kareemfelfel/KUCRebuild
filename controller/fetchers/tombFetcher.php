@@ -227,4 +227,38 @@ function editTomb(){
     if(!isset($longitude) || !isset($latitude)){
         $response->addError ("All Lots must be plotted on the map.");
     }
+    
+    //If all the data is validated, upload the attached documents
+    if(empty($response->error)){
+        // Upload the mainImage and attachedDocuments
+        $mainImagePath = processMainImageUpload($response);
+        $attachedDocumentsPaths = processAttachedDocumentsUpload($response);
+        
+        // If there are no problems with file uploading, process request
+        if(empty($response->error)){
+            //Prepare toTableTomb object
+            $obj = new ToTableTomb(
+                    0, // Section Letter ID is 0 as this value is not allowed to be changed
+                    0, // Section Number is 0 as this value is not allowed to be changed
+                    $price,
+                    $mainImagePath,
+                    $forSale,
+                    $hasOpenPlots,
+                    $purchaseDate,
+                    $ownerId,
+                    $longitude,
+                    $latitude,
+                    $attachedDocumentsPaths,
+                    $buriedIndividualIds
+            );
+            $modelResponse = edit($obj);
+            $response->setError($modelResponse->error);
+            
+            if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
+                $response->addResult($modelResponse->result[0]);
+            }
+            
+        }
+    }
+    echo json_encode(get_object_vars($response));
 }
