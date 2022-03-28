@@ -253,4 +253,10 @@ switch ($action)
     case"editContact":
         editContact();
         break;
+    case"editTomb":
+        editTomb();
+        break;
+    case"editColumbarium":
+        editColumbarium();
+        break;
 }

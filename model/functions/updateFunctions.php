@@ -300,6 +300,70 @@ function updateTomb($id, ToTableTomb $tomb){
     return $response;
 }
 
+function updateColumbarium($id, ToTableColumbarium $columbarium){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "UPDATE columbarium
+                  SET FOR_SALE = :forSale, 
+                  PURCHASE_DATE = :purchaseDate, PRICE = :price,
+                  MAIN_IMAGE = IsNull(:mainImage, MAIN_IMAGE),
+                  OWNER_ID = :ownerId
+                  WHERE ID = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':forSale', $tomb->forSale);
+        if(!isset($tomb->purchaseDate)){
+            $statement->bindValue(':purchaseDate', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':purchaseDate', $tomb->purchaseDate);
+        }
+        if(!isset($tomb->mainImage)){
+            $statement->bindValue(':mainImage', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':mainImage', $tomb->mainImage);
+        }
+        if(!isset($tomb->price)){
+            $statement->bindValue(':price', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':price', $tomb->price);
+        }
+        if(!isset($tomb->ownerId)){
+            $statement->bindValue(':ownerId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':ownerId', $tomb->ownerId);
+        }
+        $statement->bindValue(':id', $id);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success){
+            $columbariumAttachmentsPromise = insertColumbariumAttachments($id, $columbarium->attachedDocuments);
+            if(count($columbariumAttachmentsPromise->error) > 0){
+                $response->addError($columbariumAttachmentsPromise->error[0]);
+            }
+            $updateBIPromise = updateBuriedIndividualsColumbariumId($id, $columbarium ->buriedIndividualIds);
+            if(count($updateBIPromise->error) > 0){
+                $response->addError($updateBIPromise->error[0]);
+            }
+            
+            if(count($response->error) == 0){
+                $response->addResult(true);
+            }
+        }
+        else{
+            $response->addError("Failed to update Columbarium.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
 function updateAdmin(int $id, ToAdminTable $admin)
 {
     $response = new Response();

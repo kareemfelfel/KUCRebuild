@@ -210,7 +210,7 @@ function editTomb(){
         $idFilter = new TombFilter();
         $idFilter->setTombId($id);
         $existingTomb = getAllTombRelatedDataWithFilter($id)->result;
-        if(!empty(existingTomb) && !$existingTomb[0]->forSale){ // If the tomb was originally not for sale and was changed to be for sale
+        if(!empty($existingTomb) && !$existingTomb[0]->forSale){ // If the tomb was originally not for sale and was changed to be for sale
             $response->addError("A lot can not be changed from not for sale to for sale.");
         }
         if(isset($purchaseDate))
@@ -251,13 +251,9 @@ function editTomb(){
                     $attachedDocumentsPaths,
                     $buriedIndividualIds
             );
-            $modelResponse = edit($obj);
+            $modelResponse = updateTomb($id, $obj);
             $response->setError($modelResponse->error);
-            
-            if(count($response->error) == 0 && count($modelResponse->result) == 1){ // If everything was successful, send client true in response
-                $response->addResult($modelResponse->result[0]);
-            }
-            
+            $response->setResult($modelResponse->result);        
         }
     }
     echo json_encode(get_object_vars($response));
