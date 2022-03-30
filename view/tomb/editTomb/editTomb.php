@@ -405,7 +405,7 @@
             changeToBlueMarkerColor(val){
                 if(this.marker){
                     if(val){
-                        this.marker.setIcon(openMarkerIcon);
+                        this.marker.setIcon(this.openMarkerIcon);
                     }
                     else{
                         this.marker.setIcon(null); //default icon
