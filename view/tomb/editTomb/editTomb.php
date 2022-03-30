@@ -258,50 +258,7 @@
     width: 300px;
 }
 </style>
-<style>
-.bi-hr{
-    display: inline-block;
-    width: 300px;
-    padding-bottom: 2px;
-    margin-bottom: 0px;
-}
-.map {
-    margin: auto;
-    width: 100%;
-    height: 400px;
-}
-.map-panel{
-    padding: 0px;
-}
-.empty-block{
-    padding: 20px;
-    background-color: lightblue;
-}
-.inactive-link {
-   cursor: default;
-}
-.bootstrap-select > .dropdown-toggle{
-    border: 1px solid #ced4da;
-}
-/* Red Asterisk for text boxes. */
-.required:after {
-  content:" *";
-  color: red;
-  margin-right: 5px;
-}
-.curved-input{
-    border-radius: 5px !important;
-}
-.lot-ul{
-    padding-top: 8px;
-}
-.add-row{
-    padding-left: 15px;
-}
-.edit-btn{
-    margin-left: 15px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="../view/tomb/editTomb/editTomb.css">
 
 <!-- Used for select picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
@@ -534,18 +491,21 @@
                         // result 0 will indicate a true or false for success or failure
                         if(result.length == 1 && result[0]){
                             this.successMessage = "Lot was Successfully Edited!"
-                            this.fetchBuriedIndividualsList();
-                            this.$refs.mainImage.value = null;
-                            this.$refs.attachments.value = null;
-                            this.getLotInfo();
-                            this.refreshSelectPicker();
-                            
+                            this.updatePage();
                         }
                     },
                     error: () =>{
                         this.errors = ["Failed to Edit Lot."]
                     }
                 });
+            },
+            updatePage(){
+                this.fetchBuriedIndividualsList();
+                this.buriedIndividualIds = [];
+                this.$refs.mainImage.value = null;
+                this.$refs.attachments.value = null;
+                this.getLotInfo();
+                this.refreshSelectPicker();
             }
         }
     })

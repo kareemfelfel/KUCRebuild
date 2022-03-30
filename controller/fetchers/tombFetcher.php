@@ -209,7 +209,7 @@ function editTomb(){
     if($forSale){
         $idFilter = new TombFilter();
         $idFilter->setTombId($id);
-        $existingTomb = getAllTombRelatedDataWithFilter($id)->result;
+        $existingTomb = getAllTombRelatedDataWithFilter($idFilter)->result;
         if(!empty($existingTomb) && !$existingTomb[0]->forSale){ // If the tomb was originally not for sale and was changed to be for sale
             $response->addError("A lot can not be changed from not for sale to for sale.");
         }
