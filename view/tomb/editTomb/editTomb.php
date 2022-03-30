@@ -333,18 +333,24 @@
                     this.lotInfo = data
                     this.adaptInfo(data);
                     this.refreshSelectPicker();
-                    this.loadMap();
+                    if(this.map === null)
+                        this.loadMap();
                     this.setMapMarker();
                 }).always( () => {
                     this.loading = false
                 });
             },
             setMapMarker(){
-               this.marker = new google.maps.Marker({
-                position: {lat: this.lotInfo.latitude, lng: this.lotInfo.longitude},
-                draggable: true,
-                map: this.map
-               });
+               if(this.marker === null){
+                   this.marker = new google.maps.Marker({
+                    position: {lat: this.lotInfo.latitude, lng: this.lotInfo.longitude},
+                    draggable: true,
+                    map: this.map
+                   });
+               }
+               else{
+                   this.marker.setPosition({lat: this.lotInfo.latitude, lng: this.lotInfo.longitude});
+               }
                if(this.lotInfo.forSale){
                   this.marker.setIcon(this.openMarkerIcon);
                }

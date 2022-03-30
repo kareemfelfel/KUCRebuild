@@ -318,7 +318,7 @@ function updateColumbarium($id, ToTableColumbarium $columbarium){
         $query = "UPDATE columbarium
                   SET FOR_SALE = :forSale, 
                   PURCHASE_DATE = :purchaseDate, PRICE = :price,
-                  MAIN_IMAGE = IsNull(:mainImage, MAIN_IMAGE),
+                  MAIN_IMAGE = IFNull(:mainImage, MAIN_IMAGE),
                   OWNER_ID = :ownerId
                   WHERE ID = :id;";
         $statement = $con->prepare($query);
