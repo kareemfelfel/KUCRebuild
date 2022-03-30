@@ -91,7 +91,7 @@
                     </div>
                 </div><br> <!-- end of row -->
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="obituary">Obituary: </label><br>
                             <textarea v-model="obituary" id="obituary" class="form-control" rows="8" cols="30"></textarea>

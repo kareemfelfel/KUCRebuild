@@ -137,7 +137,7 @@
                   </div>
                   <hr>
                   <h6> Remove Buried Individual(s) 
-                      <span class="fa fa-warning associations-popover" style="color: #ff0000" data-container="body" data-toggle="popover" data-placement="top" data-content="When a Buried Individual is removed from a Lot or a Columbarium, their data will remain in the database but they will be unassociated with any Lot or Columbarium.">
+                      <span class="fa fa-warning associations-popover" style="color: #ff0000" data-container="body" data-toggle="popover" data-placement="top" data-content="When a Buried Individual is removed from a Lot or a Columbarium, their data will remain in the database but they will no longer be associated with any Lot or Columbarium.">
                     </span>
                   </h6>
                   <hr class='bi-hr'>
