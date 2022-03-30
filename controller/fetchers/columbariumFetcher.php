@@ -208,7 +208,7 @@ function editColumbarium(){
     if($forSale){
         $idFilter = new ColumbariumFilter();
         $idFilter->setColumbariumId($id);
-        $existingColumbarium = getAllColumbariumRelatedDataWithFilter($id)->result;
+        $existingColumbarium = getAllColumbariumRelatedDataWithFilter($idFilter)->result;
         if(!empty($existingColumbarium) && !$existingColumbarium[0]->forSale){ // If the columbarium was originally not for sale and was changed to be for sale
             $response->addError("A Columbarium can not be changed from not for sale to for sale.");
         }
