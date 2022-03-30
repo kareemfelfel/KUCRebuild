@@ -41,7 +41,7 @@
         <div v-for="(result, index) in results" :key="index" id="cell" class="cell text-center col-md-4 col-sm-6 col-lg-3">
             <div class="card" style="width: 18em;">
                 
-                <img alt="tutor" :src="result.image" style="width: 100%; height: 60%;">
+                <img alt="Lot" :src="result.image" style="width: 100%; height: 60%;">
                 <div class= "card-body">
                     <h4 id = "usercardname" class="usercardname"> {{result.title}} </h4>
                     <div class="wrapper">
