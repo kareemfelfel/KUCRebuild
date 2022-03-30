@@ -18,7 +18,12 @@ function updateBuriedIndividualsTombId($tombId, $buriedIndividualsIds){
                 . "WHERE "
                 . "buried_individuals.ID IN (" . implode(',', $buriedIndividualsIds) .");";
         $statement = $con->prepare($query);
-        $statement->bindParam(':tombId', $tombId);
+        if(!isset($tombId)){
+            $statement->bindValue(':tombId', null, PDO::PARAM_NULL);
+        }
+        else{
+           $statement->bindParam(':tombId', $tombId); 
+        }
         $success = $statement->execute();
         $statement->closeCursor();
         if($success)
@@ -50,7 +55,12 @@ function updateBuriedIndividualsColumbariumId($columbariumId, $buriedIndividuals
                 . "WHERE "
                 . "buried_individuals.ID IN (" . implode(',', $buriedIndividualsIds) .");";
         $statement = $con->prepare($query);
-        $statement->bindParam(':columbariumId', $columbariumId);
+        if(!isset($columbariumId)){
+            $statement->bindValue(':columbariumId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':columbariumId', $columbariumId);
+        }
         $success = $statement->execute();
         $statement->closeCursor();
         if($success)
@@ -241,7 +251,7 @@ function updateTomb($id, ToTableTomb $tomb){
                   SET FOR_SALE = :forSale, HAS_OPEN_PLOTS = :hasOpenPlots, 
                   PURCHASE_DATE = :purchaseDate, PRICE = :price, 
                   LONGITUDE = :longitude, LATITUDE = :latitude,
-                  MAIN_IMAGE = IsNull(:mainImage, MAIN_IMAGE),
+                  MAIN_IMAGE = IFNull(:mainImage, MAIN_IMAGE),
                   OWNER_ID = :ownerId
                   WHERE ID = :id;";
         $statement = $con->prepare($query);

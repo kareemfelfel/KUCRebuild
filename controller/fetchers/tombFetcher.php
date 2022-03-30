@@ -258,3 +258,47 @@ function editTomb(){
     }
     echo json_encode(get_object_vars($response));
 }
+function unlinkTombBuriedIndividual(){
+    $buriedIndividualId = $_GET['buriedIndividualId'];
+    $response = new Response();
+    if(!isset($buriedIndividualId)){
+        $response->addError("Buried Individual ID must be specified.");
+    }
+    else{
+        $arrayId = array($buriedIndividualId);
+    }
+    
+    if(empty($response->error)){
+        $modelResponse = updateBuriedIndividualsTombId(null, $arrayId);
+        $response->setError($modelResponse->error);
+        $response->setResult($modelResponse->result);
+    }
+    
+    echo json_encode(get_object_vars($response));
+}
+
+function deleteTombAttachment(){
+    $tombId = $_GET['tombId'];
+    $link = $_GET['link'];
+    $response = new Response();
+    
+    if(!isset($tombId)){
+        $response->addError("Lot ID must be specified.");
+    }
+    if(!isset($link)){
+        $response->addError("Attachment link must be specified.");
+    }
+    
+    if(empty($response->error)){
+        if(unlink($link)){
+            $modelResponse = deleteAttachmentForTomb($tombId, $link);
+            $response->setResult($modelResponse->result);
+            $response->setError($modelResponse->error);
+        }
+        else{
+            $response->addError("Failed to Remove the Attachment from the server.");
+        }
+    }
+    
+    echo json_encode(get_object_vars($response));
+}

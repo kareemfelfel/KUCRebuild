@@ -47,15 +47,21 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Price</label>
-                                    <input v-model="lotInfo.price" type="number" class="form-control" id="" placeholder="">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input v-model="lotInfo.price" type="number" class="form-control" id="" placeholder="">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label id="owner-label" class="required">Owner</label> <br>
+                                    <label id="owner-label" :class="{required: !lotInfo.forSale}">Owner</label> <br>
                                     <select 
                                         class="selectpicker"
                                         id="owner"
+                                        :disabled="lotInfo.forSale"
                                         data-live-search="true"
                                         data-width="100%"
                                         v-model="lotInfo.ownerId"
@@ -69,9 +75,12 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="for-sale-switch">For Sale</label>
+                                    <label >For Sale 
+                                        <span class="fa fa-info-circle associations-popover" style="color: #3498db" data-container="body" data-toggle="popover" data-placement="top" data-content="A Lot that is originally added as not for sale, can not be changed to be for sale.">
+                                        </span>
+                                    </label>
                                     <div class="custom-control custom-switch inactive-link">
-                                        <input v-model="lotInfo.forSale" type="checkbox" class="custom-control-input" onclick="disableForOpen(this)" id="for-sale-switch">
+                                        <input v-model="lotInfo.forSale" type="checkbox" class="custom-control-input" :disabled="!originalForSaleValue" id="for-sale-switch" @change="forSaleChanged">
                                         <label class="custom-control-label" for="for-sale-switch"></label>
                                     </div>
                                 </div>
@@ -88,7 +97,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Purchase Date</label>
-                                    <input v-model="lotInfo.purchaseDate" type="date" class="form-control" id="purchaseDate" placeholder="Select a Date">
+                                    <input v-model="lotInfo.purchaseDate" type="date" class="form-control" id="purchaseDate" placeholder="Select a Date" :disabled="lotInfo.forSale">
                                 </div>
                             </div>
                         </div>
@@ -117,7 +126,7 @@
                 <div class="panel-body">
                   <h6>Add Buried Individual(s)</h6>
                   <hr class='bi-hr'>
-                  <div class ="row">
+                  <div class ="row add-row">
                       <div class="col-md-3">
                           <div class="form-group">
                               <label for="">Buried Individual(s)</label> <br>
@@ -126,6 +135,7 @@
                                   id="buried-individuals"
                                   data-live-search="true"
                                   data-width="100%"
+                                  :disabled="lotInfo.forSale"
                                   multiple
                                   v-model="buriedIndividualIds"
                                   >
@@ -136,15 +146,15 @@
                       </div>
                   </div>
                   <hr>
-                  <h6> Remove Buried Individual(s) 
+                  <h6> Un-link Buried Individual(s) 
                       <span class="fa fa-warning associations-popover" style="color: #ff0000" data-container="body" data-toggle="popover" data-placement="top" data-content="When a Buried Individual is removed from a Lot or a Columbarium, their data will remain in the database but they will no longer be associated with any Lot or Columbarium.">
                     </span>
                   </h6>
                   <hr class='bi-hr'>
-                  <ul>
-                      <li v-for='item in linkedBuriedIndividualsList'>{{item.name}} <button class="btn btn-sm btn-danger fa fa-trash" @click="removeBuriedIndividual(item.id)"></li>
+                  <ul v-if="linkedBuriedIndividualsList.length > 0" class="lot-ul">
+                      <li v-for='(item, index) in linkedBuriedIndividualsList'>{{item.name}} <button class="btn btn-sm btn-danger fa fa-trash" @click="removeBuriedIndividual(item.id, index)"></li>
                   </ul>
-                  <div v-if="linkedBuriedIndividualsList.length === 0" class="empty-block">
+                  <div v-else class="empty-block">
                       <p class="text-center"> No Buried Individuals associated. </p>
                   </div>
                 </div>
@@ -170,7 +180,7 @@
                 <div class="panel-body">
                   <h6>Add Attachments</h6>
                   <hr class='bi-hr'>
-                  <div class ="row">
+                  <div class ="row add-row">
                       <div class="col-md-3">
                           <div class="form-group">
                               <label for="">All Attached Documents - Including Deed</label> <br>
@@ -186,10 +196,10 @@
                     </span>
                   </h6>
                   <hr class='bi-hr'>
-                  <ul>
-                      <li v-for='item in lotInfo.attachments'><a :href="item.link" download>{{item.name}}</a> <button class="btn btn-sm btn-danger fa fa-trash" @click="removeAttachment(item.id)"></li>
+                  <ul v-if="lotInfo.attachments.length > 0" class="lot-ul">
+                      <li v-for='(item, index) in lotInfo.attachments'><a :href="item.link" download>{{item.name}}</a> <button class="btn btn-sm btn-danger fa fa-trash" @click="removeAttachment(item.id, item.link, index)"></li>
                   </ul>
-                  <div v-if="lotInfo.attachments.length === 0" class="empty-block">
+                  <div v-else class="empty-block">
                       <p class="text-center"> No Attachments associated. </p>
                   </div>
                 </div>
@@ -220,13 +230,40 @@
               </div>
           </div>
         </div>
+        <br>
+        <button type="button" class="btn btn-success" @click="editTomb">Edit</button>
+        <br><br>
+        <!-- Error Messages -->
+        <div v-for="(error, index) in errors" 
+             :key="index" class="alert alert-danger alert-dismissible fade show message-box" 
+             >
+            <button type="button" class="close" @click="clearError(index)">&times;</button>
+            {{error}}
+        </div>
+        
+        <!-- Success Message -->
+        <div v-if="successMessage != null" 
+             class="alert alert-success alert-dismissible fade show message-box" 
+             >
+            <button type="button" class="close" @click="clearSuccessMessage">&times;</button>
+            {{successMessage}}
+        </div>
     </div>
 </div>
+<style scoped>
+.message-box {
+    position: fixed;
+    bottom: 0;
+    right: 5px;
+    width: 300px;
+}
+</style>
 <style>
 .bi-hr{
     display: inline-block;
     width: 300px;
-    padding-bottom: 10px;
+    padding-bottom: 2px;
+    margin-bottom: 0px;
 }
 .map {
     margin: auto;
@@ -255,6 +292,15 @@
 .curved-input{
     border-radius: 5px !important;
 }
+.lot-ul{
+    padding-top: 8px;
+}
+.add-row{
+    padding-left: 15px;
+}
+.edit-btn{
+    margin-left: 15px;
+}
 </style>
 
 <!-- Used for select picker -->
@@ -274,6 +320,9 @@
             biActive: true,
             attachmentsActive: true,
             mapActive: true,
+            originalForSaleValue: false,
+            errors: [],
+            successMessage: null,
             lotInfo: {
                 purchaseDate: null,
                 forSale: null,
@@ -336,6 +385,7 @@
             setMapMarker(){
                this.marker = new google.maps.Marker({
                 position: {lat: this.lotInfo.latitude, lng: this.lotInfo.longitude},
+                draggable: true,
                 map: this.map
                });
                if(this.lotInfo.forSale){
@@ -376,14 +426,126 @@
             },
             adaptInfo(data){
                 this.lotInfo.ownerId = data.owner?.id;
+                this.originalForSaleValue = data.forSale;
                 if(data.purchaseDate !== null){
                     const [month, day, year] = data.purchaseDate.split('-');
                     const updatedDate = [year, month, day].join('-');
                     this.lotInfo.purchaseDate = updatedDate;
                 }
             },
-            removeBuriedIndividual(id){
-                console.log(id);
+            forSaleChanged(){
+                if(this.lotInfo.forSale){
+                    this.lotInfo.ownerId = null;
+                    this.lotInfo.purchaseDate = null;
+                    this.buriedIndividualIds = [];
+                    this.changeToBlueMarkerColor(true);
+                }
+                else{
+                    this.changeToBlueMarkerColor(false);
+                }
+                this.refreshSelectPicker();
+            },
+            changeToBlueMarkerColor(val){
+                if(this.marker){
+                    if(val){
+                        this.marker.setIcon(openMarkerIcon);
+                    }
+                    else{
+                        this.marker.setIcon(null); //default icon
+                    }
+                }
+            },
+            removeBuriedIndividual(id, index){
+                $.getJSON("controller.php",
+                {
+                    action: "unlinkTombBuriedIndividual",
+                    buriedIndividualId: id
+                },response => {
+                    let result = JSON.parse(JSON.stringify(response.result))
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    this.errors = errors
+                    if(result.length == 1 && result[0]){
+                        this.successMessage = "Buried Individual was Successfully un-linked!"
+                        this.fetchBuriedIndividualsList();
+                        this.lotInfo.buriedIndividuals.splice(index, 1);
+                    }
+                    this.refreshSelectPicker();
+                }).fail( () => {
+                    this.errors = ["Failed to un-link buried individual."];
+                });
+            },
+            removeAttachment(id, link, index){
+                $.getJSON("controller.php",
+                {
+                    action: "deleteTombAttachment",
+                    tombId: id,
+                    link: link
+                },response => {
+                    let result = JSON.parse(JSON.stringify(response.result))
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    this.errors = errors
+                    if(result.length == 1 && result[0]){
+                        this.successMessage = "Attachment was Successfully Deleted!"
+                        this.lotInfo.attachments.splice(index, 1);
+                    }
+                }).fail( () => {
+                    this.errors = ["Failed to remove attachment."];
+                });
+            },
+            clearError(index){
+                this.errors.splice(index, 1);
+            },
+            clearSuccessMessage(){
+                this.successMessage = null;
+            },
+            editTomb(){
+                let formData = new FormData();
+                let request = {
+                    price: this.lotInfo.price,
+                    forSale: this.lotInfo.forSale,
+                    hasOpenPlots: this.lotInfo.hasOpenPlots,
+                    purchaseDate: this.lotInfo.purchaseDate,
+                    ownerId: this.lotInfo.ownerId,
+                    buriedIndividualIds: this.buriedIndividualIds,
+                    longitude: this.marker.getPosition().lng(),
+                    latitude: this.marker.getPosition().lat()
+                }
+                
+                formData.append('request', JSON.stringify(request))
+                if(this.$refs.mainImage.files[0])
+                    formData.append('mainImage', this.$refs.mainImage.files[0]);
+
+                let attachments = this.$refs.attachments.files;
+                for(var i =0; i< attachments.length; i++){
+                    formData.append('attachedDocuments[]', attachments[i]);
+                }
+                
+                $.ajax({
+                    type: "POST",
+                    url: `controller.php?action=editTomb&id=${this.id}`,
+                    data: formData,
+                    dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    success: (response) => {
+                        let errors = JSON.parse(JSON.stringify(response.error))
+                        let result = JSON.parse(JSON.stringify(response.result))
+                        this.errors = errors
+                        // result 0 will indicate a true or false for success or failure
+                        if(result.length == 1 && result[0]){
+                            this.successMessage = "Lot was Successfully Edited!"
+                            this.fetchBuriedIndividualsList();
+                            this.$refs.mainImage.value = null;
+                            this.$refs.attachments.value = null;
+                            this.getLotInfo();
+                            this.refreshSelectPicker();
+                            
+                        }
+                    },
+                    error: () =>{
+                        this.errors = ["Failed to Edit Lot."]
+                    }
+                });
             }
         }
     })

@@ -256,7 +256,19 @@ switch ($action)
     case"editTomb":
         editTomb();
         break;
+    case"unlinkTombBuriedIndividual":
+        unlinkTombBuriedIndividual();
+        break;
+    case"deleteTombAttachment":
+        deleteTombAttachment();
+        break;
     case"editColumbarium":
         editColumbarium();
+        break;
+    case"unlinkColumbariumBuriedIndividual":
+        unlinkColumbariumBuriedIndividual();
+        break;
+    case"deleteColumbariumAttachment":
+        deleteColumbariumAttachment();
         break;
 }
