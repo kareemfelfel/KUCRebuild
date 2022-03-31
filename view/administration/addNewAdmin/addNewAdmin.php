@@ -49,7 +49,7 @@
             </div>
         </div>
     </div> <!-- end of row -->
-
+    <br>
     <div class="row">
         <div class="btns-wrapper">
             <button type="button" class="btn btn-success bottom-form-button" @click="addAdmin">Submit</button>
