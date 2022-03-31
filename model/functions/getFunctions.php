@@ -323,14 +323,14 @@ function getAllBuriedIndividuals() {
     return $response;
 }
 
-function getAdmin($username,$password){
+function getAdmin($email, $password){
     $response = new Response();
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM ADMINS WHERE (USERNAME = :username && PASSWORD = :password );";
+        $query = "SELECT * FROM ADMINS WHERE (EMAIL = :email && PASSWORD = :password );";
         $statement = $con->prepare($query);  
-        $statement->bindParam(':username', $username);
+        $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $password);
         $success = $statement->execute();
         $result = $statement->fetchAll();
@@ -384,14 +384,14 @@ function getAllNicheTypes(){
     return $response;
 }
 
-function checkUsernameExist($username){
+function checkEmailExist($email){
     $response = new Response();
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM ADMINS WHERE (USERNAME = :username);";
+        $query = "SELECT * FROM ADMINS WHERE (EMAIL = :email);";
         $statement = $con->prepare($query);  
-        $statement->bindParam(':username', $username);
+        $statement->bindParam(':email', $email);
         $success = $statement->execute();
         $result = $statement->fetchAll();
         $statement->closeCursor();
@@ -405,7 +405,7 @@ function checkUsernameExist($username){
             }
         }
         else{
-            $response -> addError("Failed to fetch Admin with username");
+            $response -> addError("Failed to fetch Admin with email");
         }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();

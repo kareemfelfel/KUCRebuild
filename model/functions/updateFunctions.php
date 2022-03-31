@@ -381,12 +381,12 @@ function updateAdmin(int $id, ToAdminTable $admin)
         $db = connection::getInstance();
         $con = $db->get_connection();
         $query = "UPDATE admins
-                  SET FIRST_NAME = :firstName, LAST_NAME = :lastName, USERNAME = :username
+                  SET FIRST_NAME = :firstName, LAST_NAME = :lastName, EMAIL = :email
                   WHERE ID = :id;";
         $statement = $con->prepare($query);
         $statement->bindValue(':firstName', $admin->firstName);
         $statement->bindValue(':lastName', $admin->lastName);
-        $statement->bindValue(':username', $admin->username);
+        $statement->bindValue(':email', $admin->email);
         $statement->bindValue(':id', $id);
         $success = $statement->execute();
         $statement->closeCursor();

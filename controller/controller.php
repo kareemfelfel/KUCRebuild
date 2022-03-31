@@ -80,9 +80,7 @@ switch ($action)
         include '../view/administration/editLists/editLists.php';
         break;
     case"directToAddNewAdminPage":
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/administration/addNewAdmin/addNewAdmin.php';
+        directToAddNewAdminPage();
         break;
     case"directToLoginPage":
         include '../view/includes/head.php';
@@ -271,4 +269,16 @@ switch ($action)
     case"deleteColumbariumAttachment":
         deleteColumbariumAttachment();
         break;
+}
+
+function directToAddNewAdminPage(){
+    if (!isset($_SERVER['HTTPS'])) {
+            $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            header("Location: " . $url);
+            exit();
+    }
+    
+    include '../view/includes/head.php';
+    include '../view/includes/navbar.php';
+    include '../view/administration/addNewAdmin/addNewAdmin.php';
 }
