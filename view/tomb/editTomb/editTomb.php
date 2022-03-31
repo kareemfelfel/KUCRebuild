@@ -49,7 +49,7 @@
                                     <label for="">Price</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">$</span>
+                                            <span class="input-group-text fa fa-dollar-sign"></span>
                                         </div>
                                         <input v-model="lotInfo.price" type="number" class="form-control" id="" placeholder="">
                                     </div>
