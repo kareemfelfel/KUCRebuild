@@ -31,7 +31,7 @@ CREATE TABLE `admins` (
   `ID` int(11) NOT NULL,
   `FIRST_NAME` varchar(50) NOT NULL,
   `LAST_NAME` varchar(50) NOT NULL,
-  `EMAIL` varchar(50) NOT NULL UNIQUE,
+  `EMAIL` varchar(50) NOT NULL,
   `PASSWORD` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -311,7 +311,7 @@ INSERT INTO `tomb_section_letters` (`ID`, `SECTION_LETTER`) VALUES
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `USERNAME` (`USERNAME`);
+  ADD UNIQUE KEY `EMAIL` (`EMAIL`);
 
 --
 -- Indexes for table `buried_individuals`
