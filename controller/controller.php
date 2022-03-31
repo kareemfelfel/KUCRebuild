@@ -239,6 +239,9 @@ switch ($action)
     case"addContact":
         addContact();
         break;
+    case"addAdmin":
+        addAdmin();
+        break;
     case"deleteContact":
         processDeleteContact();
         break;

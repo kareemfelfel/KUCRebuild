@@ -490,4 +490,33 @@ function insertColumbariumSectionLetter(ToSectionLetter $sectionLetter)
         $response->addError($errorMessage);
     }
     return $response;
-} 
+}
+
+function insertAdmin(ToAdminTable $admin){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "INSERT INTO admins (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD)
+                VALUES (:firstName, :lastName, :email, :password);";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':firstName', $admin->firstName);
+        $statement->bindValue(':lastName', $admin->lastName);
+        $statement->bindValue(':email', $admin->email);
+        $statement->bindValue(':password', $admin->password);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response->addResult(True);
+        }
+        else
+        {
+            $response->addError("Failed to insert Admin.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response->addError($errorMessage);
+    }
+    return $response;
+}
