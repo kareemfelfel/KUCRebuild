@@ -384,7 +384,7 @@ function getAllNicheTypes(){
     return $response;
 }
 
-function checkEmailExist($email){
+function checkAdminEmailExist($email){
     $response = new Response();
     try{
         $db = connection::getInstance();

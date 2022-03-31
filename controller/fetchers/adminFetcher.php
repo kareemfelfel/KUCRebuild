@@ -22,9 +22,19 @@ function addAdmin(){
         $response->addError("Last Name must be set.");
     }
     if (isset($email)) {
+        $modelEmailResponse = checkAdminEmailExist($email);
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $response->addError("Invalid email address.");
         }
+        if(empty($modelEmailResponse->error)){
+            if($modelEmailResponse->result[0]){
+                $response->addError("An account already exist with the same email.");
+            } 
+        }
+        else{
+            $response->addError($modelEmailResponse->error[0]);
+        }
+            
     }
     else{
         $response->addError("Email Address must be set.");
