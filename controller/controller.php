@@ -37,6 +37,32 @@ else
     exit();
 }
 
+if(!checkActionExists($action)->result[0]){
+    http_response_code(404);
+    include '../view/includes/head.php';
+    include '../view/includes/navbar.php';
+    include '../view/error/notFound.php';
+    exit();
+}
+else{
+    if(!userIsAuthorized($action)->result[0]){
+        http_response_code(401);
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/error/unAuthorized.php';
+        exit();
+    }
+}
+
+// Make sure to switch to HTTPS for pages that require password
+if($action == "directToAddNewAdminPage" || 
+    $action == "directToLoginPage"){
+    if (!isset($_SERVER['HTTPS'])) {
+            $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            header("Location: " . $url);
+            exit();
+    }
+}
 switch ($action)
 {
     case"directToHomePage":
@@ -80,7 +106,9 @@ switch ($action)
         include '../view/administration/editLists/editLists.php';
         break;
     case"directToAddNewAdminPage":
-        directToAddNewAdminPage();
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/administration/addNewAdmin/addNewAdmin.php';
         break;
     case"directToLoginPage":
         include '../view/includes/head.php';
@@ -274,14 +302,20 @@ switch ($action)
         break;
 }
 
-function directToAddNewAdminPage(){
-    if (!isset($_SERVER['HTTPS'])) {
-            $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            header("Location: " . $url);
-            exit();
+function userIsAuthorized($action){
+    $response = new Response();
+    if(User::getInstance()->userType == UserType::ADMIN){
+        // TODO see if we can maybe update the admin's data here
+        $response->addResult(true);
+    }
+    else{
+        if(!empty(setGuestPrivileges()->error)){
+            $response->addResult(false);
+        }
+        else{
+            $response = checkGuestAccessToAction($action);
+        }
     }
     
-    include '../view/includes/head.php';
-    include '../view/includes/navbar.php';
-    include '../view/administration/addNewAdmin/addNewAdmin.php';
+    return $response;
 }

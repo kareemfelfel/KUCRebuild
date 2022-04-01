@@ -852,3 +852,93 @@ function getContactById($id){
     }
     return $response;
 }
+
+
+// FOR SECURITY
+function setGuestPrivileges(){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM accessible_modules WHERE accessible_modules.GUEST_ACCESS = 1;";
+        $statement = $con->prepare($query);
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for($i = 0; $i<count($result); $i++)
+            {
+                $row = $result[$i];
+                $user = User::getInstance();
+                $user->addAccessibleModule($row['MODULE']);
+            }
+        }
+        else
+        {
+            $response -> addError("Failed to fetch Accessible Modules.");
+        }
+    }    
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function checkGuestAccessToAction($action){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM actions_modules "
+                . "INNER JOIN actions on actions_modules.ACTION_ID = actions.ID "
+                . "INNER JOIN accessible_modules on actions_modules.MODULE_ID = accessible_modules.ID "
+                . "WHERE ACTION = :action AND GUEST_ACCESS = 1;";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':action', $action);
+        $success = $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        if($success && !empty($result))
+        {
+            $response ->addResult(true);
+        }
+        else
+        {
+            $response -> addResult(false);
+        }
+    }    
+    catch (PDOException $e) {
+        $response -> addError($errorMessage);
+        $response->addResult(false);
+    }
+    return $response;
+}
+
+function checkActionExists($action){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM actions WHERE actions.ACTION = :action;";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':action', $action);
+        $success = $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        if($success && !empty($result))
+        {
+            $response ->addResult(true);
+        }
+        else
+        {
+            $response -> addResult(false);
+        }
+    }    
+    catch (PDOException $e) {
+        $response -> addError($errorMessage);
+        $response->addResult(false);
+    }
+    return $response;
+}

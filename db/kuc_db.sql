@@ -207,15 +207,6 @@ CREATE TABLE `tomb_section_letters` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `protected_actions`
---
-CREATE TABLE `protected_actions` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ACTION` varchar(200) NOT NULL UNIQUE,
-    PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
 -- Indexes for dumped tables
 --
 
