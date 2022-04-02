@@ -11,7 +11,7 @@ Class Admin {
         $this -> id = $row['ID'];
         $this -> firstName = $row['FIRST_NAME'];
         $this -> lastName = $row['LAST_NAME'];
-        $this -> username = $row['EMAIL'];
+        $this -> email = $row['EMAIL'];
         $this -> password = $row['PASSWORD'];
     }
 }

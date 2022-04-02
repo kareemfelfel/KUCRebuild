@@ -328,24 +328,21 @@ function getAdmin($email, $password){
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM ADMINS WHERE (EMAIL = :email && PASSWORD = :password );";
+        $query = "SELECT * FROM admins WHERE EMAIL = :email AND PASSWORD = :password;";
         $statement = $con->prepare($query);  
         $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $password);
         $success = $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetch();
         $statement->closeCursor();
-        if($success && count($result) > 0)
+        if($success && !empty($result))
         {
-            for( $i =0; $i< count($result); $i++)
-            {
-                $row = $result[$i];
-                $admin = new Admin($row);
-                $response -> addResult($admin);
-            }
+            $admin = new Admin($result);
+            $response -> addResult($admin);
+            
         }
-        if(!$success){
-            $response -> addError("Failed to fetch All Admins.");
+        else{
+            $response -> addError("Failed to fetch Account.");
         }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
@@ -870,7 +867,7 @@ function setGuestPrivileges(){
             for($i = 0; $i<count($result); $i++)
             {
                 $row = $result[$i];
-                $user = User::getInstance();
+                $user = $_SESSION['user'];
                 $user->addAccessibleModule($row['MODULE']);
             }
         }

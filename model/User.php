@@ -11,27 +11,17 @@
  *
  * @author karee
  */
+// WILL BE STORED IN SESSION
 class User {
     public $userType = UserType::GUEST;
-    public ?Admin $admin = null;
-    public Array $accessibleModules = array();
-    public static $instance;
-    
-    public static function getInstance()
-    {
-        if(!isset(self::$instance))
-        {
-            self::$instance = new User();
-            
-        }
-        return self::$instance;
-    }
+    public $admin = null;
+    public $accessibleModules = array();
 
    public function addAccessibleModule($module){
       array_push($this->accessibleModules, $module);
    }
 
-   public function setUserType(UserType $type ){
+   public function setUserType($type ){
       $this->userType = $type;
    }
    

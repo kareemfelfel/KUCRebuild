@@ -1,6 +1,5 @@
 <?php
 // MAPPING CLASSES
-require_once '../model/mappingClasses/Admin.php';
 require_once '../model/mappingClasses/Attachment.php';
 require_once '../model/mappingClasses/ColumbariumAttachment.php';
 require_once '../model/mappingClasses/TombAttachment.php';

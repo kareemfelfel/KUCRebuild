@@ -5,6 +5,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+// Added before session because $_SESSION['user'] will carry an instance of the class User.
+include '../model/User.php';
+include '../model/consts.php';
+include '../model/mappingClasses/Admin.php';
 session_start();
 
 // Include all of our mapping classes
@@ -36,6 +40,17 @@ else
     include '../view/home/home.php';
     exit();
 }
+// change to HTTPS for certain actions that require trasfer of sensitive data
+if($action == "directToAddNewAdminPage" || 
+    $action == "directToLoginPage"){
+    if (!isset($_SERVER['HTTPS'])) {
+        $_SESSION['HTTPS-CHECK'] = true;
+        echo $_SESSION['HTTPS-CHECK'];
+        $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        header("Location: " . $url);
+        exit();
+    }
+}
 
 if(!checkActionExists($action)->result[0]){
     http_response_code(404);
@@ -55,14 +70,7 @@ else{
 }
 
 // Make sure to switch to HTTPS for pages that require password
-if($action == "directToAddNewAdminPage" || 
-    $action == "directToLoginPage"){
-    if (!isset($_SERVER['HTTPS'])) {
-            $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            header("Location: " . $url);
-            exit();
-    }
-}
+
 switch ($action)
 {
     case"directToHomePage":
@@ -185,6 +193,12 @@ switch ($action)
         include '../view/includes/navbar.php';
         include '../view/columbarium/editColumbarium/editColumbarium.php';
         break;
+    case"login":
+        processLogin();
+        break;
+    case"logout":
+        processLogout();
+        break;
     //API
     case"fetchAllOwnersList":
         fetchAllOwnersList();
@@ -304,7 +318,11 @@ switch ($action)
 
 function userIsAuthorized($action){
     $response = new Response();
-    if(User::getInstance()->userType == UserType::ADMIN){
+    if(!isset($_SESSION['user'])){
+        $_SESSION['user'] = new User();
+    }
+    
+    if($_SESSION['user']->userType == UserType::ADMIN){
         // TODO see if we can maybe update the admin's data here
         $response->addResult(true);
     }
@@ -316,6 +334,32 @@ function userIsAuthorized($action){
             $response = checkGuestAccessToAction($action);
         }
     }
-    
+
     return $response;
+}
+
+function processLogin(){
+    $response = new Response();
+    // Getting all REQUEST data
+    $data = json_decode($_POST['request']);
+    $email = !empty($data->email) ? $data->email : null;
+    $password = !empty($data->password) ? $data->password : null;
+    
+    $modelResponse = getAdmin($email, sha1($password));
+    
+    if(empty($modelResponse->result)){
+        $response->addError("Invalid Email and/or Password.");
+    }
+    else{
+        $admin = $modelResponse->result[0];
+        $_SESSION['user']->setUserType(UserType::ADMIN);
+        $_SESSION['user']->setAdmin($admin);
+        $response->addResult(true);
+    }
+    echo json_encode(get_object_vars($response));
+}
+
+function processLogout(){
+    session_destroy();
+    header("Location: " . "../controller/controller.php?action=directToHomePage");
 }
