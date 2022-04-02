@@ -33,11 +33,7 @@ else if (isset ($_GET['action']))
 }
 else
 {
-    // variable to set active status in navbar
-    $homeActive = true;
-    include '../view/includes/head.php';
-    include '../view/includes/navbar.php';
-    include '../view/home/home.php';
+    header("Location: " . "../controller/controller.php?action=directToHomePage");
     exit();
 }
 // change to HTTPS for certain actions that require trasfer of sensitive data
@@ -361,5 +357,6 @@ function processLogin(){
 
 function processLogout(){
     session_destroy();
-    header("Location: " . "../controller/controller.php?action=directToHomePage");
+    header("Location: " . "../index.php");
+    exit();
 }
