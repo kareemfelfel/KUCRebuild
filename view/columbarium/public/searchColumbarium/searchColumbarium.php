@@ -34,7 +34,6 @@
                                 </div>
                             </div>
                         </div>
-                        <p> Owner: {{result.ownerName}}</p>
                     </div>
                     <p v-else class="for-sale-section"><strong class="tag">For Sale</strong>
                 </div>
@@ -125,19 +124,13 @@
             </div>
             <div class ="row">
               <div class="col-md-6">
-                  <div class="form-group">
-                      <label for="">Owner</label> <br>
-                      <select 
-                          class="selectpicker"
-                          id="owner"
-                          data-live-search="true"
-                          data-width="100%"
-                          v-model="filter.ownerId"
-                          >
-                        <option v-for="item in ownersList" :value="item.value">{{item.name}}</option>
-                        
-                      </select>
-                  </div>
+                    <div class="form-group">
+                        <label for="for-sale-switch">For Sale</label>
+                        <div class="custom-control custom-switch inactive-link">
+                            <input type="checkbox" class="custom-control-input" id="for-sale-switch" v-model="filter.forSale">
+                            <label class="custom-control-label" for="for-sale-switch"></label>
+                        </div>
+                    </div>
               </div>
               <div class="col-md-6">
                   <div class="form-group">
@@ -155,17 +148,7 @@
                   </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="for-sale-switch">For Sale</label>
-                        <div class="custom-control custom-switch inactive-link">
-                            <input type="checkbox" class="custom-control-input" id="for-sale-switch" v-model="filter.forSale">
-                            <label class="custom-control-label" for="for-sale-switch"></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearFilter()">Clear</button>
             <button type="button" class="btn btn-primary" data-dismiss="modal" @click="fetchResults()">Filter</button>
@@ -204,10 +187,8 @@
               sectionLetterId: null,
               sectionNumber: null,
               forSale: null,
-              ownerId: null,
               buriedIndividualIds: []
             },
-            ownersList: [],
             buriedIndividualsList: [],
             sectionLettersList: [],
             nicheTypesList: [],
@@ -218,7 +199,6 @@
             errors: []
         },
         created(){
-            this.fetchOwnersList();
             this.fetchBuriedIndividualsList();
             this.fetchSectionLettersList();
             this.fetchNicheTypesList();
@@ -226,16 +206,6 @@
             this.fetchResults();
         },
         methods:{
-            fetchOwnersList(){
-                $.getJSON("controller.php",
-                {
-                    action: "fetchAllOwnersList"
-                },response => {
-                    let data = JSON.parse(JSON.stringify(response.result))
-                    this.ownersList = data
-                    this.refreshSelectPicker();
-                })
-            },
             fetchBuriedIndividualsList(){
                 $.getJSON("controller.php",
                 {
@@ -284,7 +254,7 @@
                     nicheTypeId: this.filter.nicheTypeId,
                     sectionLetterId: this.filter.sectionLetterId,
                     forSale: this.filter.forSale,
-                    ownerId: this.filter.ownerId,
+                    ownerId: null,
                     buriedIndividualIds: this.filter.buriedIndividualIds
                 }               
                 $.getJSON("controller.php",
@@ -310,7 +280,6 @@
                 this.filter.sectionLetterId = null
                 this.filter.sectionNumber = null
                 this.filter.forSale = null
-                this.filter.ownerId = null
                 this.filter.buriedIndividualIds = []
                 
                 this.refreshSelectPicker();
