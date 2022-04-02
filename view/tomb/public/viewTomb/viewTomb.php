@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 ?>
-<div id="viewColumbariumApp" class="container-fluid">
+<div id="viewTombApp" class="container-fluid">
     <div v-if="!loading">
         <br>
         <hr>
 
-        <div class="columbarium-info container">
-            <h3 class="text-center"> Columbarium Information </h3>
+        <div class="lot-info container">
+            <h3 class="text-center"> Lot Information </h3>
             <hr class="hr">
             <br>
             <div class="col-md-6">
@@ -22,7 +22,15 @@
                         <strong class="tag">Location:</strong>
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
-                        <b>{{columbariumInfo.location}}</b>
+                        <b>{{lotInfo.location}}</b>
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Has Open Plots:</strong>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        {{lotInfo.hasOpenPlots ? "Yes" : "No"}}
                     </div>
                 </div>
                 <div class="row padded-row">
@@ -30,7 +38,7 @@
                         <strong class="tag">For Sale:</strong> 
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
-                        {{columbariumInfo.forSale ? "Yes" : "No"}}
+                        {{lotInfo.forSale ? "Yes" : "No"}}
                     </div>
                 </div>
                 <div class="row padded-row">
@@ -38,10 +46,10 @@
                         <strong class="tag">Purchase Date:</strong> 
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
-                        {{columbariumInfo.purchaseDate != null ? columbariumInfo.purchaseDate : "N/A"}}
+                        {{lotInfo.purchaseDate != null ? lotInfo.purchaseDate : "N/A"}}
                     </div>
                 </div>
-                <div v-if="columbariumInfo.forSale" class="row padded-row">
+                <div v-if="lotInfo.forSale" class="row padded-row">
                     <div class="col-md-4 col-sm-4 col-6">
                         <strong class="tag">Price:</strong> 
                     </div>
@@ -52,7 +60,7 @@
             </div>
             <br>
             <div class="col-md-6 text-center">
-                <img class="image" :src="columbariumInfo.mainImage" alt="columbariumImage"/>
+                <img class="image" :src="lotInfo.mainImage" alt="lotImage"/>
             </div>
         </div>
 
@@ -62,13 +70,13 @@
         <div class="buried-individuals-info container">
             <h3 class="text-center"> Buried Individuals Information </h3>
             <hr class="hr">
-            <div v-if="columbariumInfo.buriedIndividuals.length == 0" class="empty-block">
+            <div v-if="lotInfo.buriedIndividuals.length == 0" class="empty-block">
                 <p class="text-center"> No Buried Individuals Associated </p>
             </div>
             <div v-else>
                 <br>
                 <div
-                     v-for="(result, index) in columbariumInfo.buriedIndividuals"
+                     v-for="(result, index) in lotInfo.buriedIndividuals"
                      :key="index">
                     <h4>Buried Individual #{{index +1}} </h4>
                     <hr class="bi-hr">
@@ -145,31 +153,49 @@
                         </div>
                     </div>
 
-                    <hr v-if="index != columbariumInfo.buriedIndividuals.length - 1" class="bi-hr">
+                    <hr v-if="index != lotInfo.buriedIndividuals.length - 1" class="bi-hr">
                 </div>
             </div>
         </div>
 
-        <br><br><br>
+        
+
+        <br>
+        <hr>
+    </div>
+
+    <div class="map">
+        <h3 class="text-center"><span class="fa fa-map-marker"></span> Location on Map </h3>
+        <hr class="hr">
+        <div id="googleMap" class="map">
+            <!-- GMAP API -->
+        </div>
+        <br><br>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="../view/columbarium/viewColumbarium/viewColumbarium.css">
+<link rel="stylesheet" type="text/css" href="../view/tomb/viewTomb/viewTomb.css">
+<!-- GMAP Async script executes immediately and must be after any DOM elements used in callback. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXbb-v0RvEbY5PYpp1HsPgRxDjVH8oAsM&v=weekly"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script>
     new Vue({
-        el: "#viewColumbariumApp",
+        el: "#viewTombApp",
         data:{
             id: null,
+            lotInfo: null,
+            map: null,
+            marker: null,
             loading: false,
-            columbariumInfo: null
+            openMarkerIcon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
         },
         created(){
-            this.loading = true;
+            this.loading = true
             this.getId();
-            this.getColumbariumInfo();
+            this.getLotInfo();
         },
         methods:{
-            getId(){
-                let uri = window.location.href.split('?');
+           getId(){
+               let uri = window.location.href.split('?');
                 if(uri.length == 2) {
                   let vars = uri[1].split('&');
                   let getVars = {};
@@ -181,20 +207,41 @@
                   });
                   this.id = getVars['id'];
                 }
-            },
-            getColumbariumInfo(){
-                this.loading = true;
-                $.getJSON("controller.php",
+           },
+           getLotInfo(){
+               this.loading = true
+               $.getJSON("controller.php",
                 {
-                    action: "fetchColumbariumById",
+                    action: "fetchTombById",
                     id: this.id
                 },response => {
                     let data = JSON.parse(JSON.stringify(response.result[0]))
-                    this.columbariumInfo = data
+                    this.lotInfo = data
+                    this.loadMap();
+                    this.setMapMarker();
                 }).always( () => {
                     this.loading = false
                 });
-            }
+           },
+           setMapMarker(){
+               this.marker = new google.maps.Marker({
+                position: {lat: this.lotInfo.latitude, lng: this.lotInfo.longitude},
+                map: this.map
+              });
+              if(this.lotInfo.forSale){
+                  this.marker.setIcon(this.openMarkerIcon);
+              }
+           },
+           loadMap(){
+               const cemetery = { lat: this.lotInfo.latitude, lng: this.lotInfo.longitude };
+                var mapProp= {
+                  center:new google.maps.LatLng(cemetery.lat, cemetery.lng),
+                  zoom:19,
+                  mapTypeId: 'satellite'
+                };
+                this.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+           }
         }
-    })
+    });
+   
 </script>

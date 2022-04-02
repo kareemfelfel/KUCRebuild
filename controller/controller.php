@@ -13,13 +13,12 @@ session_start();
 
 // Include all of our mapping classes
 include 'requireMappingClasses.php';
-
 // Include Test cases
 include '../tests/modelTests.php';
-
 //Include All Fetchers
 include 'requireFetchers.php';
-
+// Include Wrappers
+include 'requireWrappers.php';
 // OUR MAIN CONTACT WITH DATABASE
 include 'requireModel.php';
 
@@ -37,35 +36,11 @@ else
     exit();
 }
 // change to HTTPS for certain actions that require trasfer of sensitive data
-if($action == "directToAddNewAdminPage" || 
-    $action == "directToLoginPage"){
-    if (!isset($_SERVER['HTTPS'])) {
-        $_SESSION['HTTPS-CHECK'] = true;
-        echo $_SESSION['HTTPS-CHECK'];
-        $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        header("Location: " . $url);
-        exit();
-    }
-}
+checkRequest($action);
 
-if(!checkActionExists($action)->result[0]){
-    http_response_code(404);
-    include '../view/includes/head.php';
-    include '../view/includes/navbar.php';
-    include '../view/error/notFound.php';
-    exit();
-}
-else{
-    if(!userIsAuthorized($action)->result[0]){
-        http_response_code(401);
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/error/unAuthorized.php';
-        exit();
-    }
-}
+// Check for valid actions and User authorization.
+validateRequest($action);
 
-// Make sure to switch to HTTPS for pages that require password
 
 switch ($action)
 {
@@ -120,9 +95,7 @@ switch ($action)
         include '../view/login/login.php';
         break;
     case"directToSearchTombPage":
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/tomb/searchTomb/searchTomb.php';
+        directToSearchTombPage();
         break;
     case"directToContactsPage":
         include '../view/includes/head.php';
@@ -145,9 +118,7 @@ switch ($action)
         include '../view/columbarium/addColumbarium/addColumbarium.php';
         break;
     case"directToSearchColumbariumPage":
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/columbarium/searchColumbarium/searchColumbarium.php';
+        directToSearchColumbariumPage();
         break;
     case"directToEditBuriedIndividualPage":
         include '../view/includes/head.php';
@@ -155,14 +126,10 @@ switch ($action)
         include '../view/administration/buriedIndividuals/editBuriedIndividual/editBuriedIndividual.php';
         break;
     case"directToViewTombPage":
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/tomb/viewTomb/viewTomb.php';
+        directToViewTombPage();
         break;
     case"directToViewColumbariumPage":
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/columbarium/viewColumbarium/viewColumbarium.php';
+        directToViewColumbariumPage();
         break;
     case"directToPublicAccessPage":
         include '../view/includes/head.php';
@@ -310,53 +277,4 @@ switch ($action)
     case"deleteColumbariumAttachment":
         deleteColumbariumAttachment();
         break;
-}
-
-function userIsAuthorized($action){
-    $response = new Response();
-    if(!isset($_SESSION['user'])){
-        $_SESSION['user'] = new User();
-    }
-    
-    if($_SESSION['user']->userType == UserType::ADMIN){
-        // TODO see if we can maybe update the admin's data here
-        $response->addResult(true);
-    }
-    else{
-        if(!empty(setGuestPrivileges()->error)){
-            $response->addResult(false);
-        }
-        else{
-            $response = checkGuestAccessToAction($action);
-        }
-    }
-
-    return $response;
-}
-
-function processLogin(){
-    $response = new Response();
-    // Getting all REQUEST data
-    $data = json_decode($_POST['request']);
-    $email = !empty($data->email) ? $data->email : null;
-    $password = !empty($data->password) ? $data->password : null;
-    
-    $modelResponse = getAdmin($email, sha1($password));
-    
-    if(empty($modelResponse->result)){
-        $response->addError("Invalid Email and/or Password.");
-    }
-    else{
-        $admin = $modelResponse->result[0];
-        $_SESSION['user']->setUserType(UserType::ADMIN);
-        $_SESSION['user']->setAdmin($admin);
-        $response->addResult(true);
-    }
-    echo json_encode(get_object_vars($response));
-}
-
-function processLogout(){
-    session_destroy();
-    header("Location: " . "../index.php");
-    exit();
-}
+} 

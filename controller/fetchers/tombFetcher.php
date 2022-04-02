@@ -47,6 +47,10 @@ function fetchTombCards(){
                     }, $response->result[$i]->buriedIndividuals) 
                     : array() 
             );
+            // ONLY return what the guest needs
+            if($_SESSION['user']->userType == UserType::GUEST){
+                unset($mutatedResult['ownerName']);
+            }
             $mutatedResponse->addResult($mutatedResult);
         }
     }
@@ -90,6 +94,12 @@ function fetchTombById(){
             "longitude" => $result->longitude,
             "latitude" => $result->latitude            
         );
+        // ONLY return what the guest needs
+        if($_SESSION['user']->userType == UserType::GUEST){
+            unset($mutatedResult['owner']);
+            unset($mutatedResult['attachments']);
+            unset($mutatedResult['price']);
+        }
         $response->addResult($mutatedResult);
     }
     
