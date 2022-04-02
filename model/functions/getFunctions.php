@@ -939,3 +939,33 @@ function checkActionExists($action){
     }
     return $response;
 }
+
+function getAccessibleModules(){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM accessible_modules;";
+        $statement = $con->prepare($query);
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for($i = 0; $i<count($result); $i++)
+            {
+                $row = $result[$i];
+                $module = new AccessibleModule($row);
+                $response ->addResult($module);
+            }
+        }
+        if(!$success)
+        {
+            $response -> addError("Failed to fetch Accessible Modules");
+        }
+    }    
+    catch (PDOException $e) {
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}

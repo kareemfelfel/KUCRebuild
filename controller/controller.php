@@ -217,6 +217,9 @@ switch ($action)
     case"fetchAllColumbariumsList":
         fetchAllColumbariumsList();
         break;
+    case"fetchAccessibleModules":
+        fetchAccessibleModules();
+        break;
     case"addTomb":
         addTomb();
         break;
@@ -262,6 +265,9 @@ switch ($action)
     case"editTomb":
         editTomb();
         break;
+    case"editAccessibleModule":
+        editAccessibleModule();
+        break;
     case"unlinkTombBuriedIndividual":
         unlinkTombBuriedIndividual();
         break;
@@ -277,4 +283,4 @@ switch ($action)
     case"deleteColumbariumAttachment":
         deleteColumbariumAttachment();
         break;
-} 
+}

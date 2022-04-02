@@ -11,6 +11,7 @@ function userIsAuthorized($action){
         $response->addResult(true);
     }
     else{
+        $_SESSION['user']->clearAccessibleModules();
         if(!empty(setGuestPrivileges()->error)){
             $response->addResult(false);
         }

@@ -16,6 +16,10 @@ class User {
     public $userType = UserType::GUEST;
     public $admin = null;
     public $accessibleModules = array();
+    
+    public function clearAccessibleModules(){
+        $this->accessibleModules = array();
+    }
 
    public function addAccessibleModule($module){
       array_push($this->accessibleModules, $module);

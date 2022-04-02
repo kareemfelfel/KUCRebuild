@@ -433,3 +433,33 @@ function updateAdminPassword(int $id, $password)
     }
     return $response;
 }
+
+function updateAccessibleModule(ToTableAccessibleModules $module){
+    $response = new Response();
+    try{
+        $db = connection::getinstance();
+        $con = $db->get_connection();
+        $query = "UPDATE accessible_modules
+                  SET GUEST_ACCESS = :guestAccess
+                  WHERE MODULE = :module;";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':module', $module->module);
+        $statement->bindValue(':guestAccess', $module->guestAccess);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response ->addResult(True);
+        }
+        else
+        {
+            $response->addError("Failed to update Accessible Module");
+            $response->addResult(false);
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+        $response->addResult(false);
+    }
+    return $response;
+}

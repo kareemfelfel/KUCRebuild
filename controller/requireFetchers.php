@@ -1,6 +1,7 @@
 <?php
 // ALL FETCHERS ARE PLACED HERE
 require_once 'fetchers/adminFetcher.php';
+require_once 'fetchers/accessibleModuleFetcher.php';
 require_once 'fetchers/buriedIndividualFetcher.php';
 require_once 'fetchers/columbariumFetcher.php';
 require_once 'fetchers/contactFetcher.php';
