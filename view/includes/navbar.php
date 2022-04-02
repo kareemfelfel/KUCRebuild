@@ -75,7 +75,7 @@
                     echo $_SESSION['user']->admin->firstName;
                 }
                 else{
-                    echo "Admin";
+                    echo "Options";
                 }
                 ?>
             </a>

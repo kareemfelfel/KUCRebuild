@@ -80,6 +80,9 @@
                         this.errors = ["Failed to process Login request."]
                     }
                 });
+            },
+            clearError(index){
+                this.errors.splice(index, 1);
             }
         }
     })
