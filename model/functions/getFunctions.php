@@ -907,7 +907,7 @@ function checkGuestAccessToAction($action){
         }
     }    
     catch (PDOException $e) {
-        $response -> addError($errorMessage);
+        $response -> addError($e->getMessage());
         $response->addResult(false);
     }
     return $response;
@@ -934,7 +934,7 @@ function checkActionExists($action){
         }
     }    
     catch (PDOException $e) {
-        $response -> addError($errorMessage);
+        $response -> addError($e->getMessage());
         $response->addResult(false);
     }
     return $response;
@@ -965,7 +965,7 @@ function getAccessibleModules(){
         }
     }    
     catch (PDOException $e) {
-        $response -> addError($errorMessage);
+        $response -> addError($e->getMessage());
     }
     return $response;
 }
