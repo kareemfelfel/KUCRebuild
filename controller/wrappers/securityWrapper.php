@@ -54,8 +54,7 @@ function checkRequest($action){
     if($action == "directToAddNewAdminPage" || 
         $action == "directToLoginPage"){
         if (!isset($_SERVER['HTTPS'])) {
-            $_SESSION['HTTPS-CHECK'] = true;
-            echo $_SESSION['HTTPS-CHECK'];
+            $_SESSION['HTTPS-CHECK'] = true; // Can be used to set it back to http
             $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             header("Location: " . $url);
             exit();
