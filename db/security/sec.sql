@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2022 at 03:41 AM
+-- Generation Time: Apr 03, 2022 at 02:18 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -42,7 +42,7 @@ INSERT INTO `accessible_modules` (`ID`, `MODULE`, `DESCRIPTION`, `GUEST_ACCESS`)
 (1, 'Home', 'includes home page', 1),
 (2, 'ContactUs', 'Includes contact us page', 1),
 (3, 'LotSearch', 'includes Search Lot, Map View, and view Lot pages. Public would only have access to see buried individuals only', 0),
-(4, 'ColumbariumSearch', 'Includes Columbarium Search and View Columbarium pages. Public would only have access to see buried individuals only', 0),
+(4, 'ColumbariumSearch', 'Includes Columbarium Search and View Columbarium pages. Public would only have access to see buried individuals only', 1),
 (5, 'Login', 'Includes login page.', 1);
 
 -- --------------------------------------------------------
@@ -97,11 +97,13 @@ INSERT INTO `actions` (`ID`, `ACTION`) VALUES
 (10, 'directToSearchTombPage'),
 (18, 'directToViewColumbariumPage'),
 (17, 'directToViewTombPage'),
+(65, 'editAccessibleModule'),
 (53, 'editBuriedIndividual'),
 (59, 'editColumbarium'),
 (55, 'editContact'),
 (54, 'editOwner'),
 (56, 'editTomb'),
+(64, 'fetchAccessibleModules'),
 (30, 'fetchAllBuriedIndividualsList'),
 (41, 'fetchAllColumbariumsList'),
 (24, 'fetchAllOwnersList'),
@@ -120,6 +122,8 @@ INSERT INTO `actions` (`ID`, `ACTION`) VALUES
 (31, 'fetchTombCards'),
 (29, 'fetchTombSectionLettersList'),
 (25, 'fetchUnlinkedBuriedIndividualsList'),
+(62, 'login'),
+(63, 'logout'),
 (60, 'unlinkColumbariumBuriedIndividual'),
 (57, 'unlinkTombBuriedIndividual');
 
@@ -142,7 +146,29 @@ INSERT INTO `actions_modules` (`ACTION_ID`, `MODULE_ID`) VALUES
 (1, 1),
 (3, 2),
 (35, 2),
-(9, 5);
+(9, 5),
+(62, 5),
+(15, 4),
+(18, 4),
+(30, 4),
+(26, 4),
+(27, 4),
+(28, 4),
+(32, 4),
+(34, 4),
+(10, 3),
+(17, 3),
+(31, 3),
+(30, 3),
+(29, 3),
+(33, 3);
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`ID`, `FIRST_NAME`, `LAST_NAME`, `EMAIL`, `PASSWORD`) VALUES
+(2, 'Kareem', 'Felfel', 'admin@kuc.com', 'be72b579b8fa3a12139791de47ff8fd9db24939d');
 
 --
 -- Indexes for dumped tables
@@ -183,7 +209,7 @@ ALTER TABLE `accessible_modules`
 -- AUTO_INCREMENT for table `actions`
 --
 ALTER TABLE `actions`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- Constraints for dumped tables
