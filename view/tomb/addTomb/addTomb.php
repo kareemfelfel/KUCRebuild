@@ -61,7 +61,12 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Price</label>
-                                <input v-model="price" type="number" class="form-control" id="" placeholder="">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text fa fa-dollar-sign"></span>
+                                    </div>
+                                    <input v-model="price" type="number" class="form-control" id="" placeholder="">
+                                </div>
                             </div>
                         </div>
 

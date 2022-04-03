@@ -181,8 +181,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
 
-<link rel="stylesheet" type="text/css" href="../view/tomb/searchTomb/searchTomb.css">
-<link rel="stylesheet" type="text/css" href="../view/tomb/searchTomb/loadingSpinner.css">
+<link rel="stylesheet" type="text/css" href="../view/columbarium/searchColumbarium/searchColumbarium.css">
+<link rel="stylesheet" type="text/css" href="../view/columbarium/searchColumbarium/loadingSpinner.css">
 <style scoped>
 .error-message {
     position: fixed;

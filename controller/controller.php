@@ -5,17 +5,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+// Added before session because $_SESSION['user'] will carry an instance of the class User.
+include '../model/User.php';
+include '../model/consts.php';
+include '../model/mappingClasses/Admin.php';
 session_start();
 
 // Include all of our mapping classes
 include 'requireMappingClasses.php';
-
 // Include Test cases
 include '../tests/modelTests.php';
-
 //Include All Fetchers
 include 'requireFetchers.php';
-
+// Include Wrappers
+include 'requireWrappers.php';
 // OUR MAIN CONTACT WITH DATABASE
 include 'requireModel.php';
 
@@ -29,13 +32,15 @@ else if (isset ($_GET['action']))
 }
 else
 {
-    // variable to set active status in navbar
-    $homeActive = true;
-    include '../view/includes/head.php';
-    include '../view/includes/navbar.php';
-    include '../view/home/home.php';
+    header("Location: " . "../controller/controller.php?action=directToHomePage");
     exit();
 }
+// change to HTTPS for certain actions that require trasfer of sensitive data
+checkRequest($action);
+
+// Check for valid actions and User authorization.
+validateRequest($action);
+
 
 switch ($action)
 {
@@ -90,9 +95,7 @@ switch ($action)
         include '../view/login/login.php';
         break;
     case"directToSearchTombPage":
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/tomb/searchTomb/searchTomb.php';
+        directToSearchTombPage();
         break;
     case"directToContactsPage":
         include '../view/includes/head.php';
@@ -115,9 +118,7 @@ switch ($action)
         include '../view/columbarium/addColumbarium/addColumbarium.php';
         break;
     case"directToSearchColumbariumPage":
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/columbarium/searchColumbarium/searchColumbarium.php';
+        directToSearchColumbariumPage();
         break;
     case"directToEditBuriedIndividualPage":
         include '../view/includes/head.php';
@@ -125,19 +126,41 @@ switch ($action)
         include '../view/administration/buriedIndividuals/editBuriedIndividual/editBuriedIndividual.php';
         break;
     case"directToViewTombPage":
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/tomb/viewTomb/viewTomb.php';
+        directToViewTombPage();
         break;
     case"directToViewColumbariumPage":
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/columbarium/viewColumbarium/viewColumbarium.php';
+        directToViewColumbariumPage();
         break;
     case"directToPublicAccessPage":
         include '../view/includes/head.php';
         include '../view/includes/navbar.php';
         include '../view/administration/publicAccess/publicAccess.php';
+        break;
+    case"directToEditColumbariumSelectorPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/columbarium/editColumbarium/selector.php';
+        break;
+    case"directToEditTombSelectorPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/tomb/editTomb/selector.php';
+        break;
+    case"directToEditTombPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/tomb/editTomb/editTomb.php';
+        break;
+    case"directToEditColumbariumPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/columbarium/editColumbarium/editColumbarium.php';
+        break;
+    case"login":
+        processLogin();
+        break;
+    case"logout":
+        processLogout();
         break;
     //API
     case"fetchAllOwnersList":
@@ -188,6 +211,15 @@ switch ($action)
     case"fetchContactById":
         fetchContactById();
         break;
+    case"fetchAllTombsList":
+        fetchAllTombsList();
+        break;
+    case"fetchAllColumbariumsList":
+        fetchAllColumbariumsList();
+        break;
+    case"fetchAccessibleModules":
+        fetchAccessibleModules();
+        break;
     case"addTomb":
         addTomb();
         break;
@@ -215,6 +247,9 @@ switch ($action)
     case"addContact":
         addContact();
         break;
+    case"addAdmin":
+        addAdmin();
+        break;
     case"deleteContact":
         processDeleteContact();
         break;
@@ -226,5 +261,26 @@ switch ($action)
         break;
     case"editContact":
         editContact();
+        break;
+    case"editTomb":
+        editTomb();
+        break;
+    case"editAccessibleModule":
+        editAccessibleModule();
+        break;
+    case"unlinkTombBuriedIndividual":
+        unlinkTombBuriedIndividual();
+        break;
+    case"deleteTombAttachment":
+        deleteTombAttachment();
+        break;
+    case"editColumbarium":
+        editColumbarium();
+        break;
+    case"unlinkColumbariumBuriedIndividual":
+        unlinkColumbariumBuriedIndividual();
+        break;
+    case"deleteColumbariumAttachment":
+        deleteColumbariumAttachment();
         break;
 }

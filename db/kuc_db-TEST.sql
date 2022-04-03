@@ -31,7 +31,7 @@ CREATE TABLE `admins` (
   `ID` int(11) NOT NULL,
   `FIRST_NAME` varchar(50) NOT NULL,
   `LAST_NAME` varchar(50) NOT NULL,
-  `USERNAME` varchar(50) NOT NULL,
+  `EMAIL` varchar(50) NOT NULL,
   `PASSWORD` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -211,17 +211,6 @@ INSERT INTO `owners` (`ID`, `FIRST_NAME`, `LAST_NAME`, `MIDDLE_NAME`, `ADDRESS`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `protected_actions`
---
-
-CREATE TABLE `protected_actions` (
-  `ID` int(11) NOT NULL,
-  `ACTION` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tombs`
 --
 
@@ -311,7 +300,7 @@ INSERT INTO `tomb_section_letters` (`ID`, `SECTION_LETTER`) VALUES
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `USERNAME` (`USERNAME`);
+  ADD UNIQUE KEY `EMAIL` (`EMAIL`);
 
 --
 -- Indexes for table `buried_individuals`
@@ -369,13 +358,6 @@ ALTER TABLE `niche_types`
 --
 ALTER TABLE `owners`
   ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `protected_actions`
---
-ALTER TABLE `protected_actions`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `ACTION` (`ACTION`);
 
 --
 -- Indexes for table `tombs`
@@ -449,12 +431,6 @@ ALTER TABLE `niche_types`
 --
 ALTER TABLE `owners`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `protected_actions`
---
-ALTER TABLE `protected_actions`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tombs`

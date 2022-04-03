@@ -15,14 +15,14 @@
         <div class="contact-box center-version">
             <div class="my-wrapper">
                 <img alt="image" class="img-circle contact-img" src="../assets/images/contactImage.png">
-                <h3 class="m-b-xs"><strong>{{result.name}}</strong></h3>
+                <h3 class="m-b-xs name-section"><strong>{{result.name}}</strong></h3>
 
-                <div class="font-bold">{{result.title}}</div>
+                <div class="font-bold title-section">{{result.title}}</div>
 
                 <div class="contact-box-footer">
                     <div class="contact_btns">
                         <a class="btn-link my-anchor" :href="`tel:${result.phoneNumber}`"><i class="fa fa-phone"></i> {{result.phoneNumber}} </a>                            
-                        <a class="btn-link my-anchor" :href="`mailto:${result.email}`"><i class="fa fa-envelope"></i> {{result.email}}</a>                        
+                        <a class="btn-link my-anchor title-section" :href="`mailto:${result.email}`"><i class="fa fa-envelope"></i> {{result.email}}</a>                        
                     </div> <!-- m-t-xs btn group -->
                 </div> <!-- contact-box-footer -->
             </div>

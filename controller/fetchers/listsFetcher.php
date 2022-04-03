@@ -214,3 +214,39 @@ function fetchContactsList(){
     $mutatedResponse->setError($response->error);
     echo json_encode(get_object_vars($mutatedResponse));
 }
+
+function fetchAllColumbariumsList(){
+    $filter = new ColumbariumFilter();
+    $response = getAllColumbariumRelatedDataWithFilter($filter);
+    if(!empty($response->result)){
+        $response->setResult(
+            array_map(function($o) {
+                return array(
+                    "value" => $o->id,
+                    "name" => $o->columbariumType->type . " - " .
+                               $o->nicheType->type . " - " . 
+                               $o->sectionLetter->letter . " " . 
+                               $o->sectionNumber
+                ); 
+            }, $response->result)
+        );
+    }
+    echo json_encode(get_object_vars($response));
+}
+
+function fetchAllTombsList(){
+    $filter = new TombFilter();
+    $response = getAllTombRelatedDataWithFilter($filter);
+    if(!empty($response->result)){
+        $response->setResult(
+            array_map(function($o) {
+                return array(
+                    "value" => $o->id,
+                    "name" => $o->sectionLetter->letter . " " .
+                               $o->lotNumber
+                ); 
+            }, $response->result)
+        );
+    }
+    echo json_encode(get_object_vars($response));
+}

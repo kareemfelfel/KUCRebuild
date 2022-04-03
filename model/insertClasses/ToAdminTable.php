@@ -3,18 +3,18 @@
 class ToAdminTable {
     public $firstName;
     public $lastName;
-    public $username;
+    public $email;
     public $password;
     
     function __construct(
             $firstName,
             $lastName,
-            $username,
+            $email,
             $password
     ){
         $this->firstName = $firstName;
         $this->lastName = $lastName;
-        $this->username = $username;
+        $this->email = $email;
         $this->password = $password;
     }
 }

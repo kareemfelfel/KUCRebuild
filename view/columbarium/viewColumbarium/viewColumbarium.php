@@ -17,22 +17,42 @@
             <br>
             <div class="col-md-6">
                 <br><br>
-                <p>
-                    <strong class="tag">Location:</strong>  {{columbariumInfo.location}}
-                </p>
-                <p>
-                    <strong class="tag">For Sale:</strong> {{columbariumInfo.forSale ? "Yes" : "No"}}
-                </p>
-                <p>
-                    <strong class="tag">Purchase Date:</strong> {{columbariumInfo.purchaseDate != null ? columbariumInfo.purchaseDate : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Price:</strong> 
-                    <span v-if="columbariumInfo.price != null"> ${{columbariumInfo.price}}</span>
-                    <span v-else> N/A </span>
-                </p>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Location:</strong>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <b>{{columbariumInfo.location}}</b>
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">For Sale:</strong> 
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        {{columbariumInfo.forSale ? "Yes" : "No"}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Purchase Date:</strong> 
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        {{columbariumInfo.purchaseDate != null ? columbariumInfo.purchaseDate : "N/A"}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Price:</strong> 
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <span v-if="columbariumInfo.price != null"> ${{columbariumInfo.price}}</span>
+                        <span v-else> N/A </span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
+            <br>
+            <div class="col-md-6 text-center">
                 <img class="image" :src="columbariumInfo.mainImage" alt="columbariumImage"/>
             </div>
         </div>
@@ -43,34 +63,62 @@
         <div class="owner-info container">
             <h3 class="text-center"> Owner Information </h3>
             <hr class="hr">
-            <br>
             <div v-if="columbariumInfo.owner != null">
-                <p>
-                    <strong class="tag">First Name:</strong> {{columbariumInfo.owner.firstName}}
-                </p>
-                <p>
-                    <strong class="tag">Middle Name:</strong> {{columbariumInfo.owner.middleName != null? columbariumInfo.owner.middleName : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Last Name:</strong> {{columbariumInfo.owner.lastName}}
-                </p>
-                <p>
-                    <strong class="tag">Email:</strong> 
-                    <a v-if="columbariumInfo.owner.email != null" :href="`mailto:${columbariumInfo.owner.email}`"> {{columbariumInfo.owner.email}}</a>
-                    <span v-else> N/A </span>
-                </p>
-                <p>
-                    <strong class="tag">Phone Number:</strong> 
-                    <a v-if="columbariumInfo.owner.phoneNumber" :href="`tel:${columbariumInfo.owner.phoneNumber}`"> {{columbariumInfo.owner.phoneNumber}}</a>
-                    <span v-else> N/A </span>
-                </p>
-                <p>
-                    <strong class="tag">Address:</strong> {{columbariumInfo.owner.address != null? columbariumInfo.owner.address : "N/A"}}</a>
-                </p>
+                <br>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">First Name:</strong>
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        {{columbariumInfo.owner.firstName}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Middle Name:</strong> 
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        {{columbariumInfo.owner.middleName != null? columbariumInfo.owner.middleName : "N/A"}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Last Name:</strong>
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        {{columbariumInfo.owner.lastName}}
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Email:</strong> 
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        <a v-if="columbariumInfo.owner.email != null" :href="`mailto:${columbariumInfo.owner.email}`"> {{columbariumInfo.owner.email}}</a>
+                        <span v-else> N/A </span>
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Phone Number:</strong> 
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        <a v-if="columbariumInfo.owner.phoneNumber" :href="`tel:${columbariumInfo.owner.phoneNumber}`"> {{columbariumInfo.owner.phoneNumber}}</a>
+                        <span v-else> N/A </span>
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-2 col-sm-2 col-6">
+                        <strong class="tag">Address:</strong>
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-6">
+                        <pre>{{columbariumInfo.owner.address != null? columbariumInfo.owner.address : "N/A"}}</pre>
+                    </div>
+                </div>
                 
                 
             </div>
-            <div v-else>
+            <div v-else class="empty-block">
                 <p class="text-center"> No Owner Associated </p>
             </div>
         </div>
@@ -81,45 +129,91 @@
         <div class="buried-individuals-info container">
             <h3 class="text-center"> Buried Individuals Information </h3>
             <hr class="hr">
-            <br>
-            <div v-if="columbariumInfo.buriedIndividuals.length == 0">
+            <div v-if="columbariumInfo.buriedIndividuals.length == 0" class="empty-block">
                 <p class="text-center"> No Buried Individuals Associated </p>
             </div>
-            <div v-else 
-                 v-for="(result, index) in columbariumInfo.buriedIndividuals"
-                 :key="index">
-                <h4>Buried Individual #{{index +1}} </h4>
-                <hr class="bi-hr">
-                <p>
-                    <strong class="tag">First Name:</strong> {{result.firstName}}
-                </p>
-                <p>
-                    <strong class="tag">Middle Name:</strong> {{result.middleName != null ? result.middleName : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Last Name:</strong> {{result.lastName != null ? result.lastName : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Nickname:</strong> {{result.nickname != null ? result.nickname : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Maiden Name:</strong> {{result.maidenName != null ? result.maidenName : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Date of Birth:</strong> {{result.dob != null ? result.dob : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Date of Death:</strong> {{result.dod != null ? result.dod : "N/A"}}
-                </p>
-                <p>
-                    <strong class="tag">Veteran Status:</strong> {{result.veteran ? "Yes" : "No"}}
-                </p>
-                <p>
-                    <strong class="tag" style="float: left;">Obituary:</strong> 
-                    <p style="padding-left: 90px;">{{result.obituary != null ? result.obituary : "N/A"}}</p>
-                </p>
-                
-                <hr v-if="index != columbariumInfo.buriedIndividuals.length - 1" class="bi-hr">
+            <div v-else>
+                <br>
+                <div
+                     v-for="(result, index) in columbariumInfo.buriedIndividuals"
+                     :key="index">
+                    <h4>Buried Individual #{{index +1}} </h4>
+                    <hr class="bi-hr">
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">First Name:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.firstName}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Middle Name:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.middleName != null ? result.middleName : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Last Name:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.lastName != null ? result.lastName : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Nickname:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.nickname != null ? result.nickname : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Maiden Name:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.maidenName != null ? result.maidenName : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Date of Birth:</strong> 
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.dob != null ? result.dob : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Date of Death:</strong>
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.dod != null ? result.dod : "N/A"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Veteran Status:</strong>
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            {{result.veteran ? "Yes" : "No"}}
+                        </div>
+                    </div>
+                    <div class="row padded-row">
+                        <div class="col-md-2 col-sm-2 col-6">
+                            <strong class="tag">Obituary:</strong>
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-6">
+                            <pre>{{result.obituary != null ? result.obituary : "N/A"}}</pre>
+                        </div>
+                    </div>
+
+                    <hr v-if="index != columbariumInfo.buriedIndividuals.length - 1" class="bi-hr">
+                </div>
             </div>
         </div>
 
@@ -129,7 +223,7 @@
         <div class="attachments-info container">
             <h3 class="text-center"> Attachments </h3>
             <hr class="hr">
-            <div v-if="columbariumInfo.attachments.length == 0">
+            <div v-if="columbariumInfo.attachments.length == 0" class="empty-block">
                 <p class="text-center"> No Attachments Associated </p>
             </div>
             <ul v-else>

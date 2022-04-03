@@ -47,6 +47,10 @@ function fetchTombCards(){
                     }, $response->result[$i]->buriedIndividuals) 
                     : array() 
             );
+            // ONLY return what the guest needs
+            if($_SESSION['user']->userType == UserType::GUEST){
+                unset($mutatedResult['ownerName']);
+            }
             $mutatedResponse->addResult($mutatedResult);
         }
     }
@@ -90,6 +94,12 @@ function fetchTombById(){
             "longitude" => $result->longitude,
             "latitude" => $result->latitude            
         );
+        // ONLY return what the guest needs
+        if($_SESSION['user']->userType == UserType::GUEST){
+            unset($mutatedResult['owner']);
+            unset($mutatedResult['attachments']);
+            unset($mutatedResult['price']);
+        }
         $response->addResult($mutatedResult);
     }
     
@@ -186,5 +196,119 @@ function addTomb(){
             
         }
     }
+    echo json_encode(get_object_vars($response));
+}
+function editTomb(){
+    $id = $_GET['id'];
+    $response = new Response();
+ 
+    // Getting all REQUEST data
+    $data = json_decode($_POST['request']);
+    $price = !empty($data->price) ? $data->price : null;
+    $forSale = !empty($data->forSale) ? $data->forSale : null;
+    $hasOpenPlots = !empty($data->hasOpenPlots) ? $data->hasOpenPlots : null;
+    $purchaseDate = !empty($data->purchaseDate) ? $data->purchaseDate : null;
+    $ownerId = !empty($data->ownerId) ? $data->ownerId : null;
+    $buriedIndividualIds = !empty($data->buriedIndividualIds) ? $data->buriedIndividualIds : null;
+    $longitude = !empty($data->longitude) ? $data->longitude : null;
+    $latitude = !empty($data->latitude) ? $data->latitude : null;
+    
+    if(isset($price) && (!is_numeric($price) || $price < 0)){
+        $response->addError("Price must be of positive numerical value or left empty.");
+    }
+    if($forSale){
+        $idFilter = new TombFilter();
+        $idFilter->setTombId($id);
+        $existingTomb = getAllTombRelatedDataWithFilter($idFilter)->result;
+        if(!empty($existingTomb) && !$existingTomb[0]->forSale){ // If the tomb was originally not for sale and was changed to be for sale
+            $response->addError("A lot can not be changed from not for sale to for sale.");
+        }
+        if(isset($purchaseDate))
+            $response->addError("A lot that is for sale can not have a purchase date.");
+        if(isset($buriedIndividualIds) && count($buriedIndividualIds) > 0)
+            $response->addError ("A lot that is for sale can not have buried individuals associated.");
+        if(isset($ownerId))
+            $response->addError ("A lot that is for sale can not have an owner associated.");
+    }
+    else{
+        if(!isset($ownerId))
+            $response->addError ("A lot that is NOT for sale MUST have an owner associated.");
+    }
+    if(!isset($longitude) || !isset($latitude)){
+        $response->addError ("All Lots must be plotted on the map.");
+    }
+    
+    //If all the data is validated, upload the attached documents
+    if(empty($response->error)){
+        // Upload the mainImage and attachedDocuments
+        $mainImagePath = processMainImageUpload($response);
+        $attachedDocumentsPaths = processAttachedDocumentsUpload($response);
+        
+        // If there are no problems with file uploading, process request
+        if(empty($response->error)){
+            //Prepare toTableTomb object
+            $obj = new ToTableTomb(
+                    0, // Section Letter ID is 0 as this value is not allowed to be changed
+                    0, // Section Number is 0 as this value is not allowed to be changed
+                    $price,
+                    $mainImagePath,
+                    $forSale,
+                    $hasOpenPlots,
+                    $purchaseDate,
+                    $ownerId,
+                    $longitude,
+                    $latitude,
+                    $attachedDocumentsPaths,
+                    $buriedIndividualIds
+            );
+            $modelResponse = updateTomb($id, $obj);
+            $response->setError($modelResponse->error);
+            $response->setResult($modelResponse->result);        
+        }
+    }
+    echo json_encode(get_object_vars($response));
+}
+function unlinkTombBuriedIndividual(){
+    $buriedIndividualId = $_GET['buriedIndividualId'];
+    $response = new Response();
+    if(!isset($buriedIndividualId)){
+        $response->addError("Buried Individual ID must be specified.");
+    }
+    else{
+        $arrayId = array($buriedIndividualId);
+    }
+    
+    if(empty($response->error)){
+        $modelResponse = updateBuriedIndividualsTombId(null, $arrayId);
+        $response->setError($modelResponse->error);
+        $response->setResult($modelResponse->result);
+    }
+    
+    echo json_encode(get_object_vars($response));
+}
+
+function deleteTombAttachment(){
+    $tombId = $_GET['tombId'];
+    $link = $_GET['link'];
+    $response = new Response();
+    
+    if(!isset($tombId)){
+        $response->addError("Lot ID must be specified.");
+    }
+    if(!isset($link)){
+        $response->addError("Attachment link must be specified.");
+    }
+    
+    if(empty($response->error)){
+        if(unlink($link)){
+            $modelResponse = deleteAttachmentForTomb($tombId, $link);
+            $response->setResult($modelResponse->result);
+            $response->setError($modelResponse->error);
+        }
+        else{
+            $response->addError("Failed to Remove the Attachment from the server.");
+        }
+    }
+    
     echo json_encode(get_object_vars($response));
 }

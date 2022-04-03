@@ -68,3 +68,13 @@ a{
     padding-bottom: 10px;
     display: block;
 }
+.title-section{
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.name-section{
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

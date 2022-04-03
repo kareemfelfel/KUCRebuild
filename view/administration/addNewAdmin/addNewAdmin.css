@@ -38,4 +38,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
       width: 85%;
     }
 }
+.pswd-eye :hover{
+    cursor: pointer;
+}
+.required:after {
+  content:" *";
+  color: red;
+  margin-right: 5px;
+}
 

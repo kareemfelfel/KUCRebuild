@@ -50,6 +50,10 @@ function fetchColumbariumCards(){
                     }, $response->result[$i]->buriedIndividuals) 
                     : array() 
             );
+            // ONLY return what the guest needs
+            if($_SESSION['user']->userType == UserType::GUEST){
+                unset($mutatedResult['ownerName']);
+            }
             $mutatedResponse->addResult($mutatedResult);
         }
     }
@@ -90,6 +94,12 @@ function fetchColumbariumById(){
             "owner" => isset($result->owner->id) ? $result->owner : null,
             "buriedIndividuals" => isset($result->buriedIndividuals)? $result->buriedIndividuals : []           
         );
+        // ONLY return what the guest needs
+        if($_SESSION['user']->userType == UserType::GUEST){
+            unset($mutatedResult['owner']);
+            unset($mutatedResult['attachments']);
+            unset($mutatedResult['price']);
+        }
         $response->addResult($mutatedResult);
     }
     
@@ -187,5 +197,113 @@ function addColumbarium(){
             
         }
     }
+    echo json_encode(get_object_vars($response));
+}
+
+function editColumbarium(){
+    $id = $_GET['id'];
+    $response = new Response();
+ 
+    // Getting all REQUEST data
+    $data = json_decode($_POST['request']);
+    $price = !empty($data->price) ? $data->price : null;
+    $forSale = !empty($data->forSale) ? $data->forSale : null;
+    $purchaseDate = !empty($data->purchaseDate) ? $data->purchaseDate : null;
+    $ownerId = !empty($data->ownerId) ? $data->ownerId : null;
+    $buriedIndividualIds = !empty($data->buriedIndividualIds) ? $data->buriedIndividualIds : null;
+    
+    if(isset($price) && (!is_numeric($price) || $price < 0)){
+        $response->addError("Price must be of positive numerical value or left empty.");
+    }
+    if($forSale){
+        $idFilter = new ColumbariumFilter();
+        $idFilter->setColumbariumId($id);
+        $existingColumbarium = getAllColumbariumRelatedDataWithFilter($idFilter)->result;
+        if(!empty($existingColumbarium) && !$existingColumbarium[0]->forSale){ // If the columbarium was originally not for sale and was changed to be for sale
+            $response->addError("A Columbarium can not be changed from not for sale to for sale.");
+        }
+        if(isset($purchaseDate))
+            $response->addError("A Columbarium that is for sale can not have a purchase date.");
+        if(isset($buriedIndividualIds) && count($buriedIndividualIds) > 0)
+            $response->addError ("A Columbarium that is for sale can not have buried individuals associated.");
+        if(isset($ownerId))
+            $response->addError ("A Columbarium that is for sale can not have an owner associated.");
+    }
+    else{
+        if(!isset($ownerId))
+            $response->addError ("A Columbarium that is NOT for sale MUST have an owner.");
+    }
+    
+    if(empty($response->error)){
+        // Upload the mainImage and attachedDocuments
+        $mainImagePath = processMainImageUpload($response);
+        $attachedDocumentsPaths = processAttachedDocumentsUpload($response);
+        
+        // If there are no problems with file uploading, process request
+        if(empty($response->error)){
+            //Prepare toTableTomb object
+            $obj = new ToTableColumbarium(
+                    0, // Col Type, Niche Type, Section Letter, and Section Numbers can not be altered
+                    0,
+                    0,
+                    0,
+                    $mainImagePath,
+                    $price,
+                    $forSale,
+                    $purchaseDate,
+                    $ownerId,
+                    $attachedDocumentsPaths,
+                    $buriedIndividualIds
+            );
+            $modelResponse = updateColumbarium($id, $obj);
+            $response->setError($modelResponse->error);
+            $response->setResult($modelResponse->result);  
+        }
+    }
+    echo json_encode(get_object_vars($response));
+}
+
+function unlinkColumbariumBuriedIndividual(){
+    $buriedIndividualId = $_GET['buriedIndividualId'];
+    $response = new Response();
+    if(!isset($buriedIndividualId)){
+        $response->addError("Buried Individual ID must be specified.");
+    }
+    else{
+        $arrayId = array($buriedIndividualId);
+    }
+    
+    if(empty($response->error)){
+        $modelResponse = updateBuriedIndividualsColumbariumId(null, $arrayId);
+        $response->setError($modelResponse->error);
+        $response->setResult($modelResponse->result);
+    }
+    
+    echo json_encode(get_object_vars($response));
+}
+
+function deleteColumbariumAttachment(){
+    $columbariumId = $_GET['columbariumId'];
+    $link = $_GET['link'];
+    $response = new Response();
+    
+    if(!isset($columbariumId)){
+        $response->addError("Columbarium ID must be specified.");
+    }
+    if(!isset($link)){
+        $response->addError("Attachment link must be specified.");
+    }
+    
+    if(empty($response->error)){
+        if(unlink($link)){
+            $modelResponse = deleteAttachmentForColumbarium($columbariumId, $link);
+            $response->setResult($modelResponse->result);
+            $response->setError($modelResponse->error);
+        }
+        else{
+            $response->addError("Failed to Remove the Attachment from the server.");
+        }
+    }
+    
     echo json_encode(get_object_vars($response));
 }

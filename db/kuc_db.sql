@@ -31,7 +31,7 @@ CREATE TABLE `admins` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `FIRST_NAME` varchar(50) NOT NULL,
   `LAST_NAME` varchar(50) NOT NULL,
-  `USERNAME` varchar(50) NOT NULL UNIQUE,
+  `EMAIL` varchar(50) NOT NULL UNIQUE,
   `PASSWORD` varchar(60) NOT NULL,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -205,15 +205,6 @@ CREATE TABLE `tomb_section_letters` (
 
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `protected_actions`
---
-CREATE TABLE `protected_actions` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ACTION` varchar(200) NOT NULL UNIQUE,
-    PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables

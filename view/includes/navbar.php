@@ -15,20 +15,53 @@
             <a class="nav-item nav-link <?php if(isset($homeActive) && $homeActive){echo 'active';} ?>" href="controller.php?action=directToHomePage">Home <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link <?php if(isset($contactUsActive) && $contactUsActive){echo 'active';} ?>" href="controller.php?action=directToContactUsPage">Contact Us</a>
             <!-- Administration Page ACCESSIBLE BY ADMIN ONLY -->
-            <a class="nav-item nav-link <?php if(isset($administrationActive) && $administrationActive){echo 'active';} ?>" href="controller.php?action=directToAdministrationPage">Administration</a>
+            <?php
+                if($_SESSION['user']->userType == UserType::ADMIN){
+                    echo "<a class='nav-item nav-link ";
+                    if(isset($administrationActive) && $administrationActive){
+                        echo "active";
+                    }
+                    echo "'";
+                    echo ' href="controller.php?action=directToAdministrationPage">Administration</a>';
+                }
+            ?>
+            
             <!-- drop down Search menu ACCESSIBLE BY ADMIN ONLY -->
-            <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Search</a>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-item">
-                        <a href="controller.php?action=directToSearchColumbariumPage"><span class="fa-solid fa-warehouse"></span> Columbarium</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="controller.php?action=directToSearchTombPage"><span class="fa-solid fa-cross"></span> Lot</a>
-                    </li>
-                </ul>
+            <?php
+            $userType = $_SESSION['user']->userType;
+            $hasAccessToSearchLot = in_array(Module::LOT_SEARCH, $_SESSION['user']->accessibleModules);
+            $hasAccessToSearchColumbarium = in_array(Module::COLUMBARIUM_SEARCH, $_SESSION['user']->accessibleModules);
+            if($userType == UserType::ADMIN){
+                echo '<div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Search</a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                <a href="controller.php?action=directToSearchColumbariumPage"><span class="fa-solid fa-warehouse"></span> Columbarium</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="controller.php?action=directToSearchTombPage"><span class="fa-solid fa-cross"></span> Lot</a>
+                            </li>
+                        </ul>
 
-            </div>
+                    </div>';
+            }
+            else if($userType == UserType::GUEST && ($hasAccessToSearchColumbarium || $hasAccessToSearchLot)){
+                echo '<div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Search</a>
+                <ul class="dropdown-menu">';
+                if($hasAccessToSearchColumbarium){
+                    echo '<li class="dropdown-item">
+                            <a href="controller.php?action=directToSearchColumbariumPage"><span class="fa-solid fa-warehouse"></span> Columbarium</a>
+                        </li>';
+                }
+                if($hasAccessToSearchLot){
+                    echo '<li class="dropdown-item">
+                            <a href="controller.php?action=directToSearchTombPage"><span class="fa-solid fa-cross"></span> Lot</a>
+                        </li>';
+                }
+                echo '</ul></div>';
+            }
+            ?>
         </div>
     </div>
     
@@ -37,14 +70,35 @@
         <!-- drop down menu-->
         <div class="nav-item dropdown">
             <a class="nav-link text-light display-5 dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fa fa-fw fa-user"></i>
-                Admin</a>
+                <?php
+                if(isset($_SESSION['user']->admin)){
+                    echo $_SESSION['user']->admin->firstName;
+                }
+                else{
+                    echo "Options";
+                }
+                ?>
+            </a>
             <ul class="dropdown-menu">
-                <li class="dropdown-item">
-                    <a href="controller.php?action=directToLoginPage"><span class="glyphicon glyphicon-log-in"></span> Log in</a>    
-                </li>
-                <li class="dropdown-item">
-                    <a href="controller.php?action=directToPublicAccessPage"><span class="fa fa-lock"></span> Public Access</a>    
-                </li>
+                <?php
+                if($_SESSION['user']->userType == UserType::GUEST){
+                    echo '<li class="dropdown-item">
+                            <a href="controller.php?action=directToLoginPage"><span class="glyphicon glyphicon-log-in"></span> Log in</a>    
+                        </li>';
+                }
+                else{
+                    echo '<li class="dropdown-item">
+                            <a href="controller.php?action=logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a>    
+                        </li>';
+                }
+                ?>
+                <?php
+                if($_SESSION['user']->userType == UserType::ADMIN){
+                    echo '<li class="dropdown-item">
+                            <a href="controller.php?action=directToPublicAccessPage"><span class="fa fa-lock"></span> Public Access</a>    
+                        </li>';
+                }
+                ?>
             </ul>
 
         </div>

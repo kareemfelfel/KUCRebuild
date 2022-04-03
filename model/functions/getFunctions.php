@@ -206,7 +206,8 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
                 . "(:hasOpenPlots IS NULL or T.HAS_OPEN_PLOTS = :hasOpenPlots) and"
                 . "(:forSale IS NULL or T.FOR_SALE = :forSale) and"
                 . "(:ownerId IS NULL or T.OWNER_ID = :ownerId)"
-                . $qw .";";
+                . $qw 
+                . " ORDER BY TSL.section_Letter ASC;";
         
         $statement = $con->prepare($query);
         
@@ -322,29 +323,26 @@ function getAllBuriedIndividuals() {
     return $response;
 }
 
-function getAdmin($username,$password){
+function getAdmin($email, $password){
     $response = new Response();
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM admins WHERE (USERNAME = :username && PASSWORD = :password );";
+        $query = "SELECT * FROM admins WHERE EMAIL = :email AND PASSWORD = :password;";
         $statement = $con->prepare($query);  
-        $statement->bindParam(':username', $username);
+        $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $password);
         $success = $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetch();
         $statement->closeCursor();
-        if($success && count($result) > 0)
+        if($success && !empty($result))
         {
-            for( $i =0; $i< count($result); $i++)
-            {
-                $row = $result[$i];
-                $admin = new Admin($row);
-                $response -> addResult($admin);
-            }
+            $admin = new Admin($result);
+            $response -> addResult($admin);
+            
         }
-        if(!$success){
-            $response -> addError("Failed to fetch All Admins.");
+        else{
+            $response -> addError("Failed to fetch Account.");
         }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
@@ -383,14 +381,14 @@ function getAllNicheTypes(){
     return $response;
 }
 
-function checkUsernameExist($username){
+function checkAdminEmailExist($email){
     $response = new Response();
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
-        $query = "SELECT * FROM admins WHERE (USERNAME = :username);";
+        $query = "SELECT * FROM admins WHERE (EMAIL = :email);";
         $statement = $con->prepare($query);  
-        $statement->bindParam(':username', $username);
+        $statement->bindParam(':email', $email);
         $success = $statement->execute();
         $result = $statement->fetchAll();
         $statement->closeCursor();
@@ -404,7 +402,7 @@ function checkUsernameExist($username){
             }
         }
         else{
-            $response -> addError("Failed to fetch Admin with username");
+            $response -> addError("Failed to fetch Admin with email");
         }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
@@ -577,7 +575,8 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
             . "(:columbariumTypeId IS NULL or C.COLUMBARIUM_TYPE_ID = :columbariumTypeId) and "
             . "(:forSale IS NULL or C.FOR_SALE = :forSale) and "
             . "(:ownerId IS NULL or C.OWNER_ID = :ownerId)"
-            . $qw. ";";
+            . $qw 
+            . " ORDER BY CT.type ASC;";
         $statement = $con->prepare($query);
         
         //binding paramters        
@@ -847,6 +846,126 @@ function getContactById($id){
     catch (PDOException $e) {
         $errorMessage = $e->getMessage();
         $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+
+// FOR SECURITY
+function setGuestPrivileges(){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM accessible_modules WHERE accessible_modules.GUEST_ACCESS = 1;";
+        $statement = $con->prepare($query);
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for($i = 0; $i<count($result); $i++)
+            {
+                $row = $result[$i];
+                $user = $_SESSION['user'];
+                $user->addAccessibleModule($row['MODULE']);
+            }
+        }
+        else
+        {
+            $response -> addError("Failed to fetch Accessible Modules.");
+        }
+    }    
+    catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function checkGuestAccessToAction($action){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM actions_modules "
+                . "INNER JOIN actions on actions_modules.ACTION_ID = actions.ID "
+                . "INNER JOIN accessible_modules on actions_modules.MODULE_ID = accessible_modules.ID "
+                . "WHERE ACTION = :action AND GUEST_ACCESS = 1;";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':action', $action);
+        $success = $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        if($success && !empty($result))
+        {
+            $response ->addResult(true);
+        }
+        else
+        {
+            $response -> addResult(false);
+        }
+    }    
+    catch (PDOException $e) {
+        $response -> addError($e->getMessage());
+        $response->addResult(false);
+    }
+    return $response;
+}
+
+function checkActionExists($action){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM actions WHERE actions.ACTION = :action;";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':action', $action);
+        $success = $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        if($success && !empty($result))
+        {
+            $response ->addResult(true);
+        }
+        else
+        {
+            $response -> addResult(false);
+        }
+    }    
+    catch (PDOException $e) {
+        $response -> addError($e->getMessage());
+        $response->addResult(false);
+    }
+    return $response;
+}
+
+function getAccessibleModules(){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM accessible_modules;";
+        $statement = $con->prepare($query);
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for($i = 0; $i<count($result); $i++)
+            {
+                $row = $result[$i];
+                $module = new AccessibleModule($row);
+                $response ->addResult($module);
+            }
+        }
+        if(!$success)
+        {
+            $response -> addError("Failed to fetch Accessible Modules");
+        }
+    }    
+    catch (PDOException $e) {
+        $response -> addError($e->getMessage());
     }
     return $response;
 }
