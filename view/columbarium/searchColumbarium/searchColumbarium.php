@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p> Owner: {{result.ownerName}}</p>
+                        <p class="owner-card-text" :title="result.ownerName"> Owner: {{result.ownerName}}</p>
                     </div>
                     <p v-else class="for-sale-section"><strong class="tag">For Sale</strong>
                 </div>
