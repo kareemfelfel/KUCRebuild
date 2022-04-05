@@ -86,7 +86,7 @@
                 </div>
                <div class="col-md-6">
                     <div class="form-group">
-                        <label for="">Niche</label><br>
+                        <label for="">Level</label><br>
                         <select 
                             class="selectpicker"
                             id="section-letter"
@@ -118,7 +118,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="">Section Number</label>
+                        <label for="">Niche Number</label>
                         <input type="number" class="form-control" id="lot-number" v-model="filter.sectionNumber" placeholder="">
                     </div>
                 </div>

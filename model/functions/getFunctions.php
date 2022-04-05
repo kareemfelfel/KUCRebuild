@@ -372,7 +372,7 @@ function getAllNicheTypes(){
             }
         }
         if(!$success){
-            $response -> addError("Failed to fetch All Niche Types.");
+            $response -> addError("Failed to fetch All Level Names.");
         }
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();

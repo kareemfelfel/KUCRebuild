@@ -133,7 +133,7 @@
                     class="fa fa-caret-down inactive-link"
                     onclick="changeIcon(this)"
                     >
-                </a> Add Columbarium Niche Name
+                </a> Add Columbarium Level Name
             </h4>
         </div>
         <div id="collapse3" class="panel-collapse collapse in show"> 
@@ -142,7 +142,7 @@
                     <div class="col-md-3">
                         <div class="form-group">   
                             <!-- attaches plus icon with btn function to textbox -->
-                            <label for="">Niche Name</label>
+                            <label for="">Level Name</label>
                             <div class="input-group">
                                 <input v-model="selectedNicheType" type="text" class="form-control" id="nicheName" placeholder="">
                                 <div class="input-group-append">
