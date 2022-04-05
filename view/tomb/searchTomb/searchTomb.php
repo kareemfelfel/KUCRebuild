@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="card-owner-section"> Owner: {{result.ownerName}}</p>
+                    <p class="card-owner-section" :title="result.ownerName"> Owner: {{result.ownerName}}</p>
                     <p v-if="result.forSale"><strong class="tag">For Sale</strong>
                 </div>
                 <a style= "" class="btn btn-block btn-success" :href = "`controller.php?action=directToViewTombPage&id=${result.id}`">View</a>

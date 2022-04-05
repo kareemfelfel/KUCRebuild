@@ -131,10 +131,10 @@ function addColumbarium(){
         $response->addError("Columbarium Type must be specified.");
     }
     if(!isset($nicheTypeId)){
-        $response->addError("Niche Type must be specified.");
+        $response->addError("Level must be specified.");
     }
     if(!isset($sectionNumber) || !is_numeric($sectionNumber) || (is_numeric($sectionNumber) && $sectionNumber < 0)){
-        $response->addError("Section Number must be specified.");
+        $response->addError("Niche Number must be specified.");
     }
     
     // Check for duplicates
