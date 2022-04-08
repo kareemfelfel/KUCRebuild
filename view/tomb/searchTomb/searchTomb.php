@@ -43,7 +43,7 @@
                 
                 <img alt="Lot" :src="result.image" style="width: 100%; height: 60%;">
                 <div class= "card-body">
-                    <h4 id = "usercardname" class="usercardname"> {{result.title}} </h4>
+                    <h4 id = "usercardname" class="usercardname" title="Location"> {{result.title}} </h4>
                     <div class="wrapper">
                         <a id = "cardmidsection" class="trigger"> Buried Individuals ({{result.countBuriedIndividuals}})</a>
                         <div v-if="result.countBuriedIndividuals > 0" class="content">
