@@ -47,7 +47,7 @@
                       <center><i class=" fa fa-solid fa-user-tie" style="color:#3369e8"></i></center>
                     </div>
                     <div class="wrimagecard-topimage_title">
-                      <h4 class="text-center">Buried Individuals
+                      <h4 class="text-center title-card-elipsis">Buried Individuals
                       </h4>
                         <p class="text-center" style="font-weight: 100; font-size: 15px;">Add & Edit</p>
                     </div>

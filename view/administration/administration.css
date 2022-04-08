@@ -45,4 +45,10 @@ a.wrimagecard:hover, .wrimagecard-topimage:hover {
     color: #525c65;
     transition: color 0.3s ease;
 }
-
+/* Used for buried individuals card specifically for ipad view */
+.title-card-elipsis{
+    height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
