@@ -302,7 +302,7 @@
             },
             setMarkers(){
                 if(this.map != null){
-                    this.results.forEach((result)=>{
+                    this.results.forEach((result, index)=>{
                         let position = {lat: result.latitude, lng: result.longitude}
                         let contentString = 
                                 `<h5><a href='controller.php?action=directToViewTombPage&id=${result.id}'>${this.updatedTitle(index)}</a></h5>`;
