@@ -20,6 +20,19 @@ function fetchColumbariumSectionLettersList(){
     echo json_encode(get_object_vars($mutatedResponse));
 }
 
+// Available plot numbers from 1 - 20. Can be changed to anything really,
+// 20 Just seems reasonable.
+function fetchPlotNumbersList(){
+    $response = new Response();
+    for($i = 1; $i <= 20; $i ++){
+        $response->addResult(array(
+                "value" => $i,
+                "name" => $i
+            ));
+    }
+    echo json_encode(get_object_vars($response));
+}
+
 function fetchNicheTypesList(){
     $mutatedResponse = new Response();
     $response = getAllNicheTypes();

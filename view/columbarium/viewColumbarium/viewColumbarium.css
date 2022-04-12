@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 .hr{
     margin: auto;
-    width: 375px;
+    width: 338px;
     padding-bottom: 10px;
 }
 .bi-hr{
@@ -28,6 +28,9 @@ and open the template in the editor.
     width: 330px;
     height: 300px;
     border-radius: 10px;
+}
+.image-wrapper{
+    padding-left: 0;
 }
 .padded-row{
     padding-bottom: 10px;

@@ -252,7 +252,7 @@ function updateTomb($id, ToTableTomb $tomb){
                   PURCHASE_DATE = :purchaseDate, PRICE = :price, 
                   LONGITUDE = :longitude, LATITUDE = :latitude,
                   MAIN_IMAGE = IFNull(:mainImage, MAIN_IMAGE),
-                  OWNER_ID = :ownerId
+                  OWNER_ID = :ownerId, PLOT_NUMS = :plotNums, NOTES = :notes
                   WHERE ID = :id;";
         $statement = $con->prepare($query);
         $statement->bindValue(':forSale', $tomb->forSale);
@@ -282,6 +282,18 @@ function updateTomb($id, ToTableTomb $tomb){
         }
         else{
             $statement->bindValue(':ownerId', $tomb->ownerId);
+        }
+        if(!isset($tomb->plotNums)){
+            $statement->bindValue(':plotNums', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':plotNums', $tomb->plotNums);
+        }
+        if(!isset($tomb->notes)){
+            $statement->bindValue(':notes', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindValue(':notes', $tomb->notes);
         }
         $statement->bindValue(':id', $id);
         $success = $statement->execute();

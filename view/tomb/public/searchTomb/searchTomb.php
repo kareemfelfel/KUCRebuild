@@ -29,7 +29,7 @@
                 
                 <img alt="Lot" :src="result.image" style="width: 100%; height: 60%;">
                 <div class= "card-body">
-                    <h4 id = "usercardname" class="usercardname" title="Location"> {{result.title}} </h4>
+                    <h5 id = "usercardname" class="usercardname" :title="updatedTitle(index)"> {{result.title}} | Plots: {{result.plotNumbers.join(", ")}} </h5>
                     <div class="wrapper">
                         <a id = "cardmidsection" class="trigger"> Buried Individuals ({{result.countBuriedIndividuals}})</a>
                         <div v-if="result.countBuriedIndividuals > 0" class="content">
@@ -205,6 +205,13 @@
             this.fetchResults()
         },
         methods:{
+            updatedTitle: function(index){
+                let result = this.results[index]
+                if(result){
+                    return `Lot: ${result.title} | Plots: ${result.plotNumbers.join(", ")}`
+                }
+                return "";
+            },
             fetchResults(){
                 this.loading = true;
                 let request ={
@@ -298,7 +305,7 @@
                     this.results.forEach((result)=>{
                         let position = {lat: result.latitude, lng: result.longitude}
                         let contentString = 
-                                `<h4><a href='controller.php?action=directToViewTombPage&id=${result.id}'>${result.title}</a></h4>`;
+                                `<h5><a href='controller.php?action=directToViewTombPage&id=${result.id}'>${this.updatedTitle(index)}</a></h5>`;
                         if(result.buriedIndividualNames.length == 0){
                             contentString += "<p style='margin-bottom: 5px;'><strong>Buried Individuals: </strong> N/A</p>";
                         }

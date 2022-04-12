@@ -220,6 +220,9 @@ switch ($action)
     case"fetchAccessibleModules":
         fetchAccessibleModules();
         break;
+    case"fetchPlotNumbersList":
+        fetchPlotNumbersList();
+        break;
     case"addTomb":
         addTomb();
         break;

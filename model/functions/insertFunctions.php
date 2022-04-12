@@ -83,11 +83,11 @@ function insertAllTombRelatedData(ToTableTomb $tombData){
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "INSERT INTO `tombs` "
-                . "(FOR_SALE, HAS_OPEN_PLOTS, LATITUDE, LONGITUDE, LOT_NUMBER, MAIN_IMAGE, OWNER_ID, PRICE, PURCHASE_DATE, SECTION_LETTER_ID) "
+                . "(FOR_SALE, HAS_OPEN_PLOTS, LATITUDE, LONGITUDE, LOT_NUMBER, MAIN_IMAGE, OWNER_ID, PRICE, PURCHASE_DATE, SECTION_LETTER_ID, PLOT_NUMS, NOTES) "
                 . "VALUES "
                 . "(:forSale, :hasOpenPlots, :latitude, :longitude, "
                 . ":lotNumber, :mainImage, :ownerId, :price, :purchaseDate, "
-                . ":sectionLetterId);";
+                . ":sectionLetterId, :plotNumbers, :notes);";
         $statement = $con->prepare($query); 
         
         // Binding parameters
@@ -126,6 +126,18 @@ function insertAllTombRelatedData(ToTableTomb $tombData){
         }
         else{
             $statement->bindParam(':purchaseDate', $tombData ->purchaseDate);
+        }
+        if(!isset($tombData -> plotNums)){
+            $statement->bindValue(':plotNumbers', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':plotNumbers', $tombData ->plotNums);
+        }
+        if(!isset($tombData -> notes)){
+            $statement->bindValue(':notes', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':notes', $tombData ->notes);
         }
         
         $success = $statement->execute();

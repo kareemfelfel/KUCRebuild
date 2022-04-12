@@ -19,10 +19,18 @@
                 <br><br>
                 <div class="row padded-row">
                     <div class="col-md-4 col-sm-4 col-6">
-                        <strong class="tag">Location:</strong>
+                        <strong class="tag">Lot:</strong>
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <b>{{lotInfo.location}}</b>
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Plot #:</strong>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <b>{{lotInfo.plotNumbers.join(", ")}}</b>
                     </div>
                 </div>
                 <div class="row padded-row">

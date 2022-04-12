@@ -51,7 +51,7 @@
                 </div>
             </div>
             <br>
-            <div class="col-md-6 text-center">
+            <div class="col-md-6 text-center image-wrapper">
                 <img class="image" :src="columbariumInfo.mainImage" alt="columbariumImage"/>
             </div>
         </div>

@@ -33,6 +33,7 @@ function fetchTombCards(){
                 "countBuriedIndividuals" => 
                     isset($response->result[$i]->buriedIndividuals)? 
                     count($response->result[$i]->buriedIndividuals): 0,
+                "plotNumbers" => $response->result[$i]->plotNums,
                 "forSale" => $response->result[$i]->forSale,
                 "latitude" => $response->result[$i]->latitude,
                 "longitude" => $response->result[$i]->longitude,
@@ -76,6 +77,8 @@ function fetchTombById(){
             "location" =>$result->sectionLetter->letter . " " .$result->lotNumber,
             "hasOpenPlots" =>$result->hasOpenPlots,
             "forSale" => $result->forSale,
+            "plotNumbers" => $result->plotNums,
+            "notes" => $result->notes,
             "purchaseDate" => $result->purchaseDate,
             "price" => $result->price,
             "mainImage" => $result->mainImage,
@@ -99,6 +102,7 @@ function fetchTombById(){
             unset($mutatedResult['owner']);
             unset($mutatedResult['attachments']);
             unset($mutatedResult['price']);
+            unset($mutatedResult['notes']);
         }
         $response->addResult($mutatedResult);
     }
@@ -121,8 +125,10 @@ function addTomb(){
     $purchaseDate = !empty($data->purchaseDate) ? $data->purchaseDate : null;
     $ownerId = !empty($data->ownerId) ? $data->ownerId : null;
     $buriedIndividualIds = !empty($data->buriedIndividualIds) ? $data->buriedIndividualIds : null;
+    $plotNumbers = !empty($data->plotNumbers) ? $data->plotNumbers : null;
     $longitude = !empty($data->longitude) ? $data->longitude : null;
     $latitude = !empty($data->latitude) ? $data->latitude : null;
+    $notes = !empty($data->notes) ? $data->notes : null;
     
     // Validating data before calling method to add
     
@@ -134,14 +140,32 @@ function addTomb(){
     }
     // Meaning, lot Number and section Letter ID are specified
     if(empty($response->error)){
-        $tombExistResponse = checkTombExists($sectionLetterId, $lotNumber);
-        if(empty($tombExistResponse->error) && !empty($tombExistResponse->result)){
-            // If tomb exists
-            if($tombExistResponse->result[0])
-                $response->addError("A lot already exists with the same Section Letter and lotNumber.");
+        if(isset($ownerId)){ // ONLY check for existence if an owner is specified
+            $tombExistResponse = checkTombExists($sectionLetterId, $lotNumber, $ownerId);
+            if(empty($tombExistResponse->error) && !empty($tombExistResponse->result)){
+                // If tomb exists
+                if($tombExistResponse->result[0])
+                    $response->addError("A lot already exists with the same Section Letter, lotNumber, and/or owner.");
+            }
+            if(!empty($tombExistResponse->error)){
+                $response->addError($tombExistResponse->error[0]);
+            }
+        }
+        if(isset($plotNumbers)){
+            $plotNumbersResponse = getSimilarTombPlotNumbers($lotNumber, $sectionLetterId, null);
+            if (empty($plotNumbersResponse->error) && !empty($plotNumbersResponse->result)){
+                $intersectedPlotNumbers = array_intersect($plotNumbers, $plotNumbersResponse->result);
+                if(!empty($intersectedPlotNumbers)){
+                    $str = implode(", ", $intersectedPlotNumbers);
+                    $response->addError("Plot Number(s): $str are already under the same lot. Plot Numbers must be different if the same Lot is added again.");
+                }
+            }
+            if(!empty($plotNumbersResponse->error)){
+                $response->addError($plotNumbersResponse->error[0]);
+            }
         }
         else{
-            $response->addError($tombExistResponse->error[0]);
+            $response->addError("Plot Number(s) Must be Specified");
         }
     }
 
@@ -185,7 +209,9 @@ function addTomb(){
                     $longitude,
                     $latitude,
                     $attachedDocumentsPaths,
-                    $buriedIndividualIds
+                    $buriedIndividualIds,
+                    $plotNumbers,
+                    $notes
             );
             $modelResponse = insertAllTombRelatedData($obj);
             $response->setError($modelResponse->error);
@@ -210,8 +236,10 @@ function editTomb(){
     $purchaseDate = !empty($data->purchaseDate) ? $data->purchaseDate : null;
     $ownerId = !empty($data->ownerId) ? $data->ownerId : null;
     $buriedIndividualIds = !empty($data->buriedIndividualIds) ? $data->buriedIndividualIds : null;
+    $plotNumbers = !empty($data->plotNumbers) ? $data->plotNumbers : null;
     $longitude = !empty($data->longitude) ? $data->longitude : null;
     $latitude = !empty($data->latitude) ? $data->latitude : null;
+    $notes = !empty($data->notes) ? $data->notes : null;
     
     if(isset($price) && (!is_numeric($price) || $price < 0)){
         $response->addError("Price must be of positive numerical value or left empty.");
@@ -238,6 +266,26 @@ function editTomb(){
         $response->addError ("All Lots must be plotted on the map.");
     }
     
+    if(isset($plotNumbers)){
+        $idFilter = new TombFilter();
+        $idFilter->setTombId($id);
+        $existingTomb = getAllTombRelatedDataWithFilter($idFilter)->result[0];
+        $plotNumbersResponse = getSimilarTombPlotNumbers($existingTomb->lotNumber, $existingTomb->sectionLetter->id, $id);
+        if (empty($plotNumbersResponse->error) && !empty($plotNumbersResponse->result)){
+            $intersectedPlotNumbers = array_intersect($plotNumbers, $plotNumbersResponse->result);
+            if(!empty($intersectedPlotNumbers)){
+                $str = implode(", ", $intersectedPlotNumbers);
+                $response->addError("Plot Number(s): $str are already under the same lot. Plot Numbers must be different if the same Lot is added again.");
+            }
+        }
+        if(!empty($plotNumbersResponse->error)){
+            $response->addError($plotNumbersResponse->error[0]);
+        }
+    }
+    else{
+        $response->addError("Plot Number(s) Must be Specified");
+    }
+    
     //If all the data is validated, upload the attached documents
     if(empty($response->error)){
         // Upload the mainImage and attachedDocuments
@@ -259,7 +307,9 @@ function editTomb(){
                     $longitude,
                     $latitude,
                     $attachedDocumentsPaths,
-                    $buriedIndividualIds
+                    $buriedIndividualIds,
+                    $plotNumbers,
+                    $notes
             );
             $modelResponse = updateTomb($id, $obj);
             $response->setError($modelResponse->error);

@@ -191,7 +191,7 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
         }
         $query = "SELECT T.ID, T.FOR_SALE, T.HAS_OPEN_PLOTS, T.PURCHASE_DATE, "
                 . "T.PRICE, T.SECTION_LETTER_ID, T.LOT_NUMBER, T.LONGITUDE, "
-                . "T.LATITUDE, T.MAIN_IMAGE, T.OWNER_ID, O.ID AS OWNR_ID, "
+                . "T.LATITUDE, T.MAIN_IMAGE, T.OWNER_ID, O.ID AS OWNR_ID, T.NOTES, T.PLOT_NUMS, "
                 . "O.FIRST_NAME AS OWNR_FIRST_NAME, O.LAST_NAME AS OWNR_LAST_NAME, "
                 . "O.MIDDLE_NAME AS OWNR_MIDDLE_NAME, O.ADDRESS AS OWNR_ADDRESS, "
                 . "O.PHONE_NUMBER AS OWNR_PHONE_NUMBER, O.EMAIL AS OWNR_EMAIL, "
@@ -702,23 +702,25 @@ function checkColumbariumExists($columbariumTypeId, $nicheId, $sectionLetterId, 
     return $response;
 }
 
-function checkTombExists($sectionLetterId, $lotNumber){
+function checkTombExists($sectionLetterId, $lotNumber, $ownerId){
     $response = new Response();
     try{
         $db = connection::getInstance();
         $con = $db -> get_connection();
         $query = "SELECT ID from `tombs` "
                 . "WHERE SECTION_LETTER_ID = :sectionLetterId "
-                . "AND LOT_NUMBER = :lotNumber;";
+                . "AND LOT_NUMBER = :lotNumber "
+                . "AND OWNER_ID = :ownerId;";
         $statement = $con->prepare($query);  
         $statement->bindParam(':sectionLetterId', $sectionLetterId);
         $statement->bindParam(':lotNumber', $lotNumber);
+        $statement->bindParam(':ownerId', $ownerId);     
         $success = $statement->execute();
         $result = $statement->fetchAll();
         $statement->closeCursor();
         if($success)
         {
-            if(count($result) == 1){
+            if(count($result) > 0){
                 $response -> addResult(true);
             }
             else{
@@ -962,6 +964,49 @@ function getAccessibleModules(){
         if(!$success)
         {
             $response -> addError("Failed to fetch Accessible Modules");
+        }
+    }    
+    catch (PDOException $e) {
+        $response -> addError($e->getMessage());
+    }
+    return $response;
+}
+
+function getSimilarTombPlotNumbers($lotNumber, $sectionLetterId, $tombId){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT PLOT_NUMS FROM `tombs` "
+                . "WHERE SECTION_LETTER_ID = :sectionLetterId "
+                . "AND LOT_NUMBER = :lotNumber AND PLOT_NUMS IS NOT NULL "
+                . " AND (:tombId IS NULL OR ID != :tombId);";
+        $statement = $con->prepare($query);
+        $statement->bindParam(':sectionLetterId', $sectionLetterId);
+        $statement->bindParam(':lotNumber', $lotNumber);
+        if(!isset($tombId)){
+            $statement->bindValue(':tombId', null, PDO::PARAM_NULL);
+        }
+        else{
+            $statement->bindParam(':tombId', $tombId);
+        }
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for($i = 0; $i<count($result); $i++)
+            {
+                $stringPlotNums = str_replace(" ", "", $result[$i]['PLOT_NUMS']);
+                $plotNums = array_map("intval", explode(",", $stringPlotNums));
+                foreach($plotNums as $num){
+                    $response->addResult ($num);
+                }
+            }
+        }
+        if(!$success)
+        {
+            $response -> addError("Failed to fetch Plot Numbers");
         }
     }    
     catch (PDOException $e) {
