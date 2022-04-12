@@ -256,7 +256,7 @@ function fetchAllTombsList(){
                 return array(
                     "value" => $o->id,
                     "name" => $o->sectionLetter->letter . " " .
-                               $o->lotNumber
+                               $o->lotNumber . " | " . "Plots: " . implode(', ', $o->plotNums)
                 ); 
             }, $response->result)
         );
