@@ -35,6 +35,23 @@
                 <div id="collapse1" class="panel-collapse collapse in show">
                     <div class="panel-body">
                         <div class ="row">
+                            
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" class="required">Plot Number(s)</label> <br>
+                                    <select 
+                                        class="selectpicker"
+                                        id="plot-numbers"
+                                        data-live-search="true"
+                                        data-width="100%"
+                                        multiple
+                                        v-model="lotInfo.plotNumbers"
+                                        >
+                                      <option v-for="item in plotNumbersList" :value="item.value">{{item.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Main Image</label>
@@ -73,6 +90,14 @@
                             </div>
                         </div>
                         <div class="row">
+                            
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="notes">Notes: </label>
+                                    <textarea v-model="lotInfo.notes" id="notes" class="form-control" rows="8" cols="6"></textarea>
+                                </div>
+                            </div>
+                            
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label >For Sale 
@@ -286,17 +311,21 @@
                 hasOpenPlots: null,
                 price: null,
                 ownerId: null,
+                notes: null,
+                plotNumbers: [],
                 buriedIndividuals: [],
                 attachments: []
             },
             buriedIndividualIds: [],
             ownersList: [],
+            plotNumbersList: [],
             buriedIndividualsList: []
         },
         created(){
             this.getId();
             this.fetchOwnersList();
             this.fetchBuriedIndividualsList();
+            this.fetchPlotNumbersList();
             this.getLotInfo();
         },
         computed:{
@@ -381,6 +410,16 @@
                 },response => {
                     let data = JSON.parse(JSON.stringify(response.result))
                     this.buriedIndividualsList = data
+                    this.refreshSelectPicker();
+                })
+            },
+            fetchPlotNumbersList(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchPlotNumbersList"
+                },response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    this.plotNumbersList = data
                     this.refreshSelectPicker();
                 })
             },
@@ -471,7 +510,9 @@
                     ownerId: this.lotInfo.ownerId,
                     buriedIndividualIds: this.buriedIndividualIds,
                     longitude: this.marker.getPosition().lng(),
-                    latitude: this.marker.getPosition().lat()
+                    latitude: this.marker.getPosition().lat(),
+                    plotNumbers: this.lotInfo.plotNumbers,
+                    notes: this.lotInfo.notes
                 }
                 
                 formData.append('request', JSON.stringify(request))

@@ -57,7 +57,23 @@
                                 <input v-model="lotNumber" type="number" class="form-control" id="lot-number" placeholder="">
                             </div>
                         </div>
-
+   
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="required">Plot Number(s)</label> <br>
+                                <select 
+                                    class="selectpicker"
+                                    id="plot-numbers"
+                                    data-live-search="true"
+                                    data-width="100%"
+                                    multiple
+                                    v-model="plotNumbers"
+                                    >
+                                  <option v-for="item in plotNumbersList" :value="item.value">{{item.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Price</label>
@@ -72,6 +88,12 @@
 
                     </div><br>
                     <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="notes">Notes: </label>
+                                <textarea v-model="notes" id="notes" class="form-control" rows="8" cols="6"></textarea>
+                            </div>
+                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Main Image</label>
@@ -275,10 +297,13 @@ App = new Vue({
                 purchaseDate: null,
                 ownerId: null,
                 buriedIndividualIds: [],
+                plotNumbers: [],
+                notes: null,
                 
                 sectionLettersList: [],
                 ownersList: [],
                 buriedIndividualsList: [],
+                plotNumbersList: [],
                 
                 errors: [],
                 successMessage: null
@@ -288,6 +313,7 @@ App = new Vue({
             this.fetchSectionLettersList();
             this.fetchOwnersList();
             this.fetchBuriedIndividualsList();
+            this.fetchPlotNumbersList();
         },
         methods:{
             longitude(){
@@ -331,6 +357,16 @@ App = new Vue({
                     this.refreshSelectPicker();
                 })
             },
+            fetchPlotNumbersList(){
+                $.getJSON("controller.php",
+                {
+                    action: "fetchPlotNumbersList"
+                },response => {
+                    let data = JSON.parse(JSON.stringify(response.result))
+                    this.plotNumbersList = data
+                    this.refreshSelectPicker();
+                })
+            },
             refreshSelectPicker(){
                 this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
             },
@@ -345,8 +381,10 @@ App = new Vue({
                     purchaseDate: this.purchaseDate,
                     ownerId: this.ownerId,
                     buriedIndividualIds: this.buriedIndividualIds,
+                    plotNumbers: this.plotNumbers,
                     longitude: this.longitude(),
-                    latitude: this.latitude()
+                    latitude: this.latitude(),
+                    notes: this.notes
                 }
                 
                 formData.append('request', JSON.stringify(request))
@@ -396,6 +434,7 @@ App = new Vue({
                 this.purchaseDate = null
                 this.ownerId = null
                 this.buriedIndividualIds = []
+                this.plotNumbers = []
                 this.$refs.mainImage.value = null;
                 this.$refs.attachments.value = null;
                 

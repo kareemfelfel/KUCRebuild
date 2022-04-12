@@ -21,8 +21,8 @@
                 
                 <img alt="columbarium" :src="result.image" style="width: 100%; height: 60%;">
                 <div class= "card-body">
-                    <h4 id = "usercardname" class="usercardname"> {{result.columbarium}} </h4>
-                    <h5>{{result.title}}</h5>
+                    <h4 id = "usercardname" class="usercardname" title="Location"> {{result.columbarium}} </h4>
+                    <h5 title="Location">{{result.title}}</h5>
                     <div v-if="!result.forSale">
                         <div class="wrapper">
                             <a id = "cardmidsection" class="trigger"> Buried Individuals ({{result.buriedIndividualsCount}})</a>

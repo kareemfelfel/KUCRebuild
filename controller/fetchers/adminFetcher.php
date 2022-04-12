@@ -40,7 +40,7 @@ function addAdmin(){
         $response->addError("Email Address must be set.");
     }
     if(isset($password)){
-        if(strlen($password) <= 8){
+        if(strlen($password) < 8){
             $response->addError("Password must be at least 8 characters.");
         }
         if(!preg_match("#[0-9]+#", $password)){

@@ -24,6 +24,8 @@ class ToTableTomb {
     public $latitude;
     public $attachedDocuments;
     public $buriedIndividualIds;
+    public $plotNums;
+    public $notes;
     
     public function __construct(
             $sectionLetterId,
@@ -37,7 +39,9 @@ class ToTableTomb {
             $longitude,
             $latitude,
             $attachedDocuments,
-            $buriedIndividualIds
+            $buriedIndividualIds,
+            $plotNums,
+            $notes
     ) {
         $this->sectionLetterId = $sectionLetterId;
         $this->lotNumber = $lotNumber;
@@ -51,6 +55,7 @@ class ToTableTomb {
         $this->latitude = $latitude;
         $this->attachedDocuments = $attachedDocuments;
         $this->buriedIndividualIds = $buriedIndividualIds;
-       
+        $this->plotNums = $plotNums ? implode(', ', $plotNums) : null;
+        $this->notes = $notes;
     }
 }

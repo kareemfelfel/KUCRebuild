@@ -33,7 +33,7 @@
                 <br><br>
                 <div class="row padded-row">
                     <div class="col-md-4 col-sm-4 col-6">
-                        <strong class="tag">Location:</strong>
+                        <strong class="tag">Lot:</strong>
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <b>{{lotInfo.location}}</b>
@@ -41,9 +41,17 @@
                 </div>
                 <div class="row padded-row">
                     <div class="col-md-4 col-sm-4 col-6">
-                        <strong class="tag">Has Open Plots:</strong>
+                        <strong class="tag">Plot #:</strong>
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
+                        <b>{{lotInfo.plotNumbers.join(", ")}}</b>
+                    </div>
+                </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Has Open Plots:</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-6">
                         {{lotInfo.hasOpenPlots ? "Yes" : "No"}}
                     </div>
                 </div>
@@ -72,9 +80,17 @@
                         <span v-else> N/A </span>
                     </div>
                 </div>
+                <div class="row padded-row">
+                    <div class="col-md-4 col-sm-4 col-6">
+                        <strong class="tag">Notes:</strong>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <pre>{{lotInfo.notes != null? lotInfo.notes : "N/A"}}</pre>
+                    </div>
+                </div>
             </div>
             <br>
-            <div class="col-md-6 text-center">
+            <div class="col-md-6 text-center image-wrapper">
                 <img class="image" :src="lotInfo.mainImage" alt="lotImage"/>
             </div>
         </div>
