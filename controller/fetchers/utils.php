@@ -47,7 +47,7 @@ function processAttachedDocumentsUpload(&$response){
             if (file_exists($documentPath)) {
                 $response ->addError($filename . " already exists. Please rename the file and upload again.");
             }
-            else{
+            if(empty($response->error)){
                 move_uploaded_file($temp_name,$documentPath);
                 array_push($attachedDocuments, $documentPath);
             }
