@@ -30,7 +30,7 @@
                                   data-toggle="popover" 
                                   data-placement="top" 
                                   data-content="Giving guests access to Search Lot will give them access to the Search Lot page including the map view and View Lot page. 
-                                  Guests will ONLY be able to see information about the buried individuals and Lot information except for the price field.">
+                                  Guests will ONLY be able to see information about the buried individuals and Lot information except for the price field and notes.">
                             </span>
                         </label>
                         <div class="custom-control custom-switch inactive-link">
