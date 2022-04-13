@@ -386,6 +386,114 @@ function updateColumbarium($id, ToTableColumbarium $columbarium){
     return $response;
 }
 
+function updateBuriedIndividualsClearColumbariumId($columbariumId){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "UPDATE buried_individuals
+                  SET COLUMBARIUM_ID = NULL
+                  WHERE COLUMBARIUM_ID = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':id', $columbariumId);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response-> addResult(True);
+        }
+        else
+        {
+            $response->addError("Failed to remove buried individuals linked to columbarium.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function updateBuriedIndividualsClearTombId($tombId){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "UPDATE buried_individuals
+                  SET TOMB_ID = NULL
+                  WHERE TOMB_ID = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':id', $tombId);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response-> addResult(True);
+        }
+        else
+        {
+            $response->addError("Failed to remove buried individuals linked to Lot.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function updateColumbariumClearOwnerAndSetForSale($columbariumId){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "UPDATE columbarium
+                  SET OWNER_ID = NULL, FOR_SALE = 1
+                  WHERE ID = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':id', $columbariumId);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response-> addResult(True);
+        }
+        else
+        {
+            $response->addError("Failed to remove owner and set for sale.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function updateTombClearOwnerAndSetForSale($tombId){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "UPDATE tombs
+                  SET OWNER_ID = NULL, FOR_SALE = 1
+                  WHERE ID = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':id', $tombId);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response-> addResult(True);
+        }
+        else
+        {
+            $response->addError("Failed to remove owner and set for sale.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
 function updateAdmin(int $id, ToAdminTable $admin)
 {
     $response = new Response();

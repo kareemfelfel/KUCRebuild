@@ -70,11 +70,11 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label >For Sale 
-                                        <span class="fa fa-info-circle associations-popover" style="color: #3498db" data-container="body" data-toggle="popover" data-placement="top" data-content="A Columbarium that is originally added as not for sale, can not be changed to be for sale.">
+                                        <span v-if="!originalForSaleValue" class="fa fa-warning associations-popover" style="color: red" data-container="body" data-toggle="popover" data-placement="top" data-content="Changing a Columbarium that is NOT for sale to FOR sale will remove all linked buried individuals and will remove owner.">
                                         </span>
                                     </label>
                                     <div class="custom-control custom-switch inactive-link">
-                                        <input v-model="columbariumInfo.forSale" type="checkbox" class="custom-control-input" :disabled="!originalForSaleValue" id="for-sale-switch" @change="forSaleChanged">
+                                        <input v-model="columbariumInfo.forSale" type="checkbox" class="custom-control-input" id="for-sale-switch" @change="forSaleChanged">
                                         <label class="custom-control-label" for="for-sale-switch"></label>
                                     </div>
                                 </div>
@@ -328,7 +328,32 @@
                     this.columbariumInfo.purchaseDate = null;
                     this.buriedIndividualIds = [];
                 }
+                if(!this.originalForSaleValue){
+                    this.processSetForSale();
+                }
                 this.refreshSelectPicker();
+            },
+            processSetForSale(){
+                $.getJSON("controller.php",
+                {
+                    action: "editExistingColumbariumSetForSale",
+                    id: this.id
+                },response => {
+                    let result = JSON.parse(JSON.stringify(response.result))
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    this.errors = errors
+                    if(result.length == 1 && result[0]){
+                        this.successMessage = "Columbarium is now For Sale!"
+                        this.fetchBuriedIndividualsList();
+                        this.columbariumInfo.buriedIndividuals = [];
+                        this.buriedIndividualIds = [];
+                        this.columbariumInfo.ownerId = null;
+                        this.originalForSaleValue = true;
+                    }
+                    this.refreshSelectPicker();
+                }).fail( () => {
+                    this.errors = ["Failed to change columbarium to for sale."];
+                });
             },
             removeBuriedIndividual(id, index){
                 $.getJSON("controller.php",

@@ -249,12 +249,6 @@ function editTomb(){
         $response->addError("Price must be of positive numerical value or left empty.");
     }
     if($forSale){
-        $idFilter = new TombFilter();
-        $idFilter->setTombId($id);
-        $existingTomb = getAllTombRelatedDataWithFilter($idFilter)->result;
-        if(!empty($existingTomb) && !$existingTomb[0]->forSale){ // If the tomb was originally not for sale and was changed to be for sale
-            $response->addError("A lot can not be changed from not for sale to for sale.");
-        }
         if(isset($purchaseDate))
             $response->addError("A lot that is for sale can not have a purchase date.");
         if(isset($buriedIndividualIds) && count($buriedIndividualIds) > 0)
@@ -365,6 +359,27 @@ function deleteTombAttachment(){
         else{
             $response->addError("Failed to Remove the Attachment from the server.");
         }
+    }
+    
+    echo json_encode(get_object_vars($response));
+}
+
+function editExistingTombSetForSale(){
+    $id = !empty($_GET['id']) ? $_GET['id'] : null;
+    $response = new Response();
+    if(isset($id)){
+        $biResponse = updateBuriedIndividualsClearTombId($id);
+        $forSaleResponse = updateTombClearOwnerAndSetForSale($id);
+        
+        if(empty($biResponse->error) && empty($forSaleResponse->error)){
+            $response->addResult(true);
+        }
+        else{
+            $response->addError("Failed to set Lot to for sale.");
+        }
+    }
+    else{
+        $response->addError("ID is not specified.");
     }
     
     echo json_encode(get_object_vars($response));

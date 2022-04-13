@@ -219,12 +219,6 @@ function editColumbarium(){
         $response->addError("Price must be of positive numerical value or left empty.");
     }
     if($forSale){
-        $idFilter = new ColumbariumFilter();
-        $idFilter->setColumbariumId($id);
-        $existingColumbarium = getAllColumbariumRelatedDataWithFilter($idFilter)->result;
-        if(!empty($existingColumbarium) && !$existingColumbarium[0]->forSale){ // If the columbarium was originally not for sale and was changed to be for sale
-            $response->addError("A Columbarium can not be changed from not for sale to for sale.");
-        }
         if(isset($purchaseDate))
             $response->addError("A Columbarium that is for sale can not have a purchase date.");
         if(isset($buriedIndividualIds) && count($buriedIndividualIds) > 0)
@@ -309,6 +303,27 @@ function deleteColumbariumAttachment(){
         else{
             $response->addError("Failed to Remove the Attachment from the server.");
         }
+    }
+    
+    echo json_encode(get_object_vars($response));
+}
+
+function editExistingColumbariumSetForSale(){
+    $id = !empty($_GET['id']) ? $_GET['id'] : null;
+    $response = new Response();
+    if(isset($id)){
+        $biResponse = updateBuriedIndividualsClearColumbariumId($id);
+        $forSaleResponse = updateColumbariumClearOwnerAndSetForSale($id);
+        
+        if(empty($biResponse->error) && empty($forSaleResponse->error)){
+            $response->addResult(true);
+        }
+        else{
+            $response->addError("Failed to set Columbarium to for sale.");
+        }
+    }
+    else{
+        $response->addError("ID is not specified.");
     }
     
     echo json_encode(get_object_vars($response));

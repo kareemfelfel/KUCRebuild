@@ -286,4 +286,10 @@ switch ($action)
     case"deleteColumbariumAttachment":
         deleteColumbariumAttachment();
         break;
+    case"editExistingColumbariumSetForSale":
+        editExistingColumbariumSetForSale();
+        break;
+    case"editExistingTombSetForSale":
+        editExistingTombSetForSale();
+        break;
 }
