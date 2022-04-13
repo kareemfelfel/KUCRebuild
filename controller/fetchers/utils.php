@@ -35,6 +35,7 @@ function processMainImageUpload(&$response){
 function processAttachedDocumentsUpload(&$response){
     // Attached Documents
     $attachedDocuments = array();
+    $filesToUpload = array();
     if(array_key_exists("attachedDocuments", $_FILES)){
         for($i = 0; $i< count($_FILES['attachedDocuments']['name']); $i ++){
             $targetDir = "../assets/attachedFiles/";
@@ -48,8 +49,16 @@ function processAttachedDocumentsUpload(&$response){
                 $response ->addError($filename . " already exists. Please rename the file and upload again.");
             }
             if(empty($response->error)){
-                move_uploaded_file($temp_name,$documentPath);
+                array_push($filesToUpload, array(
+                    "name" => $temp_name,
+                    "path" => $documentPath
+                ));
                 array_push($attachedDocuments, $documentPath);
+            }
+        }
+        if(empty($response->error)){
+            for($i = 0; $i < count($filesToUpload); $i ++){
+                move_uploaded_file($filesToUpload[$i]['name'],$filesToUpload[$i]['path']);
             }
         }
     }
