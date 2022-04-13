@@ -168,10 +168,13 @@ function addColumbarium(){
     
     //If all the data is validated, upload the attached documents
     if(empty($response->error)){
-        // Upload the mainImage and attachedDocuments
-        $mainImagePath = processMainImageUpload($response)?: "../assets/images/Knox_Mausoleum.jpg";
-        $attachedDocumentsPaths = processAttachedDocumentsUpload($response);
-        
+        // This will contain a list of all the documents that need uploaded. Once confirmed
+        // That no errors exist at all, files will be uploaded
+        $filesToUpload = array();
+        // Processes upload file names and location but Does NOT actually upload
+        $mainImagePath = processMainImageUpload($response, $filesToUpload)?: "../assets/images/Knox_Mausoleum.jpg";
+        $attachedDocumentsPaths = processAttachedDocumentsUpload($response, $filesToUpload);
+        commitUploadFiles($response, $filesToUpload);
         // If there are no problems with file uploading, process request
         if(empty($response->error)){
             //Prepare toTableTomb object
@@ -235,10 +238,13 @@ function editColumbarium(){
     }
     
     if(empty($response->error)){
+        // This will contain a list of all the documents that need uploaded. Once confirmed
+        // That no errors exist at all, files will be uploaded
+        $filesToUpload = array();
         // Upload the mainImage and attachedDocuments
-        $mainImagePath = processMainImageUpload($response);
-        $attachedDocumentsPaths = processAttachedDocumentsUpload($response);
-        
+        $mainImagePath = processMainImageUpload($response, $filesToUpload);
+        $attachedDocumentsPaths = processAttachedDocumentsUpload($response, $filesToUpload);
+        commitUploadFiles($response, $filesToUpload);
         // If there are no problems with file uploading, process request
         if(empty($response->error)){
             //Prepare toTableTomb object
