@@ -115,12 +115,20 @@
                                       </select>
                                   </div>
                                       <div class="input-group-append">
-                                      <button
-                                          @click="directToEditOwnerPage"
-                                          type="button" 
-                                          :disabled="selectedOwnerId == null"
-                                          class="btn btn-success" 
-                                          style="border-radius: 0px 5px 5px 0px"><span class="fa fa-edit"></span></button>
+                                        <button
+                                            @click="directToEditOwnerPage"
+                                            type="button" 
+                                            :disabled="selectedOwnerId == null"
+                                            class="btn btn-success" 
+                                            style="border-radius: 0px;"><span class="fa fa-edit"></span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            @click="deleteOwner"
+                                            :disabled="selectedOwnerId == null"
+                                            class="btn btn-danger" 
+                                            style="border-radius: 0px 5px 5px 0px"><span class="fa fa-trash"></span>
+                                        </button>
                                       </div>
                               </div>
                           </div>
@@ -240,6 +248,26 @@
                                 
             refreshSelectPicker(){
                 this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
+            },
+            deleteOwner(){
+                $.getJSON("controller.php",
+                {
+                    action: "deleteOwner",
+                    id: this.selectedOwnerId
+                },response => {
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    let result = JSON.parse(JSON.stringify(response.result))
+                    this.errors = errors
+                    // result 0 will indicate a true or false for success or failure
+                    if(result.length == 1 && result[0]){
+                        this.successMessage = "Owner was Successfully deleted!"
+                        this.selectedOwnerId = null;
+                        this.fetchOwnersList();
+                        this.refreshSelectPicker();
+                    }
+                }).fail( () => {
+                    this.errors = ["Failed to delete Owner."]
+                })
             },
             clearError(index){
                 this.errors.splice(index, 1);

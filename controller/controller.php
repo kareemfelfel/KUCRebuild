@@ -90,6 +90,10 @@ switch ($action)
         include '../view/administration/addNewAdmin/addNewAdmin.php';
         break;
     case"directToLoginPage":
+        if($_SESSION['user']->userType == UserType::ADMIN){
+            header("Location: " . "../controller/controller.php?action=directToHomePage");
+            break;
+        }
         include '../view/includes/head.php';
         include '../view/includes/navbar.php';
         include '../view/login/login.php';
@@ -285,5 +289,23 @@ switch ($action)
         break;
     case"deleteColumbariumAttachment":
         deleteColumbariumAttachment();
+        break;
+    case"deleteColumbarium":
+        processDeleteColumbarium();
+        break;
+    case"deleteTomb":
+        processDeleteTomb();
+        break;
+    case"deleteOwner":
+        processDeleteOwner();
+        break;
+    case"deleteBuriedIndividual":
+        processDeleteBuriedIndividual();
+        break;
+    case"editExistingColumbariumSetForSale":
+        editExistingColumbariumSetForSale();
+        break;
+    case"editExistingTombSetForSale":
+        editExistingTombSetForSale();
         break;
 }

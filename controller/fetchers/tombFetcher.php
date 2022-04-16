@@ -190,9 +190,13 @@ function addTomb(){
     
     //If all the data is validated, upload the attached documents
     if(empty($response->error)){
+        // This will contain a list of all the documents that need uploaded. Once confirmed
+        // That no errors exist at all, files will be uploaded
+        $filesToUpload = array();
         // Upload the mainImage and attachedDocuments
-        $mainImagePath = processMainImageUpload($response)?: "../assets/images/Knox_Head_Stones.jpg";
-        $attachedDocumentsPaths = processAttachedDocumentsUpload($response);
+        $mainImagePath = processMainImageUpload($response, $filesToUpload)?: "../assets/images/Knox_Head_Stones.jpg";
+        $attachedDocumentsPaths = processAttachedDocumentsUpload($response, $filesToUpload);
+        commitUploadFiles($response, $filesToUpload);
         
         // If there are no problems with file uploading, process request
         if(empty($response->error)){
@@ -245,12 +249,6 @@ function editTomb(){
         $response->addError("Price must be of positive numerical value or left empty.");
     }
     if($forSale){
-        $idFilter = new TombFilter();
-        $idFilter->setTombId($id);
-        $existingTomb = getAllTombRelatedDataWithFilter($idFilter)->result;
-        if(!empty($existingTomb) && !$existingTomb[0]->forSale){ // If the tomb was originally not for sale and was changed to be for sale
-            $response->addError("A lot can not be changed from not for sale to for sale.");
-        }
         if(isset($purchaseDate))
             $response->addError("A lot that is for sale can not have a purchase date.");
         if(isset($buriedIndividualIds) && count($buriedIndividualIds) > 0)
@@ -288,10 +286,13 @@ function editTomb(){
     
     //If all the data is validated, upload the attached documents
     if(empty($response->error)){
+        // This will contain a list of all the documents that need uploaded. Once confirmed
+        // That no errors exist at all, files will be uploaded
+        $filesToUpload = array();
         // Upload the mainImage and attachedDocuments
-        $mainImagePath = processMainImageUpload($response);
-        $attachedDocumentsPaths = processAttachedDocumentsUpload($response);
-        
+        $mainImagePath = processMainImageUpload($response, $filesToUpload);
+        $attachedDocumentsPaths = processAttachedDocumentsUpload($response, $filesToUpload);
+        commitUploadFiles($response, $filesToUpload);
         // If there are no problems with file uploading, process request
         if(empty($response->error)){
             //Prepare toTableTomb object
@@ -360,5 +361,32 @@ function deleteTombAttachment(){
         }
     }
     
+    echo json_encode(get_object_vars($response));
+}
+
+function editExistingTombSetForSale(){
+    $id = !empty($_GET['id']) ? $_GET['id'] : null;
+    $response = new Response();
+    if(isset($id)){
+        $biResponse = updateBuriedIndividualsClearTombId($id);
+        $forSaleResponse = updateTombClearOwnerAndSetForSale($id);
+        
+        if(empty($biResponse->error) && empty($forSaleResponse->error)){
+            $response->addResult(true);
+        }
+        else{
+            $response->addError("Failed to set Lot to for sale.");
+        }
+    }
+    else{
+        $response->addError("ID is not specified.");
+    }
+    
+    echo json_encode(get_object_vars($response));
+}
+
+function processDeleteTomb(){
+    $id = $_GET['id'];
+    $response = deleteTomb($id);
     echo json_encode(get_object_vars($response));
 }

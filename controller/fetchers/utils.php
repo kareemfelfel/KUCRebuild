@@ -7,7 +7,7 @@
  */
 
 // Helper Function for add Tomb and add Columbarium
-function processMainImageUpload(&$response){
+function processMainImageUpload(&$response, &$filesToUpload){
     if(array_key_exists("mainImage", $_FILES)){
         $targetDir = "../assets/images/uploadedImages/";
         $file = $_FILES['mainImage']['name'];
@@ -19,9 +19,12 @@ function processMainImageUpload(&$response){
         if (file_exists($mainImagePath)) {
             $response ->addError("A main image already exsist with the same name. Please rename the image and upload again.");
         }
-        else{
-            move_uploaded_file($temp_name,$mainImagePath);
-        }      
+        if(empty($response->error)){
+            array_push($filesToUpload, array(
+                "name" => $temp_name,
+                "path" => $mainImagePath
+            ));
+        }     
     }
     else{
         // Set To null
@@ -32,7 +35,7 @@ function processMainImageUpload(&$response){
 }
 
 // Helper Function for add Tomb and add Columbarium
-function processAttachedDocumentsUpload(&$response){
+function processAttachedDocumentsUpload(&$response, &$filesToUpload){
     // Attached Documents
     $attachedDocuments = array();
     if(array_key_exists("attachedDocuments", $_FILES)){
@@ -47,8 +50,11 @@ function processAttachedDocumentsUpload(&$response){
             if (file_exists($documentPath)) {
                 $response ->addError($filename . " already exists. Please rename the file and upload again.");
             }
-            else{
-                move_uploaded_file($temp_name,$documentPath);
+            if(empty($response->error)){
+                array_push($filesToUpload, array(
+                    "name" => $temp_name,
+                    "path" => $documentPath
+                ));
                 array_push($attachedDocuments, $documentPath);
             }
         }
@@ -58,4 +64,14 @@ function processAttachedDocumentsUpload(&$response){
     }
     
     return $attachedDocuments;
+}
+
+function commitUploadFiles(&$response, $filesToUpload){
+    if(empty($response->error)){
+        for($i = 0; $i < count($filesToUpload); $i ++){
+            if(!move_uploaded_file($filesToUpload[$i]['name'],$filesToUpload[$i]['path'])){
+                $response->addError("Error Failed while uploading files to the server.");
+            }
+        }
+    }
 }

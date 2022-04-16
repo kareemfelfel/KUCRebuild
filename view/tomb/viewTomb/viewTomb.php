@@ -84,7 +84,7 @@
                     <div class="col-md-4 col-sm-4 col-6">
                         <strong class="tag">Notes:</strong>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-6">
+                    <div class="col-md-8 col-sm-8 col-6">
                         <pre>{{lotInfo.notes != null? lotInfo.notes : "N/A"}}</pre>
                     </div>
                 </div>

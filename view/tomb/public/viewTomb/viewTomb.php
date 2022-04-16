@@ -67,7 +67,7 @@
                 </div>
             </div>
             <br>
-            <div class="col-md-6 text-center">
+            <div class="col-md-6 text-center image-wrapper">
                 <img class="image" :src="lotInfo.mainImage" alt="lotImage"/>
             </div>
         </div>

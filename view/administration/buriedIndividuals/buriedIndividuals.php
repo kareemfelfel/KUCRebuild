@@ -141,11 +141,19 @@
                                   </select>
                               </div>
                                   <div class="input-group-append">
-                                  <button @click="directToEditBuriedIndividualPage"
-                                      type="button"
-                                      :disabled="selectedBuriedIndividualId == null"
-                                      class="btn btn-success" 
-                                      style="border-radius: 0px 5px 5px 0px"><span class="fa fa-edit"></span></button>
+                                    <button @click="directToEditBuriedIndividualPage"
+                                        type="button"
+                                        :disabled="selectedBuriedIndividualId == null"
+                                        class="btn btn-success" 
+                                        style="border-radius: 0px;"><span class="fa fa-edit"></span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        @click="deleteBuriedIndividual"
+                                        :disabled="selectedBuriedIndividualId == null"
+                                        class="btn btn-danger" 
+                                        style="border-radius: 0px 5px 5px 0px"><span class="fa fa-trash"></span>
+                                    </button>
                                   </div>
                           </div>
                       </div>
@@ -266,6 +274,26 @@
                     let data = JSON.parse(JSON.stringify(response.result))
                     this.buriedIndividualsList = data
                     this.refreshSelectPicker();
+                })
+            },
+            deleteBuriedIndividual(){
+                $.getJSON("controller.php",
+                {
+                    action: "deleteBuriedIndividual",
+                    id: this.selectedBuriedIndividualId
+                },response => {
+                    let errors = JSON.parse(JSON.stringify(response.error))
+                    let result = JSON.parse(JSON.stringify(response.result))
+                    this.errors = errors
+                    // result 0 will indicate a true or false for success or failure
+                    if(result.length == 1 && result[0]){
+                        this.successMessage = "Buried Individual was Successfully deleted!"
+                        this.selectedBuriedIndividualId = null;
+                        this.fetchBuriedIndividualsList();
+                        this.refreshSelectPicker();
+                    }
+                }).fail( () => {
+                    this.errors = ["Failed to delete Buried Individual."]
                 })
             },
             refreshSelectPicker(){
