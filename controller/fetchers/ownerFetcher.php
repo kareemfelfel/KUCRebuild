@@ -139,6 +139,30 @@ function editOwner(){
 
 function processDeleteOwner(){
     $id = $_GET['id'];
-    $response = deleteOwner($id);
+    $response = new Response();
+    // Check if owner is not associated with any Lot or columbarium first
+    $columbariumFilter = new ColumbariumFilter();
+    $tombFilter = new TombFilter();
+    $tombFilter->setOwnerId($id);
+    $columbariumFilter->setOwnerId($id);
+    $columbariumResponse = getAllColumbariumRelatedDataWithFilter($columbariumFilter);
+    $tombResponse = getAllTombRelatedDataWithFilter($tombFilter);
+    
+    if(empty($columbariumResponse->error) && count($columbariumResponse->result) > 0){
+        $response->addError("This owner is linked to one or more Columbariums. Delete option is prohibited.");
+    }
+    if(empty($tombResponse->error) && count($tombResponse->result) > 0){
+        $response->addError("This owner is linked to one or more Lots. Delete option is prohibited.");
+    }
+    if(!empty($columbariumResponse->error) || !empty($tombResponse->error)){ // Do not bother sending the exact error message here
+        $response->addError("Failed to delete owner. Server error occurred.");
+    }
+    
+    if(empty($response->error)){
+        $deleteResponse = deleteOwner($id);
+        $response->setResult($deleteResponse->result);
+        $response->setError($deleteResponse->error);
+    }
+    
     echo json_encode(get_object_vars($response));
 }
