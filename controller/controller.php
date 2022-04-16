@@ -90,6 +90,10 @@ switch ($action)
         include '../view/administration/addNewAdmin/addNewAdmin.php';
         break;
     case"directToLoginPage":
+        if($_SESSION['user']->userType == UserType::ADMIN){
+            header("Location: " . "../controller/controller.php?action=directToHomePage");
+            break;
+        }
         include '../view/includes/head.php';
         include '../view/includes/navbar.php';
         include '../view/login/login.php';
