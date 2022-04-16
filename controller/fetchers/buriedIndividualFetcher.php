@@ -116,3 +116,9 @@ function editBuriedIndividual(){
     }
     echo json_encode(get_object_vars($response));
 }
+
+function processDeleteBuriedIndividual(){
+    $id = $_GET['id'];
+    $response = deleteBuriedIndividual($id);
+    echo json_encode(get_object_vars($response));
+}

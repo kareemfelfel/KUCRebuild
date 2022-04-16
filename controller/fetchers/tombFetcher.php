@@ -384,3 +384,9 @@ function editExistingTombSetForSale(){
     
     echo json_encode(get_object_vars($response));
 }
+
+function processDeleteTomb(){
+    $id = $_GET['id'];
+    $response = deleteTomb($id);
+    echo json_encode(get_object_vars($response));
+}

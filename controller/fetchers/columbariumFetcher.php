@@ -328,3 +328,9 @@ function editExistingColumbariumSetForSale(){
     
     echo json_encode(get_object_vars($response));
 }
+
+function processDeleteColumbarium(){
+    $id = $_GET['id'];
+    $response = deleteColumbarium($id);
+    echo json_encode(get_object_vars($response));
+}

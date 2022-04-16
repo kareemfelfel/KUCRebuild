@@ -290,6 +290,18 @@ switch ($action)
     case"deleteColumbariumAttachment":
         deleteColumbariumAttachment();
         break;
+    case"deleteColumbarium":
+        processDeleteColumbarium();
+        break;
+    case"deleteTomb":
+        processDeleteTomb();
+        break;
+    case"deleteOwner":
+        processDeleteOwner();
+        break;
+    case"deleteBuriedIndividual":
+        processDeleteBuriedIndividual();
+        break;
     case"editExistingColumbariumSetForSale":
         editExistingColumbariumSetForSale();
         break;

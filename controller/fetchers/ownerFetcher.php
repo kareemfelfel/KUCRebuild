@@ -136,3 +136,9 @@ function editOwner(){
     }
     echo json_encode(get_object_vars($response));
 }
+
+function processDeleteOwner(){
+    $id = $_GET['id'];
+    $response = deleteOwner($id);
+    echo json_encode(get_object_vars($response));
+}
