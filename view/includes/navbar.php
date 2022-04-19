@@ -95,6 +95,9 @@
                 <?php
                 if($_SESSION['user']->userType == UserType::ADMIN){
                     echo '<li class="dropdown-item">
+                            <a href="controller.php?action=directToEditAccountPage"><span class="fa fa-edit"></span> Edit Account</a>    
+                        </li>';
+                    echo '<li class="dropdown-item">
                             <a href="controller.php?action=directToPublicAccessPage"><span class="fa fa-lock"></span> Public Access</a>    
                         </li>';
                 }

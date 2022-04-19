@@ -7,7 +7,7 @@ function userIsAuthorized($action){
     }
     
     if($_SESSION['user']->userType == UserType::ADMIN){
-        // TODO see if we can maybe update the admin's data here
+        updateAdminInfo();
         $response->addResult(true);
     }
     else{
@@ -21,6 +21,16 @@ function userIsAuthorized($action){
     }
 
     return $response;
+}
+
+function updateAdminInfo(){
+    if($_SESSION['user']->userType == UserType::ADMIN){
+        $id = $_SESSION['user']->admin->id;
+        $response = getAdminById($id);
+        if(!empty($response->result)){
+            $_SESSION['user']->setAdmin($response->result[0]);
+        }
+    }
 }
 
 function processLogin(){

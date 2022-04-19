@@ -351,6 +351,33 @@ function getAdmin($email, $password){
     return $response;
 }
 
+function getAdminById($id){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM admins WHERE ID = :id;";
+        $statement = $con->prepare($query);  
+        $statement->bindParam(':id', $id);
+        $success = $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        if($success && !empty($result))
+        {
+            $admin = new Admin($result);
+            $response -> addResult($admin);
+            
+        }
+        else{
+            $response -> addError("Failed to fetch Account.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
 function getAllNicheTypes(){
     $response = new Response();
     try {

@@ -59,3 +59,16 @@ function directToViewTombPage(){
     }
 }
 
+function directToLoginPage(){
+    
+    if($_SESSION['user']->userType == UserType::ADMIN){
+        header("Location: " . "../controller/controller.php?action=directToHomePage");
+    }
+    
+    if($_SESSION['user']->userType == UserType::GUEST){
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/login/login.php';
+    }
+}
+
