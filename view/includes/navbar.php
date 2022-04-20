@@ -103,6 +103,9 @@
                     echo '<li class="dropdown-item">
                             <a href="controller.php?action=directToPublicAccessPage"><span class="fa fa-lock"></span> Public Access</a>    
                         </li>';
+                    echo '<li class="dropdown-item">
+                            <a href="../assets/user_manual.pdf" download><span class="fa fa-file-text"></span> User Manual</a>    
+                        </li>';
                 }
                 ?>
             </ul>
