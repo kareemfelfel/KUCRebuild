@@ -221,6 +221,9 @@ switch ($action)
     case"fetchPlotNumbersList":
         fetchPlotNumbersList();
         break;
+    case"fetchAdmins":
+        fetchAdmins();
+        break;
     case"addTomb":
         addTomb();
         break;
@@ -269,6 +272,12 @@ switch ($action)
     case"editAccessibleModule":
         editAccessibleModule();
         break;
+    case"editAdmin":
+        editAdmin();
+        break;
+    case"editAdminPassword":
+        editAdminPassword();
+        break;
     case"unlinkTombBuriedIndividual":
         unlinkTombBuriedIndividual();
         break;
@@ -295,6 +304,9 @@ switch ($action)
         break;
     case"deleteBuriedIndividual":
         processDeleteBuriedIndividual();
+        break;
+    case"deleteAdmin":
+        processDeleteAdmin();
         break;
     case"editExistingColumbariumSetForSale":
         editExistingColumbariumSetForSale();

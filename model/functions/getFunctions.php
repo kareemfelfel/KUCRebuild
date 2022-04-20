@@ -323,6 +323,36 @@ function getAllBuriedIndividuals() {
     return $response;
 }
 
+function getAllAdmins(){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM admins "
+                . "ORDER BY admins.FIRST_NAME ASC;";
+        $statement = $con->prepare($query);        
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for( $i =0; $i< count($result); $i++)
+            {
+                $row = $result[$i];
+                $admin = new Admin($row);
+                $response -> addResult($admin);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch All Admins.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
 function getAdmin($email, $password){
     $response = new Response();
     try{
