@@ -13,6 +13,7 @@ function fetchTombCards(){
     $forSale = !empty($request->forSale) ? $request->forSale : null;
     $ownerId = !empty($request->ownerId) ? $request->ownerId : null;
     $buriedIndividualIds = !empty($request->buriedIndividualIds) ? $request->buriedIndividualIds : null;
+    $buriedIndividualVeteranStatus = !empty($request->buriedIndividualVeteranStatus) ? $request->buriedIndividualVeteranStatus : null;
     
     $filter = new TombFilter();
     $filter->setSectionLetterId($sectionLetterId);
@@ -21,6 +22,7 @@ function fetchTombCards(){
     $filter->setForSale($forSale);
     $filter->setOwnerId($ownerId);
     $filter->setBuriedIndividualIds($buriedIndividualIds);
+    $filter->setBuriedIndividualVeteranStatus($buriedIndividualVeteranStatus);
     
     $mutatedResponse = new Response();
     $response = getAllTombRelatedDataWithFilter($filter);

@@ -1,6 +1,7 @@
 <?php
 
 class ColumbariumFilter{
+
     public $columbariumId = null;
     public $columbariumTypeId = null;
     public $forSale = null;
@@ -9,6 +10,7 @@ class ColumbariumFilter{
     public $sectionNumber = null;
     public $ownerId = null;
     public $buriedIndividualIds = null;
+    public $buriedIndividualVeteranStatus = null;
     
     public function setColumbariumId($id){
         $this -> columbariumId = $id;
@@ -42,6 +44,12 @@ class ColumbariumFilter{
     public function setBuriedIndividualIds(?array $ids){
         if($ids != null)
             $this -> buriedIndividualIds = $ids;
+    }
+    
+    public function setBuriedIndividualVeteranStatus(?bool $status){
+        if($status != null){
+            $this->buriedIndividualVeteranStatus = $status ? 1: 0;
+        }
     }
 }
 

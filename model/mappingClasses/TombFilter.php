@@ -2,6 +2,7 @@
 
 
 class TombFilter{
+
     public $tombId = null;
     public $sectionLetterId = null;
     public $lotNumber = null;
@@ -9,6 +10,7 @@ class TombFilter{
     public $forSale = null;
     public $ownerId = null;
     public $buriedIndividualIds = null;
+    public $buriedIndividualVeteranStatus = null;
     
     public function setTombId($id){
         $this -> tombId = $id;
@@ -38,6 +40,12 @@ class TombFilter{
     public function setBuriedIndividualIds(?array $ids){
         if($ids != null)
             $this -> buriedIndividualIds = $ids;
+    }
+    
+    public function setBuriedIndividualVeteranStatus(?bool $status){
+        if($status != null){
+            $this->buriedIndividualVeteranStatus = $status ? 1: 0;
+        }
     }
 }
 

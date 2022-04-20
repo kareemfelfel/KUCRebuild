@@ -72,7 +72,9 @@
             <a class="nav-link text-light display-5 dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fa fa-fw fa-user"></i>
                 <?php
                 if(isset($_SESSION['user']->admin)){
+                    echo '<span id="navbar-admin-name">';
                     echo $_SESSION['user']->admin->firstName;
+                    echo '</span>';
                 }
                 else{
                     echo "Options";
@@ -95,7 +97,16 @@
                 <?php
                 if($_SESSION['user']->userType == UserType::ADMIN){
                     echo '<li class="dropdown-item">
+                            <a href="controller.php?action=directToEditAccountPage"><span class="fa fa-edit"></span> Edit Account</a>    
+                        </li>';
+                    echo '<li class="dropdown-item">
+                            <a href="controller.php?action=directToViewAdminsPage"><span class="fa fa-list"></span> Admins List</a>    
+                        </li>';
+                    echo '<li class="dropdown-item">
                             <a href="controller.php?action=directToPublicAccessPage"><span class="fa fa-lock"></span> Public Access</a>    
+                        </li>';
+                    echo '<li class="dropdown-item">
+                            <a href="../assets/user_manual.pdf" download><span class="fa fa-file-text"></span> User Manual</a>    
                         </li>';
                 }
                 ?>

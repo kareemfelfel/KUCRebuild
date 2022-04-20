@@ -167,9 +167,20 @@
                   </div>
               </div>
           </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="bi-veteran-switch">Buried Veterans</label>
+                        <div class="custom-control custom-switch inactive-link">
+                            <input type="checkbox" class="custom-control-input" id="bi-veteran-switch" v-model="filter.buriedIndividualVeteranStatus">
+                            <label class="custom-control-label" for="bi-veteran-switch"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearFilter()">Clear</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="fetchResults()">Filter</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="fetchResults()">Search</button>
           </div>
         </div>
       </div>
@@ -221,7 +232,8 @@
               hasOpenPlots: null,
               forSale: null,
               ownerId: null,
-              buriedIndividualIds: []
+              buriedIndividualIds: [],
+              buriedIndividualVeteranStatus: null
           },
           ownersList: [],
           buriedIndividualsList: [],
@@ -253,7 +265,8 @@
                     hasOpenPlots: this.filter.hasOpenPlots,
                     forSale: this.filter.forSale,
                     ownerId: this.filter.ownerId,
-                    buriedIndividualIds: this.filter.buriedIndividualIds
+                    buriedIndividualIds: this.filter.buriedIndividualIds,
+                    buriedIndividualVeteranStatus: this.filter.buriedIndividualVeteranStatus
                 }               
                 $.getJSON("controller.php",
                 {
@@ -312,6 +325,7 @@
                 this.filter.forSale = null
                 this.filter.ownerId = null
                 this.filter.buriedIndividualIds = []
+                this.filter.buriedIndividualVeteranStatus = null
                 
                 this.refreshSelectPicker();
                 this.fetchResults();

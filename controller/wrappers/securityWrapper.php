@@ -7,7 +7,7 @@ function userIsAuthorized($action){
     }
     
     if($_SESSION['user']->userType == UserType::ADMIN){
-        // TODO see if we can maybe update the admin's data here
+        updateAdminInfo();
         $response->addResult(true);
     }
     else{
@@ -21,6 +21,16 @@ function userIsAuthorized($action){
     }
 
     return $response;
+}
+
+function updateAdminInfo(){
+    if($_SESSION['user']->userType == UserType::ADMIN){
+        $id = $_SESSION['user']->admin->id;
+        $response = getAdminById($id);
+        if(!empty($response->result)){
+            $_SESSION['user']->setAdmin($response->result[0]);
+        }
+    }
 }
 
 function processLogin(){
@@ -52,9 +62,9 @@ function processLogout(){
 
 function checkRequest($action){
     if($action == "directToAddNewAdminPage" || 
-        $action == "directToLoginPage"){
+        $action == "directToLoginPage" || 
+            $action == "directToEditAccountPage"){
         if (!isset($_SERVER['HTTPS'])) {
-            $_SESSION['HTTPS-CHECK'] = true; // Can be used to set it back to http
             $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             header("Location: " . $url);
             exit();

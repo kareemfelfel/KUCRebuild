@@ -90,13 +90,7 @@ switch ($action)
         include '../view/administration/addNewAdmin/addNewAdmin.php';
         break;
     case"directToLoginPage":
-        if($_SESSION['user']->userType == UserType::ADMIN){
-            header("Location: " . "../controller/controller.php?action=directToHomePage");
-            break;
-        }
-        include '../view/includes/head.php';
-        include '../view/includes/navbar.php';
-        include '../view/login/login.php';
+        directToLoginPage();
         break;
     case"directToSearchTombPage":
         directToSearchTombPage();
@@ -159,6 +153,16 @@ switch ($action)
         include '../view/includes/head.php';
         include '../view/includes/navbar.php';
         include '../view/columbarium/editColumbarium/editColumbarium.php';
+        break;
+    case"directToViewAdminsPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/administration/viewAdmins/viewAdmins.php';
+        break;
+    case"directToEditAccountPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/administration/editAccount/editAccount.php';
         break;
     case"login":
         processLogin();
@@ -227,6 +231,12 @@ switch ($action)
     case"fetchPlotNumbersList":
         fetchPlotNumbersList();
         break;
+    case"fetchAdmins":
+        fetchAdmins();
+        break;
+    case"fetchCurrentAdmin":
+        retrieveAdminInfo();
+        break;
     case"addTomb":
         addTomb();
         break;
@@ -275,6 +285,12 @@ switch ($action)
     case"editAccessibleModule":
         editAccessibleModule();
         break;
+    case"editAdmin":
+        editAdmin();
+        break;
+    case"editAdminPassword":
+        editAdminPassword();
+        break;
     case"unlinkTombBuriedIndividual":
         unlinkTombBuriedIndividual();
         break;
@@ -301,6 +317,9 @@ switch ($action)
         break;
     case"deleteBuriedIndividual":
         processDeleteBuriedIndividual();
+        break;
+    case"deleteAdmin":
+        processDeleteAdmin();
         break;
     case"editExistingColumbariumSetForSale":
         editExistingColumbariumSetForSale();

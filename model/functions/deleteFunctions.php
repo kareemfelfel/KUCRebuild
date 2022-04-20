@@ -181,3 +181,28 @@ function deleteOwner($id){
     }
     return $response;
 }
+
+function deleteAdmin($id){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db->get_connection();
+        $query = "DELETE FROM admins WHERE ID = :id;";
+        $statement = $con->prepare($query);
+        $statement->bindValue(':id', $id);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+            $response->addResult(True);
+        }
+        else
+        {
+            $response->addError("Failed to delete Admin.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response->addError($errorMessage);
+    }
+    return $response;
+}

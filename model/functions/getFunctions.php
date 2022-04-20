@@ -189,6 +189,14 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
         else{
             $qw = "";
         }
+        
+        if(isset($filter->buriedIndividualVeteranStatus) && $filter->buriedIndividualVeteranStatus == 1){
+            $qw2 = " AND T.ID in (select TOMB_ID from buried_individuals where VETERAN = 1)";
+        }
+        else{
+            $qw2 = "";
+        }
+        
         $query = "SELECT T.ID, T.FOR_SALE, T.HAS_OPEN_PLOTS, T.PURCHASE_DATE, "
                 . "T.PRICE, T.SECTION_LETTER_ID, T.LOT_NUMBER, T.LONGITUDE, "
                 . "T.LATITUDE, T.MAIN_IMAGE, T.OWNER_ID, O.ID AS OWNR_ID, T.NOTES, T.PLOT_NUMS, "
@@ -206,7 +214,7 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
                 . "(:hasOpenPlots IS NULL or T.HAS_OPEN_PLOTS = :hasOpenPlots) and"
                 . "(:forSale IS NULL or T.FOR_SALE = :forSale) and"
                 . "(:ownerId IS NULL or T.OWNER_ID = :ownerId)"
-                . $qw 
+                . $qw . $qw2
                 . " ORDER BY TSL.section_Letter ASC;";
         
         $statement = $con->prepare($query);
@@ -323,6 +331,36 @@ function getAllBuriedIndividuals() {
     return $response;
 }
 
+function getAllAdmins(){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM admins "
+                . "ORDER BY admins.FIRST_NAME ASC;";
+        $statement = $con->prepare($query);        
+        $success = $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        if($success && count($result) > 0)
+        {
+            for( $i =0; $i< count($result); $i++)
+            {
+                $row = $result[$i];
+                $admin = new Admin($row);
+                $response -> addResult($admin);
+            }
+        }
+        if(!$success){
+            $response -> addError("Failed to fetch All Admins.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
 function getAdmin($email, $password){
     $response = new Response();
     try{
@@ -332,6 +370,33 @@ function getAdmin($email, $password){
         $statement = $con->prepare($query);  
         $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $password);
+        $success = $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        if($success && !empty($result))
+        {
+            $admin = new Admin($result);
+            $response -> addResult($admin);
+            
+        }
+        else{
+            $response -> addError("Failed to fetch Account.");
+        }
+    } catch (PDOException $e) {
+        $errorMessage = $e->getMessage();
+        $response -> addError($errorMessage);
+    }
+    return $response;
+}
+
+function getAdminById($id){
+    $response = new Response();
+    try{
+        $db = connection::getInstance();
+        $con = $db -> get_connection();
+        $query = "SELECT * FROM admins WHERE ID = :id;";
+        $statement = $con->prepare($query);  
+        $statement->bindParam(':id', $id);
         $success = $statement->execute();
         $result = $statement->fetch();
         $statement->closeCursor();
@@ -555,6 +620,13 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
         else{
             $qw = "";
         }
+        
+        if(isset($filter->buriedIndividualVeteranStatus) && $filter->buriedIndividualVeteranStatus == 1){
+            $qw2 = " AND C.ID in (select COLUMBARIUM_ID from buried_individuals where VETERAN = 1)";
+        }
+        else{
+            $qw2 = "";
+        }
         $query = "SELECT C.ID, C.FOR_SALE, C.PURCHASE_DATE, C.PRICE, "
             . "C.SECTION_LETTER_ID, C.SECTION_NUMBER, C.NICHE_TYPE_ID, "
             . "C.COLUMBARIUM_TYPE_ID, "
@@ -575,7 +647,7 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
             . "(:columbariumTypeId IS NULL or C.COLUMBARIUM_TYPE_ID = :columbariumTypeId) and "
             . "(:forSale IS NULL or C.FOR_SALE = :forSale) and "
             . "(:ownerId IS NULL or C.OWNER_ID = :ownerId)"
-            . $qw 
+            . $qw . $qw2 
             . " ORDER BY CT.type ASC;";
         $statement = $con->prepare($query);
         
