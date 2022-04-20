@@ -25,19 +25,19 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">First Name</label>
+                                    <label for="" class="required">First Name</label>
                                     <input v-model="info.firstName" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Last Name</label>
+                                    <label for="" class="required">Last Name</label>
                                     <input v-model="info.lastName" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Email</label>
+                                    <label for="" class="required">Email</label>
                                     <input v-model="info.email" type="text" class="form-control">
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Current Password</label>
+                                <label for="" class="required">Current Password</label>
                                 <input v-model="updatePasswordCurrentPassword" type="password" class="form-control">
                             </div>
                         </div>
