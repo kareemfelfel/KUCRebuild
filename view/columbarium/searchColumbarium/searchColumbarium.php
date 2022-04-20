@@ -168,7 +168,7 @@
                 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="bi-veteran-switch">Buried Individual Veteran</label>
+                        <label for="bi-veteran-switch">Buried Veterans</label>
                         <div class="custom-control custom-switch inactive-link">
                             <input type="checkbox" class="custom-control-input" id="bi-veteran-switch" v-model="filter.buriedIndividualVeteranStatus">
                             <label class="custom-control-label" for="bi-veteran-switch"></label>
