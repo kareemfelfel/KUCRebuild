@@ -154,6 +154,11 @@ switch ($action)
         include '../view/includes/navbar.php';
         include '../view/columbarium/editColumbarium/editColumbarium.php';
         break;
+    case"directToViewAdminsPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/administration/viewAdmins/viewAdmins.php';
+        break;
     case"login":
         processLogin();
         break;
