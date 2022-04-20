@@ -81,7 +81,7 @@ function editAdmin(){
     if(!isset($lastName) || strlen($lastName) < 1){
         $response->addError("Last Name must be set.");
     }
-    if (isset($email)) {
+    if (isset($email) && $email !== $_SESSION['user']->admin->email) {
         $modelEmailResponse = checkAdminEmailExist($email);
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $response->addError("Invalid email address.");
@@ -96,7 +96,7 @@ function editAdmin(){
         }
             
     }
-    else{
+    if(!isset($email)){
         $response->addError("Email Address must be set.");
     }
     
@@ -114,12 +114,24 @@ function editAdmin(){
     echo json_encode(get_object_vars($response));
 }
 
+function retrieveAdminInfo(){
+    $response = new Response();
+    $response->setResult(
+            array(
+                "firstName" => $_SESSION['user']->admin->firstName,
+                "lastName" => $_SESSION['user']->admin->lastName,
+                "email" => $_SESSION['user']->admin->email
+            )
+    );
+    echo json_encode(get_object_vars($response));
+}
+
 function editAdminPassword(){
     $response = new Response();
     $id = $_SESSION['user']->admin->id;
     $data = json_decode($_POST['request']);
-    $currentPassword = !empty($data->password1)? $data->currentPassword : null;
-    $newPassword = !empty($data->password2)? $data->newPassword : null;
+    $currentPassword = !empty($data->currentPassword)? $data->currentPassword : null;
+    $newPassword = !empty($data->newPassword)? $data->newPassword : null;
     
     if(isset($currentPassword)){
         $hashedPassword = sha1($currentPassword);
@@ -151,7 +163,7 @@ function editAdminPassword(){
     }
     
     if(empty($response->error)){
-        $modelResponse = updateAdminPassword($id, $newPassword);
+        $modelResponse = updateAdminPassword($id, sha1($newPassword));
         $response->setResult($modelResponse->result);
         $response->setError($modelResponse->error);
     }
@@ -185,6 +197,7 @@ function processDeleteAdmin(){
     $password1 = !empty($data->password1)? $data->password1 : null;
     $password2 = !empty($data->password2)? $data->password2 : null;
     $confirmed = !empty($data->confirm) ? $data->confirm : false;
+    $response = new Response();
     
     if(isset($password1) && isset($password2)){
         $hashedPassword = sha1($password1);
@@ -208,6 +221,7 @@ function processDeleteAdmin(){
         $response->setResult($modelResponse->result);
         $response->setError($modelResponse->error);
     }
+
 
     
     echo json_encode(get_object_vars($response));

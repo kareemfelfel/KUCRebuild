@@ -159,6 +159,11 @@ switch ($action)
         include '../view/includes/navbar.php';
         include '../view/administration/viewAdmins/viewAdmins.php';
         break;
+    case"directToEditAccountPage":
+        include '../view/includes/head.php';
+        include '../view/includes/navbar.php';
+        include '../view/administration/editAccount/editAccount.php';
+        break;
     case"login":
         processLogin();
         break;
@@ -228,6 +233,9 @@ switch ($action)
         break;
     case"fetchAdmins":
         fetchAdmins();
+        break;
+    case"fetchCurrentAdmin":
+        retrieveAdminInfo();
         break;
     case"addTomb":
         addTomb();

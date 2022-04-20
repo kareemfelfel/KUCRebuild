@@ -72,7 +72,9 @@
             <a class="nav-link text-light display-5 dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fa fa-fw fa-user"></i>
                 <?php
                 if(isset($_SESSION['user']->admin)){
+                    echo '<span id="navbar-admin-name">';
                     echo $_SESSION['user']->admin->firstName;
+                    echo '</span>';
                 }
                 else{
                     echo "Options";
