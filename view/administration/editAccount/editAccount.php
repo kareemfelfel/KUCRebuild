@@ -147,7 +147,7 @@
                         </div>
                         <br>
                         <div class="row">
-                            <button type="button" class="btn btn-success bottom-form-button" @click="deleteAccount">Submit</button>
+                            <button type="button" class="btn btn-danger bottom-form-button" @click="deleteAccount">Deactivate</button>
                         </div>
                     </div>
                 </div>
