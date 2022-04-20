@@ -9,9 +9,9 @@
 <div id="searchColumbariumApp">
     <br>
     <div class="text-center">
-        <h3 class="page-title">Search Columbarium </h3>
+        <h3 class="page-title">Search Columbarium </h3><br>
         <button type="button" class="btn btn-primary filter-btn" data-toggle="modal" data-target="#filterModal">
-            <i class="fa fa-filter"></i></button>
+            <i class="fa fa-filter"></i> Filter</button>
     </div>
     <hr>
 
@@ -148,10 +148,21 @@
                   </div>
               </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="bi-veteran-switch">Buried Individual Veteran</label>
+                        <div class="custom-control custom-switch inactive-link">
+                            <input type="checkbox" class="custom-control-input" id="bi-veteran-switch" v-model="filter.buriedIndividualVeteranStatus">
+                            <label class="custom-control-label" for="bi-veteran-switch"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearFilter()">Clear</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="fetchResults()">Filter</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="fetchResults()">Search</button>
           </div>
         </div>
       </div>
@@ -187,7 +198,8 @@
               sectionLetterId: null,
               sectionNumber: null,
               forSale: null,
-              buriedIndividualIds: []
+              buriedIndividualIds: [],
+              buriedIndividualVeteranStatus: null
             },
             buriedIndividualsList: [],
             sectionLettersList: [],
@@ -255,7 +267,8 @@
                     sectionLetterId: this.filter.sectionLetterId,
                     forSale: this.filter.forSale,
                     ownerId: null,
-                    buriedIndividualIds: this.filter.buriedIndividualIds
+                    buriedIndividualIds: this.filter.buriedIndividualIds,
+                    buriedIndividualVeteranStatus: this.filter.buriedIndividualVeteranStatus
                 }               
                 $.getJSON("controller.php",
                 {
@@ -281,6 +294,7 @@
                 this.filter.sectionNumber = null
                 this.filter.forSale = null
                 this.filter.buriedIndividualIds = []
+                this.filter.buriedIndividualVeteranStatus = null
                 
                 this.refreshSelectPicker();
                 this.fetchResults();

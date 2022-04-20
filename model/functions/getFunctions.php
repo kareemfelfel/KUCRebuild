@@ -189,6 +189,14 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
         else{
             $qw = "";
         }
+        
+        if(isset($filter->buriedIndividualVeteranStatus) && $filter->buriedIndividualVeteranStatus == 1){
+            $qw2 = " AND T.ID in (select TOMB_ID from buried_individuals where VETERAN = 1)";
+        }
+        else{
+            $qw2 = "";
+        }
+        
         $query = "SELECT T.ID, T.FOR_SALE, T.HAS_OPEN_PLOTS, T.PURCHASE_DATE, "
                 . "T.PRICE, T.SECTION_LETTER_ID, T.LOT_NUMBER, T.LONGITUDE, "
                 . "T.LATITUDE, T.MAIN_IMAGE, T.OWNER_ID, O.ID AS OWNR_ID, T.NOTES, T.PLOT_NUMS, "
@@ -206,7 +214,7 @@ function getAllTombRelatedDataWithFilter(TombFilter $filter){
                 . "(:hasOpenPlots IS NULL or T.HAS_OPEN_PLOTS = :hasOpenPlots) and"
                 . "(:forSale IS NULL or T.FOR_SALE = :forSale) and"
                 . "(:ownerId IS NULL or T.OWNER_ID = :ownerId)"
-                . $qw 
+                . $qw . $qw2
                 . " ORDER BY TSL.section_Letter ASC;";
         
         $statement = $con->prepare($query);
@@ -612,6 +620,13 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
         else{
             $qw = "";
         }
+        
+        if(isset($filter->buriedIndividualVeteranStatus) && $filter->buriedIndividualVeteranStatus == 1){
+            $qw2 = " AND C.ID in (select COLUMBARIUM_ID from buried_individuals where VETERAN = 1)";
+        }
+        else{
+            $qw2 = "";
+        }
         $query = "SELECT C.ID, C.FOR_SALE, C.PURCHASE_DATE, C.PRICE, "
             . "C.SECTION_LETTER_ID, C.SECTION_NUMBER, C.NICHE_TYPE_ID, "
             . "C.COLUMBARIUM_TYPE_ID, "
@@ -632,7 +647,7 @@ function getAllColumbariumRelatedDataWithFilter(ColumbariumFilter $filter)
             . "(:columbariumTypeId IS NULL or C.COLUMBARIUM_TYPE_ID = :columbariumTypeId) and "
             . "(:forSale IS NULL or C.FOR_SALE = :forSale) and "
             . "(:ownerId IS NULL or C.OWNER_ID = :ownerId)"
-            . $qw 
+            . $qw . $qw2 
             . " ORDER BY CT.type ASC;";
         $statement = $con->prepare($query);
         
