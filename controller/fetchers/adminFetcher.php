@@ -199,6 +199,16 @@ function processDeleteAdmin(){
     $confirmed = !empty($data->confirm) ? $data->confirm : false;
     $response = new Response();
     
+    if(strtolower($_SESSION['user']->admin->email) == "admin@kuc.com"){
+        $response->addError("admin@kuc.com is a special user that cannot be deleted.");
+    }
+    else{
+        $allAdminsCount = count(getAllAdmins()->result);
+        if($allAdminsCount == 1){
+            $response->addError("This account can not be deleted as it is the last admin in the database.");
+        }
+    }
+    
     if(isset($password1) && isset($password2)){
         $hashedPassword = sha1($password1);
         if($password1 != $password2){
